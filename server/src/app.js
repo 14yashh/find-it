@@ -42,7 +42,9 @@ app.use(
 );
 
 // ── Request logging ───────────────────────────────────────────────────────────
-app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+if (env.NODE_ENV !== 'test') {
+  app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+}
 
 // ── Body parsing ──────────────────────────────────────────────────────────────
 app.use(express.json({ limit: '10kb' }));       // Reject oversized JSON bodies
@@ -74,7 +76,7 @@ app.use('/api/claims', claimRouter);
 app.use('/api/files',  filesRouter);
 app.use('/api/notifications', notificationRouter);
 
-// Future route mounts go here (claims, notifications)
+// ── Error handling (must be last) ──────────────────────────────────────────────
 
 // ── 404 & error handling (must be last) ──────────────────────────────────────
 app.use(notFound);
