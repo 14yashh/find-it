@@ -6,12 +6,16 @@
 import { connectDB } from './config/db.js';
 import { env } from './config/env.js';
 import app from './app.js';
+import { registerListeners } from './events/listeners.js';
+import { startCronJobs } from './jobs/expireItems.js';
 
 const PORT = Number(env.PORT);
 
 async function main() {
   // 1. Connect to the database first; process.exit(1) on failure
   await connectDB();
+  registerListeners();
+  startCronJobs();
 
   // 2. Start listening
   const server = app.listen(PORT, () => {

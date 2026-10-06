@@ -20,6 +20,7 @@ import adminRouter      from './routes/admin.js';
 import itemRouter       from './routes/items.js';
 import filesRouter      from './routes/files.js';
 import claimRouter      from './routes/claims.js';
+import notificationRouter from './routes/notifications.js';
 import { notFound }     from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -71,6 +72,7 @@ app.use('/api/admin',  adminRouter);
 app.use('/api/items',  itemRouter);
 app.use('/api/claims', claimRouter);
 app.use('/api/files',  filesRouter);
+app.use('/api/notifications', notificationRouter);
 
 // Future route mounts go here (claims, notifications)
 
