@@ -22,4 +22,10 @@ router.patch('/users/:id/verify', validate(verifyUserSchema), adminCtrl.verifyUs
 // PATCH /api/admin/users/:id/suspend
 router.patch('/users/:id/suspend', validate(suspendUserSchema), adminCtrl.suspendUser);
 
+router.get('/stats', adminCtrl.getStats);
+router.get('/items', adminCtrl.getItems);
+router.delete('/items/:id', adminCtrl.deleteItem);
+router.get('/claims', adminCtrl.getClaims);
+router.patch('/claims/:id/handover', adminCtrl.handoverClaim);
+
 export default router;

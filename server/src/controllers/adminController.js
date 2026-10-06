@@ -30,3 +30,28 @@ export const suspendUser = asyncHandler(async (req, res) => {
     data: { message: `User successfully ${suspend ? 'suspended' : 'unsuspended'}.`, user } 
   });
 });
+
+export const getStats = asyncHandler(async (req, res) => {
+  const stats = await adminService.getStats();
+  res.json({ success: true, data: { stats } });
+});
+
+export const getItems = asyncHandler(async (req, res) => {
+  const data = await adminService.getItems(req.query);
+  res.json({ success: true, data });
+});
+
+export const deleteItem = asyncHandler(async (req, res) => {
+  const data = await adminService.deleteItem(req.params.id);
+  res.json({ success: true, data });
+});
+
+export const getClaims = asyncHandler(async (req, res) => {
+  const data = await adminService.getClaims(req.query);
+  res.json({ success: true, data });
+});
+
+export const handoverClaim = asyncHandler(async (req, res) => {
+  const claim = await adminService.handoverClaim(req.params.id);
+  res.json({ success: true, data: { claim } });
+});

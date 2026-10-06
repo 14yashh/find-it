@@ -151,3 +151,92 @@ export async function suspendUser(userId, adminId, suspendFlag) {
 
   return user;
 }
+
+import Item from '../models/Item.js';
+import Claim from '../models/Claim.js';
+import { ITEMS_DIR } from '../config/uploadDirs.js';
+
+export async function getStats() {
+  const [pendingVerifications, openItems, returnedItems, totalUsers, pendingClaims] = await Promise.all([
+    User.countDocuments({ verificationStatus: 'pending' }),
+    Item.countDocuments({ status: 'open' }),
+    Item.countDocuments({ status: 'returned' }),
+    User.countDocuments(),
+    Claim.countDocuments({ status: 'pending' })
+  ]);
+  return { pendingVerifications, openItems, returnedItems, totalUsers, pendingClaims };
+}
+
+export async function getItems(query) {
+  const page = parseInt(query.page, 10) || 1;
+  const limit = parseInt(query.limit, 10) || 20;
+  
+  const filter = {};
+  if (query.status) filter.status = query.status;
+
+  const total = await Item.countDocuments(filter);
+  const totalPages = Math.ceil(total / limit);
+
+  const items = await Item.find(filter)
+    .sort({ createdAt: -1 })
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .populate('postedBy', 'name department email');
+
+  return { items, page, limit, total, totalPages };
+}
+
+export async function deleteItem(itemId) {
+  const item = await Item.findById(itemId);
+  if (!item) throw new ApiError(404, 'Item not found', 'NOT_FOUND');
+
+  // Cancel pending claims
+  const claims = await Claim.find({ item: itemId, status: 'pending' });
+  for (const claim of claims) {
+    claim.status = 'cancelled';
+    await claim.save();
+    emitter.emit('claim.cancelled', claim);
+  }
+
+  // Delete images
+  for (const img of item.images) {
+    const p = path.resolve(ITEMS_DIR, path.basename(img));
+    if (p.startsWith(path.normalize(ITEMS_DIR) + path.sep)) {
+      await fsp.unlink(p).catch(() => {});
+    }
+  }
+
+  await item.deleteOne();
+  return { message: 'Item deleted by admin' };
+}
+
+export async function getClaims(query) {
+  const page = parseInt(query.page, 10) || 1;
+  const limit = parseInt(query.limit, 10) || 20;
+
+  const filter = {};
+  if (query.status) filter.status = query.status;
+
+  const total = await Claim.countDocuments(filter);
+  const totalPages = Math.ceil(total / limit);
+
+  const claims = await Claim.find(filter)
+    .sort({ createdAt: -1 })
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .populate('item', 'title type status')
+    .populate('claimant', 'name email');
+
+  return { claims, page, limit, total, totalPages };
+}
+
+export async function handoverClaim(claimId) {
+  const claim = await Claim.findById(claimId).populate('item');
+  if (!claim) throw new ApiError(404, 'Claim not found', 'NOT_FOUND');
+  if (claim.status !== 'approved') throw new ApiError(400, 'Claim must be approved for handover', 'BAD_REQUEST');
+
+  claim.item.status = 'returned';
+  await claim.item.save();
+  emitter.emit('item.returned', claim.item);
+  return claim;
+}

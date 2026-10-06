@@ -91,7 +91,12 @@ export async function createItem(userId, data, files = []) {
       postedBy: userId
     });
 
-    return await item.populate('postedBy', 'name department');
+    const populatedItem = await item.populate('postedBy', 'name department');
+    
+    // Async matching
+    computeMatchesAsync(populatedItem).catch(() => {});
+
+    return populatedItem;
   } catch (err) {
     await deleteImages(savedImages);
     throw err;
@@ -167,3 +172,48 @@ export async function deleteItem(userId, userRole, itemId) {
   await deleteImages(item.images);
   await item.deleteOne();
 }
+
+export async function getMatches(userId, itemId) {
+  const item = await Item.findById(itemId);
+  if (!item) throw new ApiError(404, 'Item not found', 'NOT_FOUND');
+  // Check ownership unless called internally for triggers
+  if (userId && item.postedBy.toString() !== userId.toString()) {
+    throw new ApiError(403, 'Not authorized', 'FORBIDDEN');
+  }
+
+  const oppositeType = item.type === 'lost' ? 'found' : 'lost';
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  const dateMin = new Date(item.dateOccurred.getTime() - sevenDays);
+  const dateMax = new Date(item.dateOccurred.getTime() + sevenDays);
+
+  const queryText = `${item.title} ${item.description}`;
+
+  const matches = await Item.find(
+    {
+      type: oppositeType,
+      category: item.category,
+      status: 'open',
+      dateOccurred: { $gte: dateMin, $lte: dateMax },
+      $text: { $search: queryText }
+    },
+    { score: { $meta: 'textScore' } }
+  )
+  .sort({ score: { $meta: 'textScore' } })
+  .limit(10)
+  .populate('postedBy', 'name department email');
+
+  return matches;
+}
+
+export async function computeMatchesAsync(item) {
+  try {
+    const matches = await getMatches(null, item._id);
+    const topMatches = matches.slice(0, 3);
+    if (topMatches.length > 0) {
+      emitter.emit('item.matched', { item, matches: topMatches });
+    }
+  } catch (err) {
+    console.error('[Matching Error] Failed to compute matches:', err);
+  }
+}
+

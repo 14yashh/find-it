@@ -34,6 +34,11 @@ export const getItemById = asyncHandler(async (req, res) => {
   res.json({ success: true, data: { item } });
 });
 
+export const getMatches = asyncHandler(async (req, res) => {
+  const matches = await itemSvc.getMatches(req.user._id, req.params.id);
+  res.json({ success: true, data: { matches } });
+});
+
 export const createItem = asyncHandler(async (req, res) => {
   const files = req.files || [];
   const item = await itemSvc.createItem(req.user._id, req.body, files);

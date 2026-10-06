@@ -30,6 +30,7 @@ router.use(requireApproved);
 router.get('/', itemController.getItems);
 router.get('/mine', itemController.getMyItems);
 router.get('/:id', itemController.getItemById);
+router.get('/:id/matches', itemController.getMatches);
 
 router.post(
   '/',
