@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { requireAuth, requireApproved } from '../middleware/auth.js';
+import { requireAuth } from '../middleware/auth.js';
+import { requireApproved } from '../middleware/approved.js';
 import * as claimController from '../controllers/claimController.js';
 
 const router = Router();

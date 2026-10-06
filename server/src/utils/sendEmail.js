@@ -2,27 +2,29 @@ import nodemailer from 'nodemailer';
 import { env } from '../config/env.js';
 
 let transporter;
-if (env.EMAIL_ENABLED && env.SMTP_HOST) {
+if (env.EMAIL_ENABLED && env.EMAIL_HOST) {
   transporter = nodemailer.createTransport({
-    host: env.SMTP_HOST,
-    port: env.SMTP_PORT || 587,
-    secure: env.SMTP_PORT === 465,
+    host: env.EMAIL_HOST,
+    port: env.EMAIL_PORT || 587,
+    secure: env.EMAIL_PORT === 465,
     auth: {
-      user: env.SMTP_USER,
-      pass: env.SMTP_PASS
+      user: env.EMAIL_USER,
+      pass: env.EMAIL_PASS
     }
   });
 }
 
 export async function sendEmail(to, subject, text) {
   if (!env.EMAIL_ENABLED || !transporter) {
-    console.log(`[Email Skipped] To: ${to} | Subject: ${subject}`);
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(`[Email Skipped] To: ${to} | Subject: ${subject}`);
+    }
     return;
   }
-  
+
   try {
     await transporter.sendMail({
-      from: env.SMTP_USER || 'noreply@findit.college.edu',
+      from: env.EMAIL_FROM || env.EMAIL_USER || 'noreply@findit.college.edu',
       to,
       subject,
       text

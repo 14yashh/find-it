@@ -1,17 +1,19 @@
 import { Router } from 'express';
-import { requireAuth, requireApproved } from '../middleware/auth.js';
+import rateLimit from 'express-rate-limit';
+import { requireAuth } from '../middleware/auth.js';
+import { requireApproved } from '../middleware/approved.js';
 import { validate } from '../middleware/validate.js';
 import { multiUpload } from '../middleware/upload.js';
 import { createItemSchema, updateItemSchema } from '../validators/itemSchemas.js';
 import * as itemController from '../controllers/itemController.js';
-import rateLimit from 'express-rate-limit';
+import * as claimController from '../controllers/claimController.js';
 
 const router = Router();
 
 const postItemLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: process.env.NODE_ENV === 'test' ? 1000 : 20,
-  keyGenerator: (req) => String(req.user?._id || 'anon'),
+  keyGenerator: (req) => String(req.user?._id || req.ip || 'anon'),
   validate: { keyGeneratorIpFallback: false },
   standardHeaders: true,
   legacyHeaders: false,
@@ -29,8 +31,9 @@ router.use(requireApproved);
 
 router.get('/', itemController.getItems);
 router.get('/mine', itemController.getMyItems);
-router.get('/:id', itemController.getItemById);
+// /:id/matches must come before /:id to avoid shadowing
 router.get('/:id/matches', itemController.getMatches);
+router.get('/:id', itemController.getItemById);
 
 router.post(
   '/',
@@ -39,8 +42,6 @@ router.post(
   validate(createItemSchema),
   itemController.createItem
 );
-
-import * as claimController from '../controllers/claimController.js';
 
 router.patch(
   '/:id',

@@ -1,13 +1,18 @@
+/**
+ * src/services/adminService.js
+ * Business logic for admin operations.
+ */
 import fs from 'fs';
 import fsp from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import User from '../models/User.js';
+import Item from '../models/Item.js';
+import Claim from '../models/Claim.js';
 import { ApiError } from '../utils/ApiError.js';
 import { env } from '../config/env.js';
 import emitter from '../events/emitter.js';
-import { VERIFICATION_DIR } from '../config/uploadDirs.js';
+import { VERIFICATION_DIR, ITEMS_DIR } from '../config/uploadDirs.js';
 
 // ── GET Users List ────────────────────────────────────────────────────────────
 
@@ -21,9 +26,10 @@ export async function getUsers(query) {
     filter.verificationStatus = verificationStatus;
   }
   if (q) {
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     filter.$or = [
-      { name: { $regex: q, $options: 'i' } },
-      { email: { $regex: q, $options: 'i' } }
+      { name: { $regex: escaped, $options: 'i' } },
+      { email: { $regex: escaped, $options: 'i' } }
     ];
   }
 
@@ -32,16 +38,14 @@ export async function getUsers(query) {
   const total = await User.countDocuments(filter);
   const totalPages = Math.ceil(total / limit);
 
-  // We explicitly select verificationDocPath to check its existence, but must NOT return it to the client
   let items = await User.find(filter)
     .sort(sortOpt)
     .skip((page - 1) * limit)
     .limit(limit)
     .select('+verificationDocPath');
 
-  // Convert to lean objects and add hasDocument
   items = items.map(doc => {
-    const obj = doc.toJSON(); // this strips passwordHash, verificationDocPath, __v
+    const obj = doc.toJSON();
     obj.hasDocument = !!doc.verificationDocPath;
     return obj;
   });
@@ -63,17 +67,17 @@ export async function getUserDocument(userId, res) {
 
   // Ensure path is inside verification dir to prevent traversal
   const resolvedPath = path.resolve(user.verificationDocPath);
-  if (!resolvedPath.startsWith(VERIFICATION_DIR)) {
+  const base = path.normalize(VERIFICATION_DIR) + path.sep;
+  if (!resolvedPath.startsWith(base)) {
     throw new ApiError(404, 'Document not found', 'NOT_FOUND');
   }
 
   try {
     await fsp.access(resolvedPath, fs.constants.R_OK);
-  } catch (err) {
+  } catch {
     throw new ApiError(404, 'Document not found on disk', 'NOT_FOUND');
   }
 
-  // Determine content type safely based on extension (multer enforced it earlier)
   const ext = path.extname(resolvedPath).toLowerCase();
   let contentType = 'application/octet-stream';
   if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
@@ -86,7 +90,7 @@ export async function getUserDocument(userId, res) {
 
   res.sendFile(resolvedPath, (err) => {
     if (err && !res.headersSent) {
-      res.status(500).json({ success: false, error: { code: 'INTERNAL_SERVER_ERROR', message: 'Error streaming file' }});
+      res.status(500).json({ success: false, error: { code: 'INTERNAL_SERVER_ERROR', message: 'Error streaming file' } });
     }
   });
 }
@@ -141,7 +145,7 @@ export async function suspendUser(userId, adminId, suspendFlag) {
   if (user.role === 'admin') {
     throw new ApiError(400, 'Admin accounts cannot be suspended', 'BAD_REQUEST');
   }
-  
+
   if (user._id.toString() === adminId.toString()) {
     throw new ApiError(400, 'Cannot suspend yourself', 'BAD_REQUEST');
   }
@@ -152,9 +156,7 @@ export async function suspendUser(userId, adminId, suspendFlag) {
   return user;
 }
 
-import Item from '../models/Item.js';
-import Claim from '../models/Claim.js';
-import { ITEMS_DIR } from '../config/uploadDirs.js';
+// ── Stats ─────────────────────────────────────────────────────────────────────
 
 export async function getStats() {
   const [pendingVerifications, openItems, returnedItems, totalUsers, pendingClaims] = await Promise.all([
@@ -167,10 +169,12 @@ export async function getStats() {
   return { pendingVerifications, openItems, returnedItems, totalUsers, pendingClaims };
 }
 
+// ── Admin Items ───────────────────────────────────────────────────────────────
+
 export async function getItems(query) {
-  const page = parseInt(query.page, 10) || 1;
-  const limit = parseInt(query.limit, 10) || 20;
-  
+  const page = Math.max(1, parseInt(query.page, 10) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(query.limit, 10) || 20));
+
   const filter = {};
   if (query.status) filter.status = query.status;
 
@@ -199,9 +203,10 @@ export async function deleteItem(itemId) {
   }
 
   // Delete images
+  const base = path.normalize(ITEMS_DIR) + path.sep;
   for (const img of item.images) {
     const p = path.resolve(ITEMS_DIR, path.basename(img));
-    if (p.startsWith(path.normalize(ITEMS_DIR) + path.sep)) {
+    if (p.startsWith(base)) {
       await fsp.unlink(p).catch(() => {});
     }
   }
@@ -210,9 +215,11 @@ export async function deleteItem(itemId) {
   return { message: 'Item deleted by admin' };
 }
 
+// ── Admin Claims ──────────────────────────────────────────────────────────────
+
 export async function getClaims(query) {
-  const page = parseInt(query.page, 10) || 1;
-  const limit = parseInt(query.limit, 10) || 20;
+  const page = Math.max(1, parseInt(query.page, 10) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(query.limit, 10) || 20));
 
   const filter = {};
   if (query.status) filter.status = query.status;
@@ -225,7 +232,7 @@ export async function getClaims(query) {
     .skip((page - 1) * limit)
     .limit(limit)
     .populate('item', 'title type status')
-    .populate('claimant', 'name email');
+    .populate('claimant', 'name email department');
 
   return { claims, page, limit, total, totalPages };
 }
