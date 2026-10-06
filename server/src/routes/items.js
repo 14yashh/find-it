@@ -39,11 +39,19 @@ router.post(
   itemController.createItem
 );
 
+import * as claimController from '../controllers/claimController.js';
+
 router.patch(
   '/:id',
   multiUpload('images', 4),
   validate(updateItemSchema),
   itemController.updateItem
+);
+
+router.post(
+  '/:id/claims',
+  multiUpload('proof', 1),
+  claimController.createClaim
 );
 
 router.patch('/:id/status', itemController.setItemReturned);

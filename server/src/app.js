@@ -19,6 +19,7 @@ import authRouter       from './routes/auth.js';
 import adminRouter      from './routes/admin.js';
 import itemRouter       from './routes/items.js';
 import filesRouter      from './routes/files.js';
+import claimRouter      from './routes/claims.js';
 import { notFound }     from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -68,6 +69,7 @@ app.use('/api/health', healthRouter);
 app.use('/api/auth',   authRouter);
 app.use('/api/admin',  adminRouter);
 app.use('/api/items',  itemRouter);
+app.use('/api/claims', claimRouter);
 app.use('/api/files',  filesRouter);
 
 // Future route mounts go here (claims, notifications)
