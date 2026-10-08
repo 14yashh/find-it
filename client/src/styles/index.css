@@ -1,0 +1,158 @@
+@import "@fontsource/bricolage-grotesque/400.css";
+@import "@fontsource/bricolage-grotesque/600.css";
+@import "@fontsource/bricolage-grotesque/700.css";
+@import "@fontsource/bricolage-grotesque/800.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+@import "@fontsource/ibm-plex-mono/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #F4EDE0;
+  --paper-light: #FAF6EE;
+  --ink: #17181C;
+  --manila: #EAD7A8;
+  --orange: #FF5B14;
+  --stamp-lost: #C8312B;
+  --stamp-found: #1E7B4F;
+  --stamp-returned: #243C8F;
+  --stamp-pending: #B45309;
+  --stamp-expired: #4B5563;
+  --stamp-approved: #1E7B4F;
+  --stamp-rejected: #C8312B;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Mechanical Brutalist Shadows */
+.hard-shadow-2 {
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.hard-shadow-4 {
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.hard-shadow-6 {
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.hard-shadow-8 {
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+/* Button & Interactive Press States */
+.interactive-hard {
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+.interactive-hard:hover {
+  filter: brightness(0.97);
+}
+.interactive-hard:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0 var(--ink) !important;
+}
+
+/* Stamp Badges */
+.stamp-badge {
+  display: inline-block;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border: 2px solid currentColor;
+  outline: 1.5px solid currentColor;
+  outline-offset: 2px;
+  background-color: rgba(255, 255, 255, 0.92);
+  user-select: none;
+}
+
+/* Ticker Animation */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 30s linear infinite;
+}
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* Tag Eyelet & Hole Punch */
+.eyelet {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background-color: var(--paper);
+  border: 1.5px solid var(--ink);
+  box-shadow: inset 1px 1px 0 rgba(23, 24, 28, 0.4);
+}
+
+/* String from tag hole */
+.tag-string {
+  position: absolute;
+  top: -14px;
+  left: 5px;
+  width: 2px;
+  height: 14px;
+  background: repeating-linear-gradient(to bottom, #6b5d38, #6b5d38 2px, #faf8fe 2px, #faf8fe 4px);
+}
+
+/* Ticket Stub Notches */
+.ticket-stub {
+  position: relative;
+}
+.stub-notch-top {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 8px;
+  background-color: var(--paper);
+  border-bottom: 1.5px solid var(--ink);
+  border-radius: 0 0 16px 16px;
+  z-index: 10;
+}
+.stub-notch-bottom {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 8px;
+  background-color: var(--paper);
+  border-top: 1.5px solid var(--ink);
+  border-radius: 16px 16px 0 0;
+  z-index: 10;
+}
+
+/* Tape Simulation */
+.tape-strip {
+  position: absolute;
+  background-color: rgba(234, 215, 168, 0.85);
+  border: 1px dashed rgba(143, 112, 102, 0.6);
+  box-shadow: 1px 1px 2px rgba(26, 27, 31, 0.15);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Perforation dotted line */
+.border-perforated {
+  border-style: dashed;
+  border-color: var(--ink);
+}

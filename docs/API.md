@@ -9,7 +9,7 @@ Every response uses the same shape:
 { "success": false, "error": { "code": "ERROR_CODE", "message": "Human-readable message" } }
 ```
 
-Common error codes: `UNAUTHORIZED`, `FORBIDDEN`, `NOT_FOUND`, `BAD_REQUEST`, `VALIDATION_ERROR`, `CONFLICT`, `TOO_MANY_REQUESTS`, `INTERNAL_SERVER_ERROR`, `FILE_TOO_LARGE`, `INVALID_FILE_TYPE`.
+Common error codes: `UNAUTHORIZED`, `FORBIDDEN`, `NOT_APPROVED`, `NOT_FOUND`, `BAD_REQUEST`, `VALIDATION_ERROR`, `CONFLICT`, `EMAIL_CONFLICT`, `INVALID_CREDENTIALS`, `TOO_MANY_REQUESTS`, `INTERNAL_SERVER_ERROR`, `FILE_TOO_LARGE`, `INVALID_FILE_TYPE`, `FILE_REQUIRED`, `TOO_MANY_FILES`, `UPLOAD_ERROR`.
 
 ---
 
@@ -409,3 +409,317 @@ Marks an `approved` claim's item as `"returned"`.
   "uptime": "120s"
 }
 ```
+
+---
+
+## Response Objects
+
+### 1. User
+
+#### 1.1 Own Profile (`GET /api/auth/me`)
+Returned inside `{ success: true, data: { user: { ... } } }`.
+
+```json
+{
+  "_id": "67039a518e19b33a102c9101",
+  "name": "Jane Doe",
+  "email": "jane.doe@college.edu",
+  "department": "Computer Science",
+  "year": "3rd Year",
+  "phone": "+1-555-0199",
+  "role": "student",
+  "verificationStatus": "approved",
+  "isSuspended": false,
+  "verifiedBy": "67039a518e19b33a102c9000",
+  "verifiedAt": "2026-10-06T12:00:00.000Z",
+  "createdAt": "2026-10-06T10:15:30.123Z",
+  "updatedAt": "2026-10-06T12:00:00.000Z"
+}
+```
+
+**Field List:**
+- `_id` (string, ObjectId): Unique user ID.
+- `name` (string): Full name.
+- `email` (string): User email address.
+- `department` (string): Academic department.
+- `year` (string): Academic year.
+- `phone` (string, optional): Phone number; omitted if not provided at signup.
+- `role` (enum: `"student" | "admin"`): User role.
+- `verificationStatus` (enum: `"pending" | "approved" | "rejected"`): Verification state.
+- `isSuspended` (boolean): Whether account is suspended.
+- `rejectionReason` (string, conditional): Present only if `verificationStatus` is `"rejected"`.
+- `verifiedBy` (string, ObjectId, optional): Admin user ID who approved/rejected the account.
+- `verifiedAt` (ISO Date string, optional): Timestamp of verification decision.
+- `createdAt` (ISO Date string): Account creation timestamp.
+- `updatedAt` (ISO Date string): Last account update timestamp.
+- *Never included:* `passwordHash` (stripped by model toJSON & schema `select: false`), `verificationDocPath` (private disk path stripped by toJSON & schema `select: false`).
+
+#### 1.2 Admin User List View (`GET /api/admin/users`)
+Returned inside `{ success: true, data: { items: [...], page, limit, total, totalPages } }`.
+
+```json
+{
+  "_id": "67039a518e19b33a102c9102",
+  "name": "John Smith",
+  "email": "john.smith@college.edu",
+  "department": "Mechanical Engineering",
+  "year": "2nd Year",
+  "role": "student",
+  "verificationStatus": "pending",
+  "isSuspended": false,
+  "hasDocument": true,
+  "createdAt": "2026-10-06T11:20:00.000Z",
+  "updatedAt": "2026-10-06T11:20:00.000Z"
+}
+```
+
+**Field List:**
+- Includes all standard User profile fields above.
+- `hasDocument` (boolean): Computed flag indicating whether a verification document file exists on disk (`!!doc.verificationDocPath`).
+- `phone` (string, optional): Present if user provided phone.
+- `rejectionReason` (string, conditional): Present if status is `"rejected"`.
+- `verifiedBy` / `verifiedAt` (conditional): Present if user was reviewed.
+- *Never included:* `verificationDocPath` is never exposed (admin streams via `GET /api/admin/users/:id/document`).
+
+---
+
+### 2. Item
+
+#### 2.1 Item List (`GET /api/items`) & Item Detail (`GET /api/items/:id`)
+- `GET /api/items` returns: `{ success: true, data: { items: [...], page, limit, total, totalPages } }`.
+- `GET /api/items/:id` returns: `{ success: true, data: { item: { ... } } }`.
+
+```json
+{
+  "_id": "6703a11b8e19b33a102c9201",
+  "type": "found",
+  "title": "Black Dell Laptop Charger",
+  "description": "Found near Library 2nd floor desk B4. 65W USB-C barrel connector.",
+  "category": "electronics",
+  "location": "Central Library 2nd Floor",
+  "dateOccurred": "2026-10-06T09:30:00.000Z",
+  "images": [
+    "/api/files/items/4f81c9a1-5231-4a30-8041-326e0e972f2d.webp"
+  ],
+  "verificationQuestion": "What specific sticker is on the power brick?",
+  "status": "open",
+  "postedBy": {
+    "_id": "67039a518e19b33a102c9101",
+    "name": "Jane Doe",
+    "department": "Computer Science"
+  },
+  "expiresAt": "2026-12-05T09:30:00.000Z",
+  "createdAt": "2026-10-06T09:45:10.000Z",
+  "updatedAt": "2026-10-06T09:45:10.000Z"
+}
+```
+
+**Field List:**
+- `_id` (string, ObjectId): Unique item ID.
+- `type` (enum: `"lost" | "found"`): Item classification.
+- `title` (string): Item title.
+- `description` (string): Detailed description.
+- `category` (enum: `"electronics" | "id_cards" | "bags" | "keys" | "books" | "clothing" | "other"`): Category.
+- `location` (string): Location where item was lost or found.
+- `dateOccurred` (ISO Date string): Date and time the item was lost or found.
+- `images` (string array): Array of served image paths transformed to `/api/files/items/<uuid>.webp`. Max 4 images.
+- `verificationQuestion` (string, conditional): **Included for non-owners** on all `"found"` items (required so claimant forms can present the question). Omitted / `undefined` on `"lost"` items.
+- `status` (enum: `"open" | "claim_pending" | "returned" | "expired"`): Current item lifecycle state.
+- `postedBy` (object): Populated as `{ _id, name, department }`. Owner contact (`email`, `phone`) is omitted.
+- `expiresAt` (ISO Date string): Auto-computed expiration date (defaults to `createdAt + 60 days`). Always included.
+- `createdAt` (ISO Date string): Creation timestamp. Always included.
+- `updatedAt` (ISO Date string): Last updated timestamp. Always included.
+
+---
+
+### 3. Claim
+
+#### 3.1 Claim Made (`GET /api/claims/made`)
+Returned inside `{ success: true, data: { claims: [...], page, limit, total, totalPages } }`.
+
+```json
+{
+  "_id": "6703b0228e19b33a102c9301",
+  "item": {
+    "_id": "6703a11b8e19b33a102c9201",
+    "title": "Black Dell Laptop Charger",
+    "type": "found",
+    "images": [
+      "/api/files/items/4f81c9a1-5231-4a30-8041-326e0e972f2d.webp"
+    ],
+    "status": "claim_pending",
+    "postedBy": {
+      "_id": "67039a518e19b33a102c9101",
+      "name": "Jane Doe",
+      "department": "Computer Science",
+      "email": "jane.doe@college.edu",
+      "phone": "+1-555-0199"
+    }
+  },
+  "claimant": {
+    "_id": "67039a518e19b33a102c9102",
+    "name": "John Smith",
+    "department": "Mechanical Engineering",
+    "email": "john.smith@college.edu"
+  },
+  "message": "I lost this charger during my morning study session.",
+  "answer": "It has an orange GitHub Octocat sticker on the side.",
+  "proofImage": "/api/files/items/b149ce78-75d3-4f93-bd60-44470bc5ae22.webp",
+  "status": "approved",
+  "decisionNote": "Answer matched the sticker perfectly.",
+  "decidedAt": "2026-10-06T14:10:00.000Z",
+  "createdAt": "2026-10-06T11:00:00.000Z",
+  "updatedAt": "2026-10-06T14:10:00.000Z"
+}
+```
+
+#### 3.2 Claim Received (`GET /api/claims/received`)
+Returned inside `{ success: true, data: { claims: [...], page, limit, total, totalPages } }`.
+
+```json
+{
+  "_id": "6703b0228e19b33a102c9302",
+  "item": {
+    "_id": "6703a11b8e19b33a102c9201",
+    "title": "Black Dell Laptop Charger",
+    "type": "found",
+    "images": [
+      "/api/files/items/4f81c9a1-5231-4a30-8041-326e0e972f2d.webp"
+    ],
+    "status": "open",
+    "postedBy": "67039a518e19b33a102c9101"
+  },
+  "claimant": {
+    "_id": "67039a518e19b33a102c9102",
+    "name": "John Smith",
+    "department": "Mechanical Engineering"
+  },
+  "message": "I left this charger in the library yesterday.",
+  "answer": "Blue electrical tape on the cord.",
+  "status": "pending",
+  "createdAt": "2026-10-06T11:30:00.000Z",
+  "updatedAt": "2026-10-06T11:30:00.000Z"
+}
+```
+
+#### 3.3 Admin Claim List (`GET /api/admin/claims`)
+Returned inside `{ success: true, data: { claims: [...], page, limit, total, totalPages } }`.
+
+```json
+{
+  "_id": "6703b0228e19b33a102c9301",
+  "item": {
+    "_id": "6703a11b8e19b33a102c9201",
+    "title": "Black Dell Laptop Charger",
+    "type": "found",
+    "status": "claim_pending"
+  },
+  "claimant": {
+    "_id": "67039a518e19b33a102c9102",
+    "name": "John Smith",
+    "email": "john.smith@college.edu",
+    "department": "Mechanical Engineering"
+  },
+  "message": "I lost this charger during my morning study session.",
+  "answer": "It has an orange GitHub Octocat sticker on the side.",
+  "proofImage": "/api/files/items/b149ce78-75d3-4f93-bd60-44470bc5ae22.webp",
+  "status": "approved",
+  "decisionNote": "Answer matched the sticker perfectly.",
+  "decidedAt": "2026-10-06T14:10:00.000Z",
+  "createdAt": "2026-10-06T11:00:00.000Z",
+  "updatedAt": "2026-10-06T14:10:00.000Z"
+}
+```
+
+**Claim Field List & Summary Details:**
+- `_id` (string, ObjectId): Unique claim ID.
+- `item` (object): Summarised item:
+  - In made/received claims: populated with `{ _id, title, type, images, status, postedBy }`. In made claims, `postedBy` is further populated with `{ _id, name, department, email?, phone? }`.
+  - In admin claims: populated with `{ _id, title, type, status }`.
+- `claimant` (object): Populated claimant object: `{ _id, name, department, email?, phone? }`.
+- **Contact Reveal Locations & Field Names:**
+  - Claimant email/phone appear under `claimant.email` and `claimant.phone`.
+  - Item owner email/phone appear under `item.postedBy.email` and `item.postedBy.phone` (in made claims).
+  - Both are revealed **only when `status === "approved"`**. In `pending`, `rejected`, or `cancelled` status, these fields are deleted prior to returning JSON. In admin claims, `claimant.email` is always included.
+- `message` (string): Message written by claimant.
+- `answer` (string, conditional): Answer to the verification question; present for `"found"` items.
+- `proofImage` (string, optional): Proof image URL formatted by model toJSON as `/api/files/items/<uuid>.webp`. Field is omitted / undefined if no proof was uploaded.
+- `status` (enum: `"pending" | "approved" | "rejected" | "cancelled"`): Claim status.
+- `decisionNote` (string, optional): Reason / note supplied when approving or rejecting.
+- `decidedAt` (ISO Date string, optional): Decision timestamp.
+- `createdAt` (ISO Date string): Claim submission timestamp.
+- `updatedAt` (ISO Date string): Claim update timestamp.
+
+---
+
+### 4. Notification
+
+#### Notification Object (`GET /api/notifications`)
+Returned inside `{ success: true, data: { notifications: [...], unreadCount, page, limit, total, totalPages } }`.
+
+```json
+{
+  "_id": "6703c4018e19b33a102c9401",
+  "user": "67039a518e19b33a102c9102",
+  "type": "claim_approved",
+  "message": "Your claim for \"Black Dell Laptop Charger\" was approved! You can now contact the founder.",
+  "link": "/claims/6703b0228e19b33a102c9301",
+  "isRead": false,
+  "createdAt": "2026-10-06T14:10:00.100Z",
+  "updatedAt": "2026-10-06T14:10:00.100Z"
+}
+```
+
+**Field List:**
+- `_id` (string, ObjectId): Unique notification ID.
+- `user` (string, ObjectId): ID of recipient user.
+- `type` (enum string): Notification trigger type:
+  `user_verified`, `user_rejected`, `claim_received`, `claim_approved`, `claim_rejected`, `claim_cancelled`, `item_returned`, `item_matched`.
+- `message` (string): Human-readable notification text.
+- `link` (string, optional): Client-side relative route URL. Examples in code:
+  - `"/profile"`
+  - `"/verify"`
+  - `"/items/<itemId>/claims"`
+  - `"/claims/<claimId>"`
+  - `"/items/<itemId>"`
+  - `"/items/<itemId>/matches"`
+- `isRead` (boolean): Whether notification has been read. Default `false`.
+- `createdAt` (ISO Date string): Notification creation timestamp.
+- `updatedAt` (ISO Date string): Notification update timestamp.
+
+---
+
+### 5. Match Result
+
+#### Item Match Object (`GET /api/items/:id/matches`)
+Returned inside `{ success: true, data: { matches: [...] } }`.
+
+```json
+{
+  "_id": "67039e128e19b33a102c9501",
+  "type": "lost",
+  "title": "Lost Dell Laptop Charger 65W",
+  "description": "Lost my 65W Dell charger somewhere near the library 2nd floor.",
+  "category": "electronics",
+  "location": "Central Library",
+  "dateOccurred": "2026-10-05T18:00:00.000Z",
+  "images": [],
+  "status": "open",
+  "postedBy": {
+    "_id": "67039a518e19b33a102c9105",
+    "name": "Alex Smith",
+    "department": "Information Technology",
+    "email": "alex.smith@college.edu"
+  },
+  "expiresAt": "2026-12-04T18:00:00.000Z",
+  "createdAt": "2026-10-05T18:30:00.000Z",
+  "updatedAt": "2026-10-05T18:30:00.000Z",
+  "score": 12.5
+}
+```
+
+**Field List:**
+- Contains all standard `Item` fields (`_id`, `type`, `title`, `description`, `category`, `location`, `dateOccurred`, `images`, `status`, `expiresAt`, `createdAt`, `updatedAt`).
+- `score` (number): Text search relevance match score computed via MongoDB `{ score: { $meta: 'textScore' } }`.
+- `postedBy` (object): Populated with `{ _id, name, department, email }`.
+- `verificationQuestion` (string, conditional): Present if match is of type `"found"`.
