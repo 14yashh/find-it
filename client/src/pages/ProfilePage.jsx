@@ -19,20 +19,20 @@ import {
 import { Link } from 'react-router-dom';
 
 export default function ProfilePage({ user, onLogout }) {
-  const { currentUser, logout } = useAuth();
-  const profile = user || currentUser || {
-    name: 'Jordan Taylor',
-    rollNumber: '2110042',
-    email: 'jordan.taylor@gmail.com',
-    department: 'Computer Engineering',
-    year: '3rd Year',
-    phone: '+1 (555) 234-5678',
-    role: 'student',
-    verificationStatus: 'approved',
-    createdAt: '2026-10-01T10:00:00.000Z',
-  };
-
+  const { currentUser, logout, authLoading } = useAuth();
+  const profile = user || currentUser;
   const handleLogout = onLogout || logout;
+
+  if (authLoading || !profile) {
+    return (
+      <div className="font-sans min-h-[50vh] flex items-center justify-center">
+        <div className="bg-paper border-2 border-ink p-8 hard-shadow-4 text-center font-meta text-xs">
+          <span className="animate-pulse block font-bold text-ink mb-2">LOADING PROFILE RECORD...</span>
+          <span className="text-ink-muted">Querying Central Campus Archive</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="font-sans">

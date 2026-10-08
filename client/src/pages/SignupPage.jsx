@@ -31,12 +31,12 @@ export default function SignupPage() {
   // Form State matching backend contract:
   // name, rollNumber, email, password, department, year, phone, document
   const [formData, setFormData] = useState({
-    name: 'Jordan Taylor',
-    rollNumber: '2110042',
-    email: 'jordan.taylor@gmail.com',
-    password: 'password123',
-    department: 'Computer Engineering',
-    year: '3rd Year',
+    name: '',
+    rollNumber: '',
+    email: '',
+    password: '',
+    department: '',
+    year: '',
     phone: '',
   });
 

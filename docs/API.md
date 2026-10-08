@@ -9,7 +9,7 @@ Every response uses the same shape:
 { "success": false, "error": { "code": "ERROR_CODE", "message": "Human-readable message" } }
 ```
 
-Common error codes: `UNAUTHORIZED`, `FORBIDDEN`, `NOT_APPROVED`, `NOT_FOUND`, `BAD_REQUEST`, `VALIDATION_ERROR`, `CONFLICT`, `EMAIL_CONFLICT`, `INVALID_CREDENTIALS`, `TOO_MANY_REQUESTS`, `INTERNAL_SERVER_ERROR`, `FILE_TOO_LARGE`, `INVALID_FILE_TYPE`, `FILE_REQUIRED`, `TOO_MANY_FILES`, `UPLOAD_ERROR`.
+Common error codes: `UNAUTHORIZED`, `FORBIDDEN`, `NOT_APPROVED`, `NOT_FOUND`, `BAD_REQUEST`, `VALIDATION_ERROR`, `CONFLICT`, `EMAIL_CONFLICT`, `ROLL_NUMBER_CONFLICT`, `INVALID_CREDENTIALS`, `TOO_MANY_REQUESTS`, `INTERNAL_SERVER_ERROR`, `FILE_TOO_LARGE`, `INVALID_FILE_TYPE`, `FILE_REQUIRED`, `TOO_MANY_FILES`, `UPLOAD_ERROR`.
 
 ---
 
@@ -89,7 +89,7 @@ The `images` array in item responses already contains full URL paths. Do not con
 ```json
 { "success": true, "data": { "message": "...", "user": { ... } } }
 ```
-**Errors:** `409 EMAIL_CONFLICT`, `422 VALIDATION_ERROR`, `422 INVALID_FILE_TYPE`, `413 FILE_TOO_LARGE`
+**Errors:** `409 EMAIL_CONFLICT`, `409 ROLL_NUMBER_CONFLICT`, `422 VALIDATION_ERROR`, `422 INVALID_FILE_TYPE`, `413 FILE_TOO_LARGE`
 
 ---
 

@@ -30,21 +30,21 @@ export default function VerificationPage({
   const [searchParams] = useSearchParams();
   const { currentUser, setCurrentUser, logout, updateVerificationStatus } = useAuth();
 
-  const effectiveUser = user || currentUser || {
+  const isDevPreview = import.meta.env.DEV && searchParams.has('preview');
+  const devPreviewUser = isDevPreview ? {
     name: 'Alex Chen',
     rollNumber: '2210018',
     email: 'alex.chen@gmail.com',
     department: 'Information Technology',
     year: '2nd Year',
-    verificationStatus: 'pending',
+    verificationStatus: searchParams.get('status') || 'pending',
     rejectionReason: 'Attached student ID was expired or blurred. Roll number could not be verified.',
-  };
+  } : null;
 
-  // Allow query param override for instant dev testing: /verification?status=approved|rejected|pending
-  const queryStatus = searchParams.get('status');
-  const [currentStatus, setCurrentStatus] = useState(
-    queryStatus || effectiveUser?.verificationStatus || 'pending'
-  );
+  const effectiveUser = user || currentUser || devPreviewUser;
+  const currentStatus = (isDevPreview && searchParams.get('status'))
+    ? searchParams.get('status')
+    : (effectiveUser?.verificationStatus || 'pending');
 
   const [resubmitFile, setResubmitFile] = useState([]);
   const [resubmitted, setResubmitted] = useState(false);
@@ -91,6 +91,17 @@ export default function VerificationPage({
       setResubmitLoading(false);
     }
   };
+
+  if (!effectiveUser) {
+    return (
+      <div className="font-sans min-h-screen bg-paper-light flex items-center justify-center p-4">
+        <div className="bg-paper border-2 border-ink p-8 hard-shadow-4 text-center font-meta text-xs">
+          <span className="animate-pulse block font-bold text-ink mb-2">LOADING VERIFICATION DOCKET...</span>
+          <span className="text-ink-muted">Querying Central Campus Archive</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-paper text-ink flex flex-col font-sans justify-between">
@@ -148,8 +159,8 @@ export default function VerificationPage({
               </div>
               <div className="text-left sm:text-right font-meta text-xs">
                 <span className="text-ink-muted block uppercase text-[10px]">Reference No.</span>
-                <span className="font-bold text-ink tracking-wider bg-paper border border-ink px-2 py-0.5 inline-block">
-                  #VRF-88219-P
+                <span className="font-bold text-ink tracking-wider bg-paper border border-ink px-2 py-0.5 inline-block font-mono">
+                  #VRF-{(effectiveUser._id || 'STUDENT').slice(-6).toUpperCase()}
                 </span>
               </div>
             </div>
@@ -241,7 +252,7 @@ export default function VerificationPage({
                   Rejection Reason from Admin Desk:
                 </div>
                 <p className="font-sans text-sm font-semibold">
-                  "{user?.rejectionReason || 'Uploaded document expired or illegible. Matriculation seal was not visible.'}"
+                  "{effectiveUser.rejectionReason || 'Uploaded document expired or illegible. Matriculation seal was not visible.'}"
                 </p>
               </div>
 
@@ -300,21 +311,21 @@ export default function VerificationPage({
               <div className="divide-y divide-ink">
                 <div className="p-3">
                   <span className="text-ink-muted block text-[10px] uppercase">Full Legal Name</span>
-                  <span className="font-bold text-ink text-sm">{user?.name || effectiveUser.name}</span>
+                  <span className="font-bold text-ink text-sm">{effectiveUser.name}</span>
                 </div>
                 <div className="p-3">
                   <span className="text-ink-muted block text-[10px] uppercase">Roll Number</span>
-                  <span className="font-mono font-bold text-ink text-sm">{user?.rollNumber || effectiveUser.rollNumber}</span>
+                  <span className="font-mono font-bold text-ink text-sm">{effectiveUser.rollNumber || '—'}</span>
                 </div>
                 <div className="p-3">
                   <span className="text-ink-muted block text-[10px] uppercase">Email</span>
-                  <span className="font-bold text-ink">{user?.email || effectiveUser.email}</span>
+                  <span className="font-bold text-ink">{effectiveUser.email}</span>
                 </div>
               </div>
               <div className="divide-y divide-ink">
                 <div className="p-3">
                   <span className="text-ink-muted block text-[10px] uppercase">Department & Year</span>
-                  <span className="font-bold text-ink">{user?.department || effectiveUser.department} // {user?.year || effectiveUser.year}</span>
+                  <span className="font-bold text-ink">{effectiveUser.department} // {effectiveUser.year}</span>
                 </div>
                 <div className="p-3">
                   <span className="text-ink-muted block text-[10px] uppercase">Filing Document</span>

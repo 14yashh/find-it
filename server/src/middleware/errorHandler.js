@@ -46,10 +46,14 @@ export function errorHandler(err, req, res, next) {
   // -- MongoDB: duplicate key (E11000) ---------------------------------------
   if (err.code === 11000) {
     const field = Object.keys(err.keyValue || {}).join(', ') || 'field';
+    let code = 'CONFLICT';
+    if (field === 'rollNumber') code = 'ROLL_NUMBER_CONFLICT';
+    else if (field === 'email') code = 'EMAIL_CONFLICT';
+
     return res.status(409).json({
       success: false,
       error: {
-        code: 'CONFLICT',
+        code,
         message: `A record with this ${field} already exists.`,
       },
     });

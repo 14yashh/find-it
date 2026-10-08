@@ -7,3 +7,4 @@
 # Curl/test artefacts
 cookies.txt
 login-*.json
+.verify/

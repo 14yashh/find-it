@@ -26,13 +26,12 @@ import {
 } from 'lucide-react';
 
 export default function DevIndexPage() {
-  const {
-    currentUser,
-    sessionType,
-    switchSession,
-    devState,
-    setDevState,
-  } = useAuth();
+  const auth = useAuth();
+  const currentUser = auth.currentUser;
+  const sessionType = auth.sessionType || (currentUser ? currentUser.role : 'logged_out');
+  const switchSession = auth.switchSession || (() => {});
+  const devState = auth.devState || 'normal';
+  const setDevState = auth.setDevState || (() => {});
 
   return (
     <div className="min-h-screen bg-paper text-ink flex flex-col font-sans justify-between">

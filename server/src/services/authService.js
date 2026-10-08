@@ -29,7 +29,7 @@ const BCRYPT_ROUNDS = 12;
  * @returns {Promise<import('../models/User.js').default>}
  */
 export async function signup(fields, docPath) {
-  const { name, email, password, department, year, phone } = fields;
+  const { name, email, password, department, rollNumber, year, phone } = fields;
 
   // Duplicate email check — give a clear 409 rather than leaking a Mongoose error
   const exists = await User.findOne({ email });
@@ -43,6 +43,19 @@ export async function signup(fields, docPath) {
     );
   }
 
+  // Duplicate roll number check for students
+  if (rollNumber) {
+    const rollExists = await User.findOne({ rollNumber, role: 'student' });
+    if (rollExists) {
+      if (docPath) await fs.unlink(docPath).catch(() => {});
+      throw new ApiError(
+        409,
+        'An account with this roll number already exists.',
+        'ROLL_NUMBER_CONFLICT',
+      );
+    }
+  }
+
   const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
   let user;
@@ -52,6 +65,7 @@ export async function signup(fields, docPath) {
       email,
       passwordHash,
       department,
+      rollNumber,
       year,
       phone,
       verificationDocPath: docPath,
