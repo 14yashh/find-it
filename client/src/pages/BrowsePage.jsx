@@ -1,6 +1,4 @@
 import React from 'react';
-import Navbar from '../components/layout/Navbar.jsx';
-import Footer from '../components/layout/Footer.jsx';
 import TagCard from '../components/ui/TagCard.jsx';
 import EmptyState from '../components/ui/EmptyState.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -9,19 +7,12 @@ import { useItems } from '../hooks/useItems.js';
 import { Search, SlidersHorizontal, RotateCcw, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { CATEGORY_OPTIONS, QUICK_LOCATIONS } from '../lib/constants.js';
+
 export default function BrowsePage({ user }) {
   const { items, filters, setFilters, total } = useItems();
 
-  const categories = [
-    { value: 'all', label: 'All Categories' },
-    { value: 'electronics', label: 'Electronics' },
-    { value: 'id_cards', label: 'ID cards' },
-    { value: 'bags', label: 'Bags' },
-    { value: 'keys', label: 'Keys' },
-    { value: 'books', label: 'Books' },
-    { value: 'clothing', label: 'Clothing' },
-    { value: 'other', label: 'Other' },
-  ];
+  const categories = CATEGORY_OPTIONS;
 
   const handleTypeChange = (typeVal) => {
     setFilters((prev) => ({ ...prev, type: typeVal }));
@@ -40,14 +31,14 @@ export default function BrowsePage({ user }) {
       type: 'all',
       category: 'all',
       q: '',
+      location: '',
       status: 'open,claim_pending',
       sort: 'newest',
     });
   };
 
   return (
-    <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
-      <Navbar variant="student" user={user} />
+    <div className="font-sans">
 
       {/* SUB-HEADER / BANNER */}
       <section className="border-b-2 border-ink bg-manila/40">
@@ -129,10 +120,55 @@ export default function BrowsePage({ user }) {
                       type="text"
                       value={filters.q}
                       onChange={handleSearchChange}
-                      placeholder="Title, description, location..."
+                      placeholder="Title, description..."
                       className="w-full bg-paper border-2 border-ink font-meta text-xs text-ink placeholder:text-ink-faint p-2 hard-shadow-2 focus:outline-none focus:bg-white"
                     />
                     <Search className="w-3.5 h-3.5 text-ink-muted absolute right-2.5 top-3 pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Location Filter with QUICK_LOCATIONS suggestions */}
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="block font-meta text-xs font-bold uppercase tracking-wider text-ink">
+                      Campus Location
+                    </label>
+                    <span className="font-meta text-[10px] text-ink-muted">SUGGESTIONS</span>
+                  </div>
+                  <input
+                    type="text"
+                    list="browse-quick-locations"
+                    value={filters.location || ''}
+                    onChange={(e) => setFilters((prev) => ({ ...prev, location: e.target.value }))}
+                    placeholder="Search place or pick below..."
+                    className="w-full bg-paper border-2 border-ink font-meta text-xs text-ink placeholder:text-ink-faint p-2 hard-shadow-2 focus:outline-none focus:bg-white"
+                  />
+                  <datalist id="browse-quick-locations">
+                    {QUICK_LOCATIONS.map((loc) => (
+                      <option key={loc} value={loc} />
+                    ))}
+                  </datalist>
+
+                  <div className="flex flex-wrap gap-1 mt-1.5 font-meta text-[11px]">
+                    {QUICK_LOCATIONS.map((loc) => (
+                      <button
+                        key={loc}
+                        type="button"
+                        onClick={() =>
+                          setFilters((prev) => ({
+                            ...prev,
+                            location: prev.location === loc ? '' : loc,
+                          }))
+                        }
+                        className={`px-1.5 py-0.5 border border-ink text-[11px] transition-none ${
+                          filters.location === loc
+                            ? 'bg-ink text-paper font-bold'
+                            : 'bg-paper hover:bg-manila text-ink'
+                        }`}
+                      >
+                        {loc}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
@@ -226,6 +262,11 @@ export default function BrowsePage({ user }) {
                     {filters.type}
                   </span>
                 )}
+                {filters.location && (
+                  <span className="bg-paper-light border border-ink px-1.5 py-0.5 text-ink-muted">
+                    Loc: {filters.location}
+                  </span>
+                )}
               </div>
 
               <div className="flex items-center gap-2 self-end sm:self-auto">
@@ -259,8 +300,6 @@ export default function BrowsePage({ user }) {
           </section>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

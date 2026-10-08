@@ -1,6 +1,4 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import AdminShell from '../components/layout/AdminShell.jsx';
 import StatTicket from '../components/ui/StatTicket.jsx';
 import TicketStub from '../components/ui/TicketStub.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -18,16 +16,11 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 
-export default function AdminStatsPage({ onLogout }) {
+export default function AdminStatsPage() {
   const { stats, loading } = useAdminStats();
 
   return (
-    <AdminShell
-      title="Archive Overview // General Ledger"
-      subtitle="SYSTEM-WIDE PROPERTY ARCHIVE METRICS & INVENTORY SUMMARY"
-      onLogout={onLogout}
-    >
-      <div className="space-y-8 max-w-6xl">
+    <div className="space-y-8 max-w-6xl">
         {/* Tape decoration */}
         <div className="relative">
           <Tape text="DAILY METRIC AUDIT // VERIFIED" position="top-right" />
@@ -169,6 +162,5 @@ export default function AdminStatsPage({ onLogout }) {
           </TicketStub>
         </section>
       </div>
-    </AdminShell>
   );
 }

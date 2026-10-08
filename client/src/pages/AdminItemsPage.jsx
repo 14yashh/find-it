@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import AdminShell from '../components/layout/AdminShell.jsx';
 import Button from '../components/ui/Button.jsx';
 import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
 import Stamp from '../components/ui/Stamp.jsx';
 import Modal from '../components/ui/Modal.jsx';
 import EmptyState from '../components/ui/EmptyState.jsx';
-import { useItems } from '../hooks/useItems.js';
-import { mockCategories } from '../mocks/data.js';
+import { useAdminItems } from '../hooks/useAdminItems.js';
+import { CATEGORY_OPTIONS } from '../lib/constants.js';
 import {
   Package,
   Search,
@@ -22,7 +21,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminItemsPage({ onLogout }) {
-  const { allItems, deleteItem } = useItems();
+  const { allItems, deleteItem, isLoading, isError } = useAdminItems();
 
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -56,12 +55,7 @@ export default function AdminItemsPage({ onLogout }) {
   };
 
   return (
-    <AdminShell
-      title="Items Ledger // Master Property Catalog"
-      subtitle="REGISTRY AUDIT, EXPIRATION OVERVIEW & INVENTORY CONTROL"
-      onLogout={onLogout}
-    >
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Filters and search docket */}
         <div className="bg-paper border-2 border-ink hard-shadow-4 p-4 space-y-4">
           <div className="flex flex-col md:flex-row gap-3">
@@ -88,7 +82,7 @@ export default function AdminItemsPage({ onLogout }) {
               <Select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                options={mockCategories}
+                options={CATEGORY_OPTIONS}
               />
             </div>
             <div className="w-full md:w-44">
@@ -283,6 +277,5 @@ export default function AdminItemsPage({ onLogout }) {
           )}
         </Modal>
       </div>
-    </AdminShell>
   );
 }

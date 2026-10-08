@@ -43,6 +43,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/how-it-works" className="hover:text-ink hover:underline">
+                  How it Works
+                </Link>
+              </li>
+              <li>
                 <Link to="/dev" className="hover:text-ink text-primary font-bold">
                   Review Index [/dev]
                 </Link>
@@ -56,7 +61,7 @@ export default function Footer() {
               Student Protocol
             </span>
             <ul className="space-y-1.5 text-ink-muted">
-              <li>Institutional Student ID required</li>
+              <li>Student ID and roll number required</li>
               <li>Admin verified clearance</li>
               <li>Found item verification questions</li>
               <li>Chain-of-custody handovers</li>

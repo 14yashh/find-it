@@ -6,10 +6,12 @@ import Input from '../components/ui/Input.jsx';
 import Button from '../components/ui/Button.jsx';
 import Tape from '../components/ui/Tape.jsx';
 import { ArrowRight, AlertTriangle, Lock } from 'lucide-react';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function LoginPage({ onLoginSuccess }) {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('student@campus.edu');
+  const { login: authLogin } = useAuth();
+  const [email, setEmail] = useState('student@gmail.com');
   const [password, setPassword] = useState('password123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,14 +34,12 @@ export default function LoginPage({ onLoginSuccess }) {
     // Static mock auth flow
     setTimeout(() => {
       setLoading(false);
+      authLogin(email);
       if (email.includes('admin')) {
         if (onLoginSuccess) onLoginSuccess({ role: 'admin', name: 'Admin Officer', verificationStatus: 'approved' });
-        navigate('/admin/verifications');
-      } else if (email.includes('pending')) {
+        navigate('/admin');
+      } else if (email.includes('pending') || email.includes('reject')) {
         if (onLoginSuccess) onLoginSuccess({ role: 'student', name: 'Alex Chen', verificationStatus: 'pending' });
-        navigate('/verification');
-      } else if (email.includes('reject')) {
-        if (onLoginSuccess) onLoginSuccess({ role: 'student', name: 'Sam Taylor', verificationStatus: 'rejected' });
         navigate('/verification');
       } else {
         if (onLoginSuccess) onLoginSuccess({ role: 'student', name: 'Jordan Taylor', verificationStatus: 'approved' });
@@ -99,14 +99,13 @@ export default function LoginPage({ onLoginSuccess }) {
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
-                label="Campus Email Address"
-                id="campus-email"
+                label="Email"
+                id="email"
                 type="email"
                 required
-                placeholder="netid@campus.edu"
+                placeholder="name@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                hint="Must be registered with University Registrar domain."
               />
 
               <Input
@@ -120,37 +119,39 @@ export default function LoginPage({ onLoginSuccess }) {
                 hint="Minimum 8 characters."
               />
 
-              {/* Demo credentials hint for static review */}
-              <div className="bg-manila/50 border border-ink p-2.5 font-meta text-xs space-y-1">
-                <span className="font-bold uppercase text-[10px] tracking-wider block text-ink">
-                  Terminal Review Presets:
-                </span>
-                <div className="flex flex-wrap gap-2 text-[11px] text-ink">
-                  <button
-                    type="button"
-                    onClick={() => setEmail('student@campus.edu')}
-                    className="underline hover:bg-manila px-1"
-                  >
-                    approved student
-                  </button>
-                  <span>•</span>
-                  <button
-                    type="button"
-                    onClick={() => setEmail('pending@campus.edu')}
-                    className="underline hover:bg-manila px-1"
-                  >
-                    pending user
-                  </button>
-                  <span>•</span>
-                  <button
-                    type="button"
-                    onClick={() => setEmail('admin@campus.edu')}
-                    className="underline hover:bg-manila px-1"
-                  >
-                    admin
-                  </button>
+              {/* Demo credentials hint for static review (Dev mode only - remove before real API) */}
+              {import.meta.env.DEV && (
+                <div className="bg-manila/50 border border-ink p-2.5 font-meta text-xs space-y-1">
+                  <span className="font-bold uppercase text-[10px] tracking-wider block text-ink">
+                    Terminal Review Presets (Dev Mode):
+                  </span>
+                  <div className="flex flex-wrap gap-2 text-[11px] text-ink">
+                    <button
+                      type="button"
+                      onClick={() => setEmail('student@gmail.com')}
+                      className="underline hover:bg-manila px-1"
+                    >
+                      approved student
+                    </button>
+                    <span>•</span>
+                    <button
+                      type="button"
+                      onClick={() => setEmail('pending@gmail.com')}
+                      className="underline hover:bg-manila px-1"
+                    >
+                      pending user
+                    </button>
+                    <span>•</span>
+                    <button
+                      type="button"
+                      onClick={() => setEmail('admin@gmail.com')}
+                      className="underline hover:bg-manila px-1"
+                    >
+                      admin
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="pt-2">
                 <Button

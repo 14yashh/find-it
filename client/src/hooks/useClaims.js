@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { mockClaims } from '../mocks/data.js';
+import { useDevSimulation } from './useDevStateHelper.js';
 
 export function useClaims() {
+  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
+
   const [claimsMade, setClaimsMade] = useState(mockClaims.made);
   const [claimsReceived, setClaimsReceived] = useState(mockClaims.received);
 
@@ -30,13 +33,25 @@ export function useClaims() {
     setClaimsMade((prev) => [newClaim, ...prev]);
   };
 
+  const activeMade = simEmpty ? [] : claimsMade;
+  const activeReceived = simEmpty ? [] : claimsReceived;
+
+  const data = simError
+    ? null
+    : {
+        made: { claims: activeMade, total: activeMade.length },
+        received: { claims: activeReceived, total: activeReceived.length },
+      };
+
   return {
-    claimsMade,
-    claimsReceived,
+    data,
+    claimsMade: simLoading || simError ? [] : activeMade,
+    claimsReceived: simLoading || simError ? [] : activeReceived,
     decideClaim,
     cancelClaim,
     createClaim,
-    loading: false,
-    error: null,
+    isLoading: simLoading,
+    isError: simError,
+    error: simError ? { message: 'Failed to access claims registry.' } : null,
   };
 }

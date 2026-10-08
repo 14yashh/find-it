@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 import {
   ShieldCheck,
   Package,
@@ -43,6 +43,33 @@ export default function AdminShell({ children, title, subtitle, onLogout }) {
   ];
 
   const isActive = (path) => location.pathname === path;
+
+  const routeMeta = {
+    '/admin': {
+      title: 'Archive Overview // General Ledger',
+      subtitle: 'SYSTEM-WIDE PROPERTY ARCHIVE METRICS & INVENTORY SUMMARY',
+    },
+    '/admin/verifications': {
+      title: 'Verification Desk // Queue',
+      subtitle: 'OFFICIAL STUDENT ENROLLMENT & CREDENTIAL AUDIT // QUEUE',
+    },
+    '/admin/items': {
+      title: 'Items Ledger // Master Property Catalog',
+      subtitle: 'REGISTRY AUDIT, EXPIRATION OVERVIEW & INVENTORY CONTROL',
+    },
+    '/admin/claims': {
+      title: 'Claims Audit // Custody & Dispositions',
+      subtitle: 'CROSS-CAMPUS DISPUTE RESOLUTION & PROPERTY HANDOVER AUDITING',
+    },
+    '/admin/users': {
+      title: 'User Accounts // Enrollment Directory',
+      subtitle: 'STUDENT DIRECTORY, INSTITUTIONAL ROLES & ACCESS CONTROL',
+    },
+  };
+
+  const activeMeta = routeMeta[location.pathname] || {};
+  const displayTitle = title || activeMeta.title;
+  const displaySubtitle = subtitle || activeMeta.subtitle;
 
   return (
     <div className="min-h-screen bg-paper text-ink flex flex-col">
@@ -152,19 +179,19 @@ export default function AdminShell({ children, title, subtitle, onLogout }) {
 
         {/* Content Area */}
         <main className="flex-1 p-4 md:p-8 overflow-y-auto">
-          {title && (
+          {displayTitle && (
             <div className="border-b-2 border-ink pb-4 mb-6">
               <h1 className="font-heading font-extrabold text-2xl md:text-3xl text-ink uppercase tracking-wide">
-                {title}
+                {displayTitle}
               </h1>
-              {subtitle && (
+              {displaySubtitle && (
                 <p className="font-meta text-xs md:text-sm text-ink-muted mt-1 uppercase tracking-wider">
-                  {subtitle}
+                  {displaySubtitle}
                 </p>
               )}
             </div>
           )}
-          {children}
+          {children || <Outlet />}
         </main>
       </div>
     </div>

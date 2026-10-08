@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import AdminShell from '../components/layout/AdminShell.jsx';
 import Button from '../components/ui/Button.jsx';
 import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
@@ -8,7 +7,7 @@ import Stamp from '../components/ui/Stamp.jsx';
 import TicketStub from '../components/ui/TicketStub.jsx';
 import EmptyState from '../components/ui/EmptyState.jsx';
 import Modal from '../components/ui/Modal.jsx';
-import { useClaims } from '../hooks/useClaims.js';
+import { useAdminClaims } from '../hooks/useAdminClaims.js';
 import {
   FileCheck2,
   Search,
@@ -24,10 +23,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminClaimsPage({ onLogout }) {
-  const { claimsMade, claimsReceived } = useClaims();
-
-  // Combine claims for full administrative view
-  const allClaims = [...claimsMade, ...claimsReceived];
+  const { claims: allClaims, isLoading, isError } = useAdminClaims();
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -47,12 +43,7 @@ export default function AdminClaimsPage({ onLogout }) {
   });
 
   return (
-    <AdminShell
-      title="Claims Audit // Custody & Dispositions"
-      subtitle="CROSS-CAMPUS DISPUTE RESOLUTION & PROPERTY HANDOVER AUDITING"
-      onLogout={onLogout}
-    >
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Filter controls */}
         <div className="bg-paper border-2 border-ink hard-shadow-4 p-4 space-y-4">
           <div className="flex flex-col sm:flex-row gap-3">
@@ -281,6 +272,5 @@ export default function AdminClaimsPage({ onLogout }) {
           )}
         </Modal>
       </div>
-    </AdminShell>
   );
 }

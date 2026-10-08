@@ -7,11 +7,22 @@ import Stamp from '../components/ui/Stamp.jsx';
 import Tape from '../components/ui/Tape.jsx';
 import TicketStub from '../components/ui/TicketStub.jsx';
 import { HelpCircle, ArrowLeft, Search, FileQuestion } from 'lucide-react';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function NotFoundPage({ currentUser }) {
+  const { currentUser: authUser } = useAuth();
+  const user = currentUser || authUser;
+
+  const getVariant = () => {
+    if (!user) return 'public';
+    if (user.role === 'admin') return 'admin';
+    if (user.verificationStatus === 'approved') return 'student';
+    return 'pending';
+  };
+
   return (
     <div className="min-h-screen bg-paper flex flex-col justify-between">
-      <Navbar variant={currentUser ? 'student' : 'public'} currentUser={currentUser} />
+      <Navbar variant={getVariant()} user={user} />
 
       <main className="flex-1 flex items-center justify-center p-4 md:p-8">
         <div className="w-full max-w-xl relative">

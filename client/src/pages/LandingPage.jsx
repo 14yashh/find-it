@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar.jsx';
-import Footer from '../components/layout/Footer.jsx';
 import Ticker from '../components/ui/Ticker.jsx';
 import Stamp from '../components/ui/Stamp.jsx';
 import TicketStub from '../components/ui/TicketStub.jsx';
@@ -20,8 +18,7 @@ import {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
-      <Navbar variant="public" />
+    <div className="font-sans">
 
       {/* HERO SECTION */}
       <main className="w-full max-w-screen-xl mx-auto px-4 md:px-6 py-8 md:py-12">
@@ -155,7 +152,7 @@ export default function LandingPage() {
                     </h4>
                     <p className="font-meta text-xs text-ink-muted">Includes charger cord</p>
                     <p className="font-meta text-xs text-ink font-semibold mt-1">
-                      LOC: Student Union Canteen
+                      LOC: OB Canteen
                     </p>
                   </div>
                 </div>
@@ -212,8 +209,17 @@ export default function LandingPage() {
               How the System Works
             </h2>
           </div>
-          <div className="font-meta text-xs text-ink-muted font-bold">
-            CAMPUS CENTRAL LEDGER PROTOCOL
+          <div className="flex items-center gap-4">
+            <Link
+              to="/how-it-works"
+              className="font-meta text-xs font-bold uppercase text-primary hover:underline flex items-center gap-1"
+            >
+              <span>Read the full guide</span>
+              <span>→</span>
+            </Link>
+            <div className="font-meta text-xs text-ink-muted font-bold hidden sm:block">
+              CAMPUS CENTRAL LEDGER PROTOCOL
+            </div>
           </div>
         </div>
 
@@ -331,7 +337,7 @@ export default function LandingPage() {
               </h2>
 
               <p className="font-sans text-base text-ink leading-relaxed max-w-xl">
-                Every single account is vetted against student enrollment records with an institutional student ID or fee receipt. No scraped marketplace listings or unauthorized claims.
+                Every single account is vetted against student enrollment records with a student ID and roll number. No scraped marketplace listings or unauthorized claims.
               </p>
 
               <div className="space-y-2.5 font-sans text-sm font-semibold text-ink pt-1">
@@ -339,7 +345,7 @@ export default function LandingPage() {
                   <div className="w-6 h-6 border-2 border-ink bg-paper flex items-center justify-center hard-shadow-2">
                     <Check className="w-4 h-4 text-ink" />
                   </div>
-                  <span>Institutional email registration with admin credential verification</span>
+                  <span>Student ID and roll number with admin credential verification</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 border-2 border-ink bg-paper flex items-center justify-center hard-shadow-2">
@@ -384,8 +390,12 @@ export default function LandingPage() {
                       <span className="font-bold text-ink">MARSHALL, JORDAN K.</span>
                     </div>
                     <div>
+                      <span className="text-ink-muted block text-[10px] uppercase">ROLL NUMBER</span>
+                      <span className="font-mono font-bold text-ink">2110042</span>
+                    </div>
+                    <div>
                       <span className="text-ink-muted block text-[10px] uppercase">DEPARTMENT</span>
-                      <span className="font-bold text-ink">ENGINEERING (DEPT 4)</span>
+                      <span className="font-bold text-ink">COMPUTER ENGINEERING</span>
                     </div>
                     <div>
                       <span className="text-ink-muted block text-[10px] uppercase">CLEARANCE</span>
@@ -509,8 +519,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

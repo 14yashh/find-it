@@ -17,24 +17,31 @@ import {
   FileText,
 } from 'lucide-react';
 
+import { useAuth } from '../context/AuthContext.jsx';
+
 export default function VerificationPage({
-  user = {
-    name: 'Alex Chen',
-    email: 'a.chen@university.edu',
-    department: "Engineering '26",
-    verificationStatus: 'pending',
-    rejectionReason: 'Attached student ID was expired or blurred. Institutional seal could not be verified.',
-  },
+  user,
   onStatusChange,
   onLogout,
 }) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { currentUser, logout, updateVerificationStatus } = useAuth();
+
+  const effectiveUser = user || currentUser || {
+    name: 'Alex Chen',
+    rollNumber: '2210018',
+    email: 'alex.chen@gmail.com',
+    department: 'Information Technology',
+    year: '2nd Year',
+    verificationStatus: 'pending',
+    rejectionReason: 'Attached student ID was expired or blurred. Roll number could not be verified.',
+  };
 
   // Allow query param override for instant dev testing: /verification?status=approved|rejected|pending
   const queryStatus = searchParams.get('status');
   const [currentStatus, setCurrentStatus] = useState(
-    queryStatus || user?.verificationStatus || 'pending'
+    queryStatus || effectiveUser?.verificationStatus || 'pending'
   );
 
   const [resubmitFile, setResubmitFile] = useState([]);
@@ -63,8 +70,8 @@ export default function VerificationPage({
     <div className="min-h-screen bg-paper text-ink flex flex-col font-sans justify-between">
       <Navbar
         variant={currentStatus === 'approved' ? 'student' : 'pending'}
-        user={user}
-        onLogout={onLogout}
+        user={effectiveUser}
+        onLogout={onLogout || logout}
       />
 
       {/* Top Banner Notice */}
@@ -87,38 +94,6 @@ export default function VerificationPage({
                 ? 'CREDENTIAL REJECTED: RESUBMISSION REQUIRED'
                 : 'TERMINAL RESTRICTED: IDENTIFICATION IN VERIFICATION QUEUE'}
             </span>
-          </div>
-
-          {/* Quick status switcher for review */}
-          <div className="flex items-center gap-2 text-[11px]">
-            <span className="text-ink-muted">View state:</span>
-            <button
-              type="button"
-              onClick={() => setCurrentStatus('pending')}
-              className={`px-1.5 py-0.5 border border-paper/40 ${
-                currentStatus === 'pending' ? 'bg-manila text-ink font-bold' : ''
-              }`}
-            >
-              Pending
-            </button>
-            <button
-              type="button"
-              onClick={() => setCurrentStatus('approved')}
-              className={`px-1.5 py-0.5 border border-paper/40 ${
-                currentStatus === 'approved' ? 'bg-stamp-found text-white font-bold' : ''
-              }`}
-            >
-              Approved
-            </button>
-            <button
-              type="button"
-              onClick={() => setCurrentStatus('rejected')}
-              className={`px-1.5 py-0.5 border border-paper/40 ${
-                currentStatus === 'rejected' ? 'bg-stamp-rejected text-white font-bold' : ''
-              }`}
-            >
-              Rejected
-            </button>
           </div>
         </div>
       </aside>
@@ -299,17 +274,21 @@ export default function VerificationPage({
               <div className="divide-y divide-ink">
                 <div className="p-3">
                   <span className="text-ink-muted block text-[10px] uppercase">Full Legal Name</span>
-                  <span className="font-bold text-ink text-sm">{user?.name || 'Alex Chen'}</span>
+                  <span className="font-bold text-ink text-sm">{user?.name || effectiveUser.name}</span>
                 </div>
                 <div className="p-3">
-                  <span className="text-ink-muted block text-[10px] uppercase">College Email</span>
-                  <span className="font-bold text-ink">{user?.email || 'a.chen@university.edu'}</span>
+                  <span className="text-ink-muted block text-[10px] uppercase">Roll Number</span>
+                  <span className="font-mono font-bold text-ink text-sm">{user?.rollNumber || effectiveUser.rollNumber}</span>
+                </div>
+                <div className="p-3">
+                  <span className="text-ink-muted block text-[10px] uppercase">Email</span>
+                  <span className="font-bold text-ink">{user?.email || effectiveUser.email}</span>
                 </div>
               </div>
               <div className="divide-y divide-ink">
                 <div className="p-3">
                   <span className="text-ink-muted block text-[10px] uppercase">Department & Year</span>
-                  <span className="font-bold text-ink">{user?.department || 'Engineering'}</span>
+                  <span className="font-bold text-ink">{user?.department || effectiveUser.department} // {user?.year || effectiveUser.year}</span>
                 </div>
                 <div className="p-3">
                   <span className="text-ink-muted block text-[10px] uppercase">Filing Document</span>

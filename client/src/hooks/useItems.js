@@ -1,7 +1,10 @@
 import { useState, useMemo } from 'react';
 import { mockItems } from '../mocks/data.js';
+import { useDevSimulation } from './useDevStateHelper.js';
 
 export function useItems(initialFilters = {}) {
+  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
+
   const [items, setItems] = useState(mockItems);
   const [filters, setFilters] = useState({
     type: 'all', // 'all' | 'lost' | 'found'
@@ -9,10 +12,14 @@ export function useItems(initialFilters = {}) {
     q: '',
     status: 'open,claim_pending',
     sort: 'newest',
+    page: 1,
+    limit: 10,
     ...initialFilters,
   });
 
   const filteredItems = useMemo(() => {
+    if (simEmpty) return [];
+
     return items.filter((item) => {
       if (filters.type && filters.type !== 'all' && item.type !== filters.type) {
         return false;
@@ -24,12 +31,15 @@ export function useItems(initialFilters = {}) {
         const query = filters.q.toLowerCase().trim();
         const matchesTitle = item.title?.toLowerCase().includes(query);
         const matchesDesc = item.description?.toLowerCase().includes(query);
-        const matchesLoc = item.location?.toLowerCase().includes(query);
         if (!matchesTitle && !matchesDesc && !matchesLoc) return false;
+      }
+      if (filters.location && filters.location.trim()) {
+        const loc = filters.location.toLowerCase().trim();
+        if (!item.location?.toLowerCase().includes(loc)) return false;
       }
       return true;
     });
-  }, [items, filters]);
+  }, [items, filters, simEmpty]);
 
   const addItem = (newItem) => {
     setItems((prev) => [newItem, ...prev]);
@@ -45,16 +55,33 @@ export function useItems(initialFilters = {}) {
     setItems((prev) => prev.filter((item) => item._id !== id));
   };
 
+  const limit = filters.limit || 10;
+  const page = filters.page || 1;
+  const total = filteredItems.length;
+  const totalPages = Math.ceil(total / limit) || 1;
+
+  const data = simError
+    ? null
+    : {
+        items: filteredItems,
+        page,
+        limit,
+        total,
+        totalPages,
+      };
+
   return {
-    items: filteredItems,
+    data,
+    items: simLoading || simError ? [] : filteredItems,
     allItems: items,
     filters,
     setFilters,
-    total: filteredItems.length,
+    total,
     addItem,
     updateItem,
     deleteItem,
-    loading: false,
-    error: null,
+    isLoading: simLoading,
+    isError: simError,
+    error: simError ? { message: 'Failed to retrieve archive items. Simulated error.' } : null,
   };
 }

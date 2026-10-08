@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import AdminShell from '../components/layout/AdminShell.jsx';
 import Button from '../components/ui/Button.jsx';
 import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
@@ -39,9 +38,10 @@ export default function AdminUsersPage({ onLogout }) {
     if (search.trim()) {
       const q = search.toLowerCase();
       const matchName = user.name?.toLowerCase().includes(q);
+      const matchRoll = user.rollNumber?.toLowerCase().includes(q);
       const matchEmail = user.email?.toLowerCase().includes(q);
       const matchDept = user.department?.toLowerCase().includes(q);
-      if (!matchName && !matchEmail && !matchDept) return false;
+      if (!matchName && !matchRoll && !matchEmail && !matchDept) return false;
     }
     return true;
   });
@@ -54,18 +54,13 @@ export default function AdminUsersPage({ onLogout }) {
   };
 
   return (
-    <AdminShell
-      title="User Accounts // Enrollment Directory"
-      subtitle="STUDENT DIRECTORY, INSTITUTIONAL ROLES & ACCESS CONTROL"
-      onLogout={onLogout}
-    >
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Filters and search docket */}
         <div className="bg-paper border-2 border-ink hard-shadow-4 p-4 space-y-4">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1">
               <Input
-                placeholder="Search student name, email, department..."
+                placeholder="Search student name, roll number, email, department..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 icon={Search}
@@ -100,7 +95,7 @@ export default function AdminUsersPage({ onLogout }) {
             <span>
               TOTAL ROSTER: <strong className="text-ink">{filteredUsers.length}</strong> STUDENTS LISTED
             </span>
-            <span>DIRECTORY ACCESS: INSTITUTIONAL ENROLLMENT</span>
+            <span>DIRECTORY ACCESS: STUDENT ROSTER</span>
           </div>
         </div>
 
@@ -131,7 +126,8 @@ export default function AdminUsersPage({ onLogout }) {
                 <thead>
                   <tr className="bg-manila border-b-2 border-ink font-meta text-xs uppercase tracking-wider text-ink select-none">
                     <th className="p-3 border-r border-ink">Student Name</th>
-                    <th className="p-3 border-r border-ink">Institutional Email</th>
+                    <th className="p-3 border-r border-ink">Roll Number</th>
+                    <th className="p-3 border-r border-ink">Email</th>
                     <th className="p-3 border-r border-ink">Academic Dept & Year</th>
                     <th className="p-3 border-r border-ink">Verification Status</th>
                     <th className="p-3 border-r border-ink">Account State</th>
@@ -146,6 +142,13 @@ export default function AdminUsersPage({ onLogout }) {
                         <span className="font-bold text-ink block text-sm">{user.name}</span>
                         <span className="text-ink-faint text-[10px] block mt-0.5">
                           ID: {user._id}
+                        </span>
+                      </td>
+
+                      {/* Roll Number */}
+                      <td className="p-3 border-r border-ink align-top whitespace-nowrap">
+                        <span className="font-mono font-bold text-ink text-sm block">
+                          {user.rollNumber || '—'}
                         </span>
                       </td>
 
@@ -256,6 +259,5 @@ export default function AdminUsersPage({ onLogout }) {
           )}
         </Modal>
       </div>
-    </AdminShell>
   );
 }

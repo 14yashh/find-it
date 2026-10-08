@@ -1,10 +1,9 @@
 import React from 'react';
-import Navbar from '../components/layout/Navbar.jsx';
-import Footer from '../components/layout/Footer.jsx';
 import Stamp from '../components/ui/Stamp.jsx';
 import Button from '../components/ui/Button.jsx';
 import TicketStub from '../components/ui/TicketStub.jsx';
 import Tape from '../components/ui/Tape.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import {
   User,
   Mail,
@@ -20,10 +19,12 @@ import {
 import { Link } from 'react-router-dom';
 
 export default function ProfilePage({ user, onLogout }) {
-  const profile = user || {
+  const { currentUser, logout } = useAuth();
+  const profile = user || currentUser || {
     name: 'Jordan Taylor',
-    email: 'j.taylor@campus.edu',
-    department: 'Computer Science',
+    rollNumber: '2110042',
+    email: 'jordan.taylor@gmail.com',
+    department: 'Computer Engineering',
     year: '3rd Year',
     phone: '+1 (555) 234-5678',
     role: 'student',
@@ -31,9 +32,10 @@ export default function ProfilePage({ user, onLogout }) {
     createdAt: '2026-10-01T10:00:00.000Z',
   };
 
+  const handleLogout = onLogout || logout;
+
   return (
-    <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
-      <Navbar variant="student" user={profile} onLogout={onLogout} />
+    <div className="font-sans">
 
       <section className="bg-manila border-b-2 border-ink px-4 md:px-6 py-6">
         <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -45,7 +47,7 @@ export default function ProfilePage({ user, onLogout }) {
               <span className="text-ink-muted uppercase">STUDENT PROFILE RECORD</span>
             </div>
             <h1 className="font-heading text-3xl sm:text-4xl font-extrabold uppercase text-ink tracking-tight">
-              Institutional Profile
+              Student Profile
             </h1>
             <p className="font-sans text-sm md:text-base text-ink-muted mt-0.5">
               Verified enrollment particulars registered with the Campus Central Archive.
@@ -85,6 +87,16 @@ export default function ProfilePage({ user, onLogout }) {
             </div>
 
             <div className="space-y-4 font-meta text-xs md:text-sm">
+              {profile.rollNumber && (
+                <div className="flex items-center gap-3 p-3 bg-paper-light border border-ink">
+                  <User className="w-4 h-4 text-ink shrink-0" />
+                  <div>
+                    <span className="text-ink-muted block text-[11px] uppercase">Roll Number</span>
+                    <span className="font-mono font-bold text-ink text-sm">{profile.rollNumber}</span>
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-center gap-3 p-3 bg-paper-light border border-ink">
                 <Building className="w-4 h-4 text-ink shrink-0" />
                 <div>
@@ -192,8 +204,6 @@ export default function ProfilePage({ user, onLogout }) {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

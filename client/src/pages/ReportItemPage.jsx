@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar.jsx';
-import Footer from '../components/layout/Footer.jsx';
 import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
 import Textarea from '../components/ui/Textarea.jsx';
@@ -10,6 +8,7 @@ import Button from '../components/ui/Button.jsx';
 import Tape from '../components/ui/Tape.jsx';
 import { useItem } from '../hooks/useItem.js';
 import { useItems } from '../hooks/useItems.js';
+import { CATEGORIES, QUICK_LOCATIONS } from '../lib/constants.js';
 import {
   FileText,
   HelpCircle,
@@ -59,15 +58,7 @@ export default function ReportItemPage({ user }) {
     }
   }, [isEditing, existingItem]);
 
-  const categoryOptions = [
-    { value: 'electronics', label: 'Electronics & Computing' },
-    { value: 'id_cards', label: 'ID Badges & Cards' },
-    { value: 'bags', label: 'Bags, Backpacks & Cases' },
-    { value: 'keys', label: 'Keys & Keychains' },
-    { value: 'books', label: 'Books & Course Materials' },
-    { value: 'clothing', label: 'Outerwear & Clothing' },
-    { value: 'other', label: 'Miscellaneous Other' },
-  ];
+  const categoryOptions = CATEGORIES;
 
   const handleFieldChange = (field, val) => {
     setFormData((prev) => ({ ...prev, [field]: val }));
@@ -110,7 +101,7 @@ export default function ReportItemPage({ user }) {
         postedBy: {
           _id: user?._id || 'user-current',
           name: user?.name || 'Jordan Taylor',
-          department: user?.department || 'Computer Science',
+          department: user?.department || 'Computer Engineering',
         },
         createdAt: new Date().toISOString(),
         expiresAt: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
@@ -125,8 +116,7 @@ export default function ReportItemPage({ user }) {
   };
 
   return (
-    <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
-      <Navbar variant="student" user={user} />
+    <div className="font-sans">
 
       {/* Breadcrumb banner */}
       <section className="bg-manila border-b-2 border-ink px-4 md:px-6 py-2.5">
@@ -291,19 +281,26 @@ export default function ReportItemPage({ user }) {
                     placeholder="e.g. Central Library 2nd Floor, Science Concourse L2, Gym Bleachers"
                     hint="Where the item was recovered or last noticed."
                   />
-                  {/* Quick suggestion tags */}
-                  <div className="flex flex-wrap items-center gap-1.5 mt-2 font-meta text-xs text-ink-muted">
-                    <span className="text-[11px] font-bold">Frequent:</span>
-                    {['Main Library 2nd Fl', 'Student Union Cafe', 'Science Concourse', 'Gym Lockers'].map((loc) => (
-                      <button
-                        key={loc}
-                        type="button"
-                        onClick={() => handleFieldChange('location', loc)}
-                        className="px-2 py-0.5 border border-ink/40 bg-paper-light hover:bg-manila transition-none"
-                      >
-                        {loc}
-                      </button>
-                    ))}
+                  {/* Quick location chips (fill on click, toggle off on re-click) */}
+                  <div className="flex flex-wrap items-center gap-1.5 mt-2 font-meta text-xs">
+                    <span className="text-[11px] font-bold text-ink-muted">Quick locations:</span>
+                    {QUICK_LOCATIONS.map((loc) => {
+                      const isSelected = formData.location === loc;
+                      return (
+                        <button
+                          key={loc}
+                          type="button"
+                          onClick={() => handleFieldChange('location', isSelected ? '' : loc)}
+                          className={`px-2 py-0.5 border border-ink text-xs transition-none ${
+                            isSelected
+                              ? 'bg-ink text-paper font-bold'
+                              : 'bg-paper-light hover:bg-manila text-ink'
+                          }`}
+                        >
+                          {loc}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -399,8 +396,6 @@ export default function ReportItemPage({ user }) {
           </div>
         )}
       </main>
-
-      <Footer />
     </div>
   );
 }

@@ -1,26 +1,18 @@
 import React, { useState } from 'react';
-import Navbar from '../components/layout/Navbar.jsx';
-import Footer from '../components/layout/Footer.jsx';
 import TagCard from '../components/ui/TagCard.jsx';
 import Button from '../components/ui/Button.jsx';
 import EmptyState from '../components/ui/EmptyState.jsx';
-import { useItems } from '../hooks/useItems.js';
+import { useMyItems } from '../hooks/useMyItems.js';
 import { Plus, FolderOpen } from 'lucide-react';
 
-export default function MyItemsPage({ user }) {
-  const { allItems, updateItem } = useItems();
+export default function MyItemsPage() {
+  const { items: myItems, isLoading, isError } = useMyItems();
   const [filter, setFilter] = useState('all');
-
-  // Filter items owned by current user
-  const myItems = allItems.filter(
-    (item) => !item.postedBy || String(item.postedBy._id) === String(user?._id || '67039a518e19b33a102c9101')
-  );
 
   const displayed = filter === 'all' ? myItems : myItems.filter((i) => i.status === filter);
 
   return (
-    <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
-      <Navbar variant="student" user={user} />
+    <div className="font-sans">
 
       <section className="bg-manila border-b-2 border-ink px-4 md:px-6 py-6">
         <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -85,8 +77,6 @@ export default function MyItemsPage({ user }) {
           />
         )}
       </main>
-
-      <Footer />
     </div>
   );
 }

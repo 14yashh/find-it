@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { mockNotifications } from '../mocks/data.js';
+import { useDevSimulation } from './useDevStateHelper.js';
 
 export function useNotifications() {
+  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
   const [notifications, setNotifications] = useState(mockNotifications);
-
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const markAsRead = (id) => {
     setNotifications((prev) =>
@@ -16,12 +16,35 @@ export function useNotifications() {
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
 
+  const activeList = simEmpty ? [] : notifications;
+  const unreadCount = useMemo(() => {
+    return activeList.filter((n) => !n.isRead).length;
+  }, [activeList]);
+
+  const total = activeList.length;
+  const page = 1;
+  const limit = 10;
+  const totalPages = Math.ceil(total / limit) || 1;
+
+  const data = simError
+    ? null
+    : {
+        notifications: activeList,
+        unreadCount,
+        page,
+        limit,
+        total,
+        totalPages,
+      };
+
   return {
-    notifications,
-    unreadCount,
+    data,
+    notifications: simLoading || simError ? [] : activeList,
+    unreadCount: simLoading || simError ? 0 : unreadCount,
     markAsRead,
     markAllAsRead,
-    loading: false,
-    error: null,
+    isLoading: simLoading,
+    isError: simError,
+    error: simError ? { message: 'Failed to retrieve user notifications.' } : null,
   };
 }

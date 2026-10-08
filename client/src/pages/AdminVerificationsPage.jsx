@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import AdminShell from '../components/layout/AdminShell.jsx';
 import Stamp from '../components/ui/Stamp.jsx';
 import Button from '../components/ui/Button.jsx';
 import Modal from '../components/ui/Modal.jsx';
@@ -16,7 +15,7 @@ import {
   Calendar,
 } from 'lucide-react';
 
-export default function AdminVerificationsPage({ onLogout }) {
+export default function AdminVerificationsPage() {
   const { users, filter, setFilter, verifyUser } = useAdminUsers();
 
   const [selectedUser, setSelectedUser] = useState(users[0] || null);
@@ -55,12 +54,7 @@ export default function AdminVerificationsPage({ onLogout }) {
   };
 
   return (
-    <AdminShell
-      title="Verification Desk // Queue"
-      subtitle="OFFICIAL STUDENT ENROLLMENT & CREDENTIAL AUDIT // QUEUE"
-      onLogout={onLogout}
-    >
-      <div className="space-y-6 font-sans">
+    <div className="space-y-6 font-sans">
         {/* Filter bar */}
         <div className="bg-paper border-2 border-ink p-3 hard-shadow-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-meta text-xs">
           <div className="flex items-center gap-2">
@@ -173,18 +167,34 @@ export default function AdminVerificationsPage({ onLogout }) {
                   </div>
                 </div>
 
-                {/* Document Plate Simulation */}
-                <div className="border-2 border-ink bg-manila/30 p-4 text-center space-y-2">
-                  <FileText className="w-10 h-10 text-ink mx-auto stroke-[1.5]" />
-                  <span className="block font-meta text-xs font-bold uppercase text-ink">
-                    Student ID Document Plate
-                  </span>
-                  <p className="font-meta text-[11px] text-ink-muted">
-                    Private Document Stream: `GET /api/admin/users/:id/document`
-                  </p>
-                  <span className="inline-block bg-paper px-2 py-0.5 border border-ink font-meta text-[11px] font-bold">
-                    ✓ Verified Document Available on Disk
-                  </span>
+                {/* Document Plate & Roll Number Inspection */}
+                <div className="border-2 border-ink bg-manila/30 p-4 space-y-3">
+                  <div className="bg-paper border-2 border-ink p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hard-shadow-2">
+                    <div>
+                      <span className="font-meta text-[10px] text-ink-muted uppercase font-bold block">
+                        STUDENT ROLL NUMBER
+                      </span>
+                      <span className="font-mono text-2xl font-black text-ink tracking-widest block">
+                        {selectedUser.rollNumber || '—'}
+                      </span>
+                    </div>
+                    <div className="font-meta text-xs text-ink-muted sm:text-right max-w-[210px] leading-snug">
+                      Compare the name and roll number with the ID photo
+                    </div>
+                  </div>
+
+                  <div className="text-center space-y-2 pt-2">
+                    <FileText className="w-10 h-10 text-ink mx-auto stroke-[1.5]" />
+                    <span className="block font-meta text-xs font-bold uppercase text-ink">
+                      Student ID Document Plate
+                    </span>
+                    <p className="font-meta text-[11px] text-ink-muted">
+                      Private Document Stream: `GET /api/admin/users/:id/document`
+                    </p>
+                    <span className="inline-block bg-paper px-2 py-0.5 border border-ink font-meta text-[11px] font-bold">
+                      ✓ Verified Document Available on Disk
+                    </span>
+                  </div>
                 </div>
 
                 {selectedUser.rejectionReason && (
@@ -230,9 +240,8 @@ export default function AdminVerificationsPage({ onLogout }) {
             )}
           </aside>
         </div>
-      </div>
 
-      {/* REJECT MODAL WITH REQUIRED REASON */}
+        {/* REJECT MODAL WITH REQUIRED REASON */}
       <Modal
         isOpen={rejectModalOpen}
         onClose={() => setRejectModalOpen(false)}
@@ -271,6 +280,6 @@ export default function AdminVerificationsPage({ onLogout }) {
           </div>
         </form>
       </Modal>
-    </AdminShell>
+    </div>
   );
 }

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar.jsx';
-import Footer from '../components/layout/Footer.jsx';
 import Stamp from '../components/ui/Stamp.jsx';
 import Button from '../components/ui/Button.jsx';
 import Modal from '../components/ui/Modal.jsx';
@@ -83,8 +81,7 @@ export default function ItemDetailPage({
   };
 
   return (
-    <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
-      <Navbar variant="student" user={user} />
+    <div className="font-sans">
 
       {/* Case Registry Toolbar */}
       <section className="border-b-2 border-ink bg-manila px-4 md:px-6 py-2.5">
@@ -439,8 +436,6 @@ export default function ItemDetailPage({
           </form>
         )}
       </Modal>
-
-      <Footer />
     </div>
   );
 }

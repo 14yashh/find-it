@@ -91,9 +91,9 @@ export default function Navbar({
                 <Link to="/browse" className="hover:text-ink hover:underline">
                   Browse Ledger
                 </Link>
-                <a href="#how-it-works" className="hover:text-ink hover:underline">
+                <Link to="/how-it-works" className="hover:text-ink hover:underline">
                   How it Works
-                </a>
+                </Link>
                 <Link to="/claims" className="hover:text-ink hover:underline">
                   Claims Desk
                 </Link>

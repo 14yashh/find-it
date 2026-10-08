@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar.jsx';
-import Footer from '../components/layout/Footer.jsx';
+import { Link, useSearchParams } from 'react-router-dom';
 import TicketStub from '../components/ui/TicketStub.jsx';
 import Stamp from '../components/ui/Stamp.jsx';
 import Button from '../components/ui/Button.jsx';
@@ -23,7 +21,9 @@ import {
 } from 'lucide-react';
 
 export default function ClaimsPage({ user }) {
-  const [activeTab, setActiveTab] = useState('made'); // 'made' | 'received'
+  const [searchParams] = useSearchParams();
+  const initialTab = searchParams.get('tab') === 'received' ? 'received' : 'made';
+  const [activeTab, setActiveTab] = useState(initialTab); // 'made' | 'received'
   const { claimsMade, claimsReceived, decideClaim, cancelClaim } = useClaims();
 
   const [decisionModalOpen, setDecisionModalOpen] = useState(false);
@@ -47,8 +47,7 @@ export default function ClaimsPage({ user }) {
   };
 
   return (
-    <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
-      <Navbar variant="student" user={user} />
+    <div className="font-sans">
 
       <section className="bg-manila border-b-2 border-ink px-4 md:px-6 py-6">
         <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -415,8 +414,6 @@ export default function ClaimsPage({ user }) {
           </div>
         </form>
       </Modal>
-
-      <Footer />
     </div>
   );
 }

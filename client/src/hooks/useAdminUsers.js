@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { mockAdminUsers } from '../mocks/data.js';
+import { useDevSimulation } from './useDevStateHelper.js';
 
 export function useAdminUsers() {
+  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
   const [users, setUsers] = useState(mockAdminUsers);
   const [filter, setFilter] = useState('all'); // 'all' | 'pending' | 'approved' | 'rejected'
 
@@ -27,19 +29,38 @@ export function useAdminUsers() {
     );
   };
 
-  const filteredUsers =
-    filter === 'all'
-      ? users
-      : users.filter((u) => u.verificationStatus === filter);
+  const activeUsers = simEmpty ? [] : users;
+  const filteredUsers = useMemo(() => {
+    return filter === 'all'
+      ? activeUsers
+      : activeUsers.filter((u) => u.verificationStatus === filter);
+  }, [activeUsers, filter]);
+
+  const total = filteredUsers.length;
+  const page = 1;
+  const limit = 10;
+  const totalPages = Math.ceil(total / limit) || 1;
+
+  const data = simError
+    ? null
+    : {
+        users: filteredUsers,
+        total,
+        page,
+        limit,
+        totalPages,
+      };
 
   return {
-    users: filteredUsers,
-    allUsers: users,
+    data,
+    users: simLoading || simError ? [] : filteredUsers,
+    allUsers: simLoading || simError ? [] : activeUsers,
     filter,
     setFilter,
     verifyUser,
     toggleSuspend,
-    loading: false,
-    error: null,
+    isLoading: simLoading,
+    isError: simError,
+    error: simError ? { message: 'Failed to access student user directory.' } : null,
   };
 }

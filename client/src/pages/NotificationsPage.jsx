@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar.jsx';
-import Footer from '../components/layout/Footer.jsx';
 import Button from '../components/ui/Button.jsx';
 import EmptyState from '../components/ui/EmptyState.jsx';
 import Tape from '../components/ui/Tape.jsx';
@@ -43,8 +41,7 @@ export default function NotificationsPage({ user }) {
   };
 
   return (
-    <div className="min-h-screen bg-paper text-ink flex flex-col font-sans">
-      <Navbar variant="student" user={user} unreadNotifications={unreadCount} />
+    <div className="font-sans">
 
       <section className="bg-manila border-b-2 border-ink px-4 md:px-6 py-6">
         <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -131,8 +128,6 @@ export default function NotificationsPage({ user }) {
           />
         )}
       </main>
-
-      <Footer />
     </div>
   );
 }

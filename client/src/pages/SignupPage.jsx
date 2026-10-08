@@ -4,24 +4,32 @@ import Navbar from '../components/layout/Navbar.jsx';
 import Footer from '../components/layout/Footer.jsx';
 import Input from '../components/ui/Input.jsx';
 import Select from '../components/ui/Select.jsx';
-import Button from '../components/ui/Button.jsx';
 import FileDrop from '../components/ui/FileDrop.jsx';
-import TicketStub from '../components/ui/TicketStub.jsx';
+import Button from '../components/ui/Button.jsx';
 import Stamp from '../components/ui/Stamp.jsx';
+import TicketStub from '../components/ui/TicketStub.jsx';
 import Tape from '../components/ui/Tape.jsx';
-import { ArrowRight, ArrowLeft, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { DEPARTMENT_OPTIONS, YEARS } from '../lib/constants.js';
+import {
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle2,
+  ShieldCheck,
+  FileText,
+} from 'lucide-react';
 
 export default function SignupPage({ onSignupSuccess }) {
   const navigate = useNavigate();
   const [step, setStep] = useState(1); // 1 | 2 | 3 (success)
 
-  // Form State matching backend exactly:
-  // name, email, password, department, year, phone, document
+  // Form State matching backend contract:
+  // name, rollNumber, email, password, department, year, phone, document
   const [formData, setFormData] = useState({
     name: 'Jordan Taylor',
-    email: 'j.taylor@campus.edu',
+    rollNumber: '2110042',
+    email: 'jordan.taylor@gmail.com',
     password: 'password123',
-    department: 'Computer Science',
+    department: 'Computer Engineering',
     year: '3rd Year',
     phone: '',
   });
@@ -39,10 +47,19 @@ export default function SignupPage({ onSignupSuccess }) {
   const validateStep1 = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = 'Full name is required.';
-    if (!formData.email.trim()) newErrors.email = 'Campus email is required.';
+    
+    if (!formData.rollNumber.trim()) {
+      newErrors.rollNumber = 'Roll number is required.';
+    } else if (!/^\d{7}$/.test(formData.rollNumber.trim())) {
+      newErrors.rollNumber = 'Roll number must be exactly 7 digits.';
+    }
+
+    if (!formData.email.trim()) newErrors.email = 'Email is required.';
     else if (!formData.email.includes('@')) newErrors.email = 'Valid email is required.';
+
     if (!formData.password) newErrors.password = 'Password is required.';
     else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters.';
+
     if (!formData.department) newErrors.department = 'Department is required.';
     if (!formData.year) newErrors.year = 'Academic year is required.';
 
@@ -72,6 +89,7 @@ export default function SignupPage({ onSignupSuccess }) {
     if (onSignupSuccess) {
       onSignupSuccess({
         name: formData.name,
+        rollNumber: formData.rollNumber,
         email: formData.email,
         department: formData.department,
         year: formData.year,
@@ -80,25 +98,6 @@ export default function SignupPage({ onSignupSuccess }) {
       });
     }
   };
-
-  const departmentOptions = [
-    { value: 'Computer Science', label: 'Computer Science' },
-    { value: 'Information Technology', label: 'Information Technology' },
-    { value: 'Mechanical Engineering', label: 'Mechanical Engineering' },
-    { value: 'Electrical Engineering', label: 'Electrical Engineering' },
-    { value: 'Business Administration', label: 'Business Administration' },
-    { value: 'Fine Arts & Design', label: 'Fine Arts & Design' },
-    { value: 'Sciences & Humanities', label: 'Sciences & Humanities' },
-    { value: 'Other Department', label: 'Other Department' },
-  ];
-
-  const yearOptions = [
-    { value: '1st Year', label: '1st Year (Freshman)' },
-    { value: '2nd Year', label: '2nd Year (Sophomore)' },
-    { value: '3rd Year', label: '3rd Year (Junior)' },
-    { value: '4th Year', label: '4th Year (Senior)' },
-    { value: 'Graduate / Post-Grad', label: 'Graduate / Post-Grad' },
-  ];
 
   return (
     <div className="min-h-screen bg-paper text-ink flex flex-col font-sans justify-between">
@@ -115,18 +114,20 @@ export default function SignupPage({ onSignupSuccess }) {
               SECTION: STUDENT VERIFICATION
             </span>
           </div>
-          <div className="flex items-center gap-1 font-bold text-ink">
-            <span>STAGE {step === 3 ? '02' : `0${step}`}</span>
-            <span>/</span>
-            <span>02</span>
+          <div className="flex items-center gap-2 font-bold">
+            <span className={step >= 1 ? 'text-primary' : 'text-ink-muted'}>01 PARTICULARS</span>
+            <span className="text-ink-muted">→</span>
+            <span className={step >= 2 ? 'text-primary' : 'text-ink-muted'}>02 ID DOCUMENT</span>
+            <span className="text-ink-muted">→</span>
+            <span className={step === 3 ? 'text-stamp-found' : 'text-ink-muted'}>03 DOCKET</span>
           </div>
         </div>
 
-        {/* STEP 1: BASIC PARTICULARS */}
+        {/* STEP 1: PARTICULARS */}
         {step === 1 && (
           <section className="w-full max-w-xl bg-paper border-2 border-ink hard-shadow-6 relative p-6 sm:p-8">
-            <Tape position="top-left" />
-            <div className="absolute top-4 right-4 eyelet" />
+            <Tape position="top-right" />
+            <div className="absolute top-4 left-4 eyelet" />
 
             {/* Header Box */}
             <div className="border-b-2 border-dashed border-ink pb-4 mb-6">
@@ -144,11 +145,12 @@ export default function SignupPage({ onSignupSuccess }) {
                 </div>
               </div>
               <p className="font-sans text-sm text-ink-muted mt-2 border-l-2 border-primary-container pl-3 py-0.5 bg-manila/30">
-                Establish your campus file. You will attach your institutional student ID or fee receipt on page 2.
+                Establish your campus file with your student ID and roll number. You will attach your ID photo on page 2.
               </p>
             </div>
 
             {/* Step 1 Form */}
+            {/* Field order: Full name, Roll number, Email, Password, Department, Year, Phone (optional) */}
             <form onSubmit={handleStep1Submit} className="space-y-4">
               <Input
                 label="Full Legal / Campus Name"
@@ -162,15 +164,31 @@ export default function SignupPage({ onSignupSuccess }) {
               />
 
               <Input
-                label="Campus Email Address"
+                label="Roll Number"
+                id="rollNumber"
+                required
+                inputMode="numeric"
+                maxLength={7}
+                value={formData.rollNumber}
+                onChange={(e) => {
+                  const numeric = e.target.value.replace(/\D/g, '').slice(0, 7);
+                  handleFieldChange('rollNumber', numeric);
+                }}
+                error={errors.rollNumber}
+                placeholder="e.g. 2110042"
+                hint="7 digits, as printed on your college ID."
+              />
+
+              <Input
+                label="Email"
                 id="email"
                 type="email"
                 required
                 value={formData.email}
                 onChange={(e) => handleFieldChange('email', e.target.value)}
                 error={errors.email}
-                placeholder="username@institution.edu"
-                hint="Institutional email required for identity checks."
+                placeholder="name@gmail.com"
+                hint="Used for account sign-in and claim notifications."
               />
 
               <Input
@@ -192,7 +210,7 @@ export default function SignupPage({ onSignupSuccess }) {
                   required
                   value={formData.department}
                   onChange={(e) => handleFieldChange('department', e.target.value)}
-                  options={departmentOptions}
+                  options={DEPARTMENT_OPTIONS}
                   error={errors.department}
                 />
 
@@ -202,7 +220,7 @@ export default function SignupPage({ onSignupSuccess }) {
                   required
                   value={formData.year}
                   onChange={(e) => handleFieldChange('year', e.target.value)}
-                  options={yearOptions}
+                  options={YEARS}
                   error={errors.year}
                 />
               </div>
@@ -244,29 +262,28 @@ export default function SignupPage({ onSignupSuccess }) {
           </section>
         )}
 
-        {/* STEP 2: ATTACH PROOF OF ENROLMENT */}
+        {/* STEP 2: ID DOCUMENT ATTACHMENT */}
         {step === 2 && (
           <section className="w-full max-w-xl bg-paper border-2 border-ink hard-shadow-6 relative p-6 sm:p-8">
-            <Tape position="top-right" />
+            <Tape position="top-left" />
             <div className="absolute top-4 right-4 eyelet" />
 
-            {/* Header Box */}
-            <div className="border-b-2 border-dashed border-ink pb-4 mb-6">
+            <div className="border-b-2 border-dashed border-ink pb-4 mb-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <span className="font-meta text-xs tracking-widest text-ink-muted uppercase font-bold">
-                    FORM 104-B // ID VERIFICATION SLIP
+                    FORM 101-STU // EVIDENCE ATTACHMENT
                   </span>
-                  <h1 className="font-heading text-2xl sm:text-3xl font-extrabold text-ink tracking-tight uppercase mt-1">
-                    Attach Proof of Enrolment
-                  </h1>
+                  <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-ink tracking-tight uppercase mt-1">
+                    Attach Identity Document
+                  </h2>
                 </div>
-                <div className="border-2 border-primary-container text-primary-container px-2 py-1 rotate-2 font-meta text-xs font-bold uppercase shrink-0">
+                <div className="border-2 border-stamp-found text-stamp-found px-2 py-1 -rotate-2 font-meta text-xs font-bold uppercase shrink-0">
                   PAGE 2 OF 2
                 </div>
               </div>
-              <p className="font-sans text-sm text-ink-muted mt-2 border-l-2 border-primary-container pl-3 py-0.5 bg-manila/30">
-                Supply a valid student card, matriculation badge, or tuition fee receipt for administrative clearance.
+              <p className="font-sans text-sm text-ink-muted mt-2">
+                Provide a clear photograph or scan of your physical student ID card or official college fee receipt.
               </p>
             </div>
 
@@ -280,12 +297,15 @@ export default function SignupPage({ onSignupSuccess }) {
                   <span className="text-ink-muted">Name:</span> {formData.name}
                 </div>
                 <div>
+                  <span className="text-ink-muted">Roll No:</span> {formData.rollNumber}
+                </div>
+                <div>
                   <span className="text-ink-muted">Email:</span> {formData.email}
                 </div>
                 <div>
                   <span className="text-ink-muted">Dept:</span> {formData.department}
                 </div>
-                <div>
+                <div className="col-span-2">
                   <span className="text-ink-muted">Year:</span> {formData.year}
                 </div>
               </div>
@@ -368,7 +388,7 @@ export default function SignupPage({ onSignupSuccess }) {
                 Applicant: <strong>{formData.name}</strong> ({formData.email})
               </p>
               <p className="text-ink-muted">
-                Department: {formData.department} // {formData.year}
+                Roll Number: <strong>{formData.rollNumber}</strong> // Department: {formData.department} ({formData.year})
               </p>
               <p className="text-ink-muted">
                 Admin review typically completes during normal campus office hours.
