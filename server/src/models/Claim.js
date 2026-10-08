@@ -34,6 +34,20 @@ const claimSchema = new mongoose.Schema({
   },
   decidedAt: {
     type: Date
+  },
+  founderHandoverConfirmed: {
+    type: Boolean,
+    default: false
+  },
+  founderHandoverAt: {
+    type: Date
+  },
+  receiverHandoverConfirmed: {
+    type: Boolean,
+    default: false
+  },
+  receiverHandoverAt: {
+    type: Date
   }
 }, {
   timestamps: true,
@@ -47,9 +61,9 @@ const claimSchema = new mongoose.Schema({
   }
 });
 
-// A user can have only one pending claim per item
+// Only one pending claim allowed for an item at once
 claimSchema.index(
-  { item: 1, claimant: 1 },
+  { item: 1 },
   { unique: true, partialFilterExpression: { status: 'pending' } }
 );
 

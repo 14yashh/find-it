@@ -21,3 +21,39 @@ This document records all modifications made to `/server` to fix bugs and contra
   - If `field === 'rollNumber'`, returns `{ code: 'ROLL_NUMBER_CONFLICT', message: 'A record with this rollNumber already exists.' }`.
   - If `field === 'email'`, returns `{ code: 'EMAIL_CONFLICT', message: 'A record with this email already exists.' }`.
   - Otherwise returns `{ code: 'CONFLICT' }`.
+
+## Fix 3: Admin Users Service Return Key Payload Mismatch
+- **File**: `server/src/services/adminService.js`
+- **Problem**: `getUsers()` returned `{ items, page, limit, total, totalPages }`, but the frontend `useAdminUsers` hook expects `data.users`. As a result, `data.users` evaluated to `undefined`, defaulting to an empty list `[]`, causing the Verifications tab to render no students despite `pendingVerifications` in stats showing pending records.
+- **Fix**: Updated `getUsers()` to return `{ users, page, limit, total, totalPages }` matching the frontend contract and hook expectations.
+
+## Fix 4: Single Active Claim per Item Enforcement
+- **Files**: `server/src/models/Claim.js`, `server/src/services/claimService.js`, `server/src/services/itemService.js`
+- **Problem**: Previously multiple users could submit pending claims for the same item at the same time.
+- **Fix**:
+  1. Updated `Claim` index to enforce unique pending claims per item: `{ item: 1 }` with `{ unique: true, partialFilterExpression: { status: 'pending' } }`.
+  2. In `claimService.createClaim()`, pre-checked if an active claim (`pending` or `approved`) already exists for the item and reject with `409 CLAIM_IN_PROGRESS`.
+  3. In `itemService.getItemById()`, attached `hasActiveClaim` and `activeClaimStatus` to the item response object for client UI state rendering.
+
+## Fix 5: Finder-Recipient Peer Handover Confirmation
+- **Files**: `server/src/models/Claim.js`, `server/src/services/claimService.js`, `server/src/controllers/claimController.js`, `server/src/routes/claims.js`
+- **Problem**: Previously handovers could only be confirmed via an admin endpoint. Students who found and received items had no mechanism to confirm handover themselves.
+- **Fix**:
+  1. Added `founderHandoverConfirmed`, `founderHandoverAt`, `receiverHandoverConfirmed`, and `receiverHandoverAt` to `Claim` schema.
+  2. Implemented `PATCH /api/claims/:id/handover` endpoint allowing the person who found the item to confirm handover, and the person receiving the item to approve receipt, automatically transitioning the item status to `returned` once confirmed.
+
+## Fix 6: Admin Claims Depositor N/A Fix (Nested Populate)
+- **File**: `server/src/services/adminService.js`
+- **Problem**: In `getClaims()`, `item` was populated with only `'title type status'`. The claim dossier modal on `/admin/claims` displays depositor information (`selectedClaim.item?.postedBy?.name`, `email`, `phone`), but `postedBy` was never populated or selected, causing depositor fields to display as `N/A`.
+- **Fix**: Replaced shallow populate on `item` with nested populate:
+  ```js
+  .populate({
+    path: 'item',
+    select: 'title type status postedBy',
+    populate: { path: 'postedBy', select: 'name email phone department' },
+  })
+## Fix 7: Filter Pending Verifications Count to Students Only
+- **File**: `server/src/services/adminService.js`
+- **Problem**: `getStats()` counted all users with `verificationStatus: 'pending'` without checking role. If an admin account defaulted to `verificationStatus: 'pending'`, it falsely incremented `pendingVerifications`.
+- **Fix**: Updated `User.countDocuments({ verificationStatus: 'pending', role: 'student' })` so only actual student verification dossiers are counted.
+

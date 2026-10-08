@@ -151,7 +151,9 @@ export default function AdminItemsPage({ onLogout }) {
                         <span className="font-bold text-ink block">{item.tagNumber}</span>
                         <span
                           className={`inline-block px-1.5 py-0.5 border border-ink text-[10px] font-bold uppercase mt-1 ${
-                            item.type === 'found' ? 'bg-primary text-paper' : 'bg-secondary text-paper'
+                            item.type === 'found'
+                              ? 'bg-stamp-found text-white'
+                              : 'bg-stamp-lost text-white'
                           }`}
                         >
                           {item.type}

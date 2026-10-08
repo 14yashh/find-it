@@ -1,0 +1,515 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Verification Slip - Pending Review // FINDIT CENTRAL ARCHIVE</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Typography: Space Grotesk & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-tint": "#aa3600",
+            "surface-variant": "#e3e2e7",
+            "secondary-container": "#f4e1b1",
+            "surface-container-highest": "#e3e2e7",
+            "on-secondary-fixed": "#241a00",
+            "inverse-primary": "#ffb59c",
+            "error": "#ba1a1a",
+            "surface-bright": "#faf8fe",
+            "tertiary-fixed-dim": "#9acbff",
+            "secondary": "#6b5d38",
+            "on-secondary-container": "#71633d",
+            "outline-variant": "#e4beb2",
+            "surface-container-high": "#e9e7ed",
+            "outline": "#8f7066",
+            "on-primary-fixed-variant": "#822700",
+            "on-primary-container": "#531600",
+            "background": "#faf8fe",
+            "on-error": "#ffffff",
+            "on-primary-fixed": "#390c00",
+            "on-secondary": "#ffffff",
+            "on-surface": "#1a1b1f",
+            "surface-dim": "#dad9df",
+            "on-background": "#1a1b1f",
+            "primary-container": "#ff5b14",
+            "surface-container-low": "#f4f3f8",
+            "tertiary": "#00629f",
+            "surface": "#faf8fe",
+            "primary": "#aa3600",
+            "inverse-on-surface": "#f1f0f6",
+            "on-surface-variant": "#5b4138",
+            "on-tertiary-container": "#002d4d",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#ffdbcf",
+            "inverse-surface": "#2f3034",
+            "secondary-fixed": "#f4e1b1",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#ffb59c",
+            "on-secondary-fixed-variant": "#524622",
+            "tertiary-fixed": "#d0e4ff",
+            "surface-container": "#efedf3",
+            "tertiary-container": "#0098f2",
+            "on-tertiary-fixed": "#001d34",
+            "on-tertiary": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "secondary-fixed-dim": "#d7c597",
+            "on-tertiary-fixed-variant": "#004a79"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "margin": "3rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "body-md": [
+              "Space Grotesk"
+            ],
+            "label-sm": [
+              "JetBrains Mono"
+            ],
+            "label-md": [
+              "JetBrains Mono"
+            ],
+            "headline-xl": [
+              "Space Grotesk"
+            ],
+            "headline-xl-mobile": [
+              "Space Grotesk"
+            ],
+            "headline-sm": [
+              "Space Grotesk"
+            ],
+            "label-lg": [
+              "JetBrains Mono"
+            ],
+            "headline-md": [
+              "Space Grotesk"
+            ],
+            "headline-lg": [
+              "Space Grotesk"
+            ],
+            "body-lg": [
+              "Space Grotesk"
+            ]
+          },
+          "fontSize": {
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-sm": [
+              "11px",
+              {
+                "lineHeight": "14px",
+                "fontWeight": "500"
+              }
+            ],
+            "label-md": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-xl": [
+              "48px",
+              {
+                "lineHeight": "52px",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-xl-mobile": [
+              "32px",
+              {
+                "lineHeight": "38px",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-sm": [
+              "18px",
+              {
+                "lineHeight": "22px",
+                "fontWeight": "700"
+              }
+            ],
+            "label-lg": [
+              "14px",
+              {
+                "lineHeight": "18px",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-md": [
+              "24px",
+              {
+                "lineHeight": "28px",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-lg": [
+              "32px",
+              {
+                "lineHeight": "36px",
+                "fontWeight": "700"
+              }
+            ],
+            "body-lg": [
+              "16px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "500"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Tactile Paper and Ink Styling Tokens */
+    body {
+      background-color: #F4EDE0;
+      color: #17181C;
+    }
+
+    .ink-border {
+      border: 1.5px solid #17181C;
+    }
+    .ink-border-2 {
+      border: 2px solid #17181C;
+    }
+    .hard-shadow {
+      box-shadow: 4px 4px 0px #17181C;
+    }
+    .hard-shadow-sm {
+      box-shadow: 2px 2px 0px #17181C;
+    }
+    .press-button:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0px 0px 0px #17181C;
+    }
+    
+    /* Paper punch hole graphic */
+    .eyelet {
+      width: 18px;
+      height: 18px;
+      border-radius: 9999px;
+      background-color: #F4EDE0;
+      border: 2px solid #17181C;
+      box-shadow: inset 1px 1px 3px rgba(23, 24, 28, 0.4);
+    }
+
+    /* Metal Staple Graphic */
+    .staple {
+      width: 32px;
+      height: 8px;
+      border: 2px solid #17181C;
+      background-color: #d1d5db;
+      box-shadow: 1px 1px 0px #17181C;
+    }
+
+    /* Perforation cutout edges */
+    .notch-left {
+      width: 14px;
+      height: 24px;
+      background-color: #F4EDE0;
+      border-top: 1.5px solid #17181C;
+      border-right: 1.5px solid #17181C;
+      border-bottom: 1.5px solid #17181C;
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+    .notch-right {
+      width: 14px;
+      height: 24px;
+      background-color: #F4EDE0;
+      border-top: 1.5px solid #17181C;
+      border-left: 1.5px solid #17181C;
+      border-bottom: 1.5px solid #17181C;
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md selection:bg-secondary-container selection:text-on-surface">
+<!-- TOP APP BAR / BRAND HEADER -->
+<header class="w-full bg-[#EAD7A8] ink-border-2 border-t-0 border-x-0 hard-shadow sticky top-0 z-40">
+<div class="max-w-[1440px] mx-auto px-gutter h-16 flex items-center justify-between">
+<!-- Brand Anchor -->
+<div class="flex items-center gap-6">
+<a class="font-headline-sm text-headline-sm font-bold tracking-wider text-on-surface uppercase border-2 border-on-surface px-2 py-0.5 inline-block -rotate-1 bg-[#F4EDE0]" href="#">
+          FINDIT // CENTRAL ARCHIVE
+        </a>
+<span class="hidden md:inline-flex items-center gap-1.5 font-label-sm text-label-sm uppercase px-2 py-0.5 bg-[#FAF8FE] ink-border text-on-surface">
+<span class="w-2 h-2 bg-[#AA3600] inline-block"></span>
+          OFFICE OF PROPERTY DISPOSITION
+        </span>
+</div>
+<!-- Locked Navigation State Indicators -->
+<nav class="hidden lg:flex items-center gap-6">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md cursor-not-allowed opacity-60" title="Access locked pending verification">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>Browse Ledger</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md cursor-not-allowed opacity-60" title="Access locked pending verification">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>My Items</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-md text-label-md cursor-not-allowed opacity-60" title="Access locked pending verification">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>Claims Registry</span>
+</div>
+</nav>
+<!-- Right Trailing Profile: Alex Chen (Restricted / In Review) -->
+<div class="flex items-center gap-4">
+<!-- Disabled Notification -->
+<div class="p-1.5 ink-border bg-[#F4EDE0] text-on-surface opacity-60 flex items-center justify-center">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+<!-- Student ID Badge Chip -->
+<div class="flex items-center gap-2.5 bg-[#F4EDE0] ink-border px-2.5 py-1 hard-shadow-sm">
+<div class="w-7 h-7 ink-border bg-[#E3E2E7] flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md font-bold leading-none text-on-surface">Alex Chen</span>
+<span class="font-label-sm text-label-sm leading-none text-primary uppercase mt-0.5">UNVERIFIED</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- SECONDARY RESTRICTION BANNER -->
+<aside class="w-full bg-[#17181C] text-[#F4EDE0] py-2 px-gutter ink-border border-x-0 border-t-0">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between text-left">
+<div class="flex items-center gap-2 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px] text-[#F6D743]">warning</span>
+<span class="tracking-wider uppercase font-semibold">TERMINAL ACCESS RESTRICTED:</span>
+<span class="text-[#DAD9DF]">Identification credentials currently queued in administrative registry. Full ledger functions are disabled.</span>
+</div>
+<div class="hidden md:block font-label-sm text-label-sm text-[#DAD9DF]">
+        TERMINAL #REC-04
+      </div>
+</div>
+</aside>
+<!-- MAIN CANVAS / CENTERING THE ARCHIVAL FILING SLIP -->
+<main class="flex-1 flex flex-col items-center justify-center px-4 py-12 md:py-16">
+<!-- PHYSICAL STAMPED APPLICATION SLIP (Manila Dossier Card: 680px wide) -->
+<article class="relative w-full max-w-[680px] bg-[#EAD7A8] ink-border-2 hard-shadow p-6 md:p-10">
+<!-- Physical Artifact Details: Staple & Eyelet Punch -->
+<div aria-hidden="true" class="absolute -top-3 left-8 staple rotate-6"></div>
+<div aria-hidden="true" class="absolute top-4 right-4 eyelet"></div>
+<!-- Dossier Header Bar -->
+<div class="border-b-2 border-[#17181C] pb-4 mb-6">
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase bg-[#17181C] text-[#F4EDE0] px-1.5 py-0.5 font-bold tracking-wider">
+                FORM DP-402
+              </span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-semibold">
+                CAMPUS CENTRAL LEDGER
+              </span>
+</div>
+<h1 class="font-headline-sm text-headline-sm uppercase font-bold text-on-surface mt-2 tracking-tight">
+              CAMPUS VERIFICATION &amp; IDENTIFICATION FILING SLIP
+            </h1>
+</div>
+<div class="text-left md:text-right font-label-sm text-label-sm">
+<span class="text-on-surface-variant block uppercase text-[10px]">Reference No.</span>
+<span class="font-bold text-on-surface tracking-wider bg-[#F4EDE0] ink-border px-2 py-0.5 inline-block">#VRF-88219-P</span>
+</div>
+</div>
+</div>
+<!-- STATUS STAMP BANNER (Physical Highlighter Yellow Ink Stamp) -->
+<div class="my-6 py-4 px-5 bg-[#FAF8FE] ink-border relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start gap-3 z-10">
+<span class="material-symbols-outlined text-[28px] text-primary mt-0.5">pending_actions</span>
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block">Registry Verification Queue</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Your ID is being reviewed</span>
+</div>
+</div>
+<!-- Authenticated Rubber Stamp (Rotated, Double Border, JetBrains Mono, All-Caps) -->
+<div class="z-10 self-start sm:self-center rotate-[-3deg] border-[3px] border-[#17181C] bg-[#F6D743] p-0.5 shadow-[2px_2px_0px_#17181C]">
+<div class="border-2 border-[#17181C] px-3 py-1 text-center">
+<span class="font-label-lg text-label-lg font-bold tracking-[0.15em] text-[#17181C] block uppercase whitespace-nowrap">
+              [PENDING REVIEW]
+            </span>
+</div>
+</div>
+</div>
+<!-- Dry Official Directive Box -->
+<div class="bg-[#F4EDE0] ink-border p-4 mb-6">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">inventory_2</span>
+<p class="font-body-md text-body-md text-on-surface leading-snug">
+            An administrative officer must inspect all student credentials before full archival ledger access is granted. Please check back shortly.
+          </p>
+</div>
+</div>
+<!-- APPLICANT INFO TABLE / SUMMARY GRID -->
+<div class="bg-[#FAF8FE] ink-border mb-8">
+<div class="border-b border-[#17181C] bg-[#E9E7ED] px-4 py-2 flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-on-surface">
+            Applicant Identification Manifest
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">
+            REC: ARCH-2026-ENG
+          </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[#17181C]">
+<!-- Column 1 -->
+<div class="divide-y divide-[#17181C]">
+<div class="p-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Full Legal Name</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Alex Chen</span>
+</div>
+<div class="p-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Student ID Number</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">STU-992014-X</span>
+</div>
+<div class="p-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">College Email</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">a.chen@university.edu</span>
+</div>
+</div>
+<!-- Column 2 -->
+<div class="divide-y divide-[#17181C]">
+<div class="p-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Department &amp; Cohort</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">Engineering '26</span>
+</div>
+<div class="p-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Date Filed</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">2 days ago (14:32:09 EST)</span>
+</div>
+<div class="p-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase">Document Attached</span>
+<div class="flex items-center justify-between mt-0.5">
+<span class="font-label-md text-label-md font-bold text-on-surface truncate">student_id_card_scan.jpg</span>
+<span class="font-label-sm text-label-sm bg-[#E9E7ED] px-1 ink-border ml-2 shrink-0">1.4 MB</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- PERFORATED TICKET DIVIDER -->
+<div aria-hidden="true" class="relative flex items-center justify-center my-8">
+<div class="absolute -left-6 md:-left-10 notch-left"></div>
+<div class="w-full border-t-[2px] border-dashed border-[#17181C]"></div>
+<div class="absolute -right-6 md:-right-10 notch-right"></div>
+<span class="bg-[#EAD7A8] px-3 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest font-semibold">
+          DETACH HERE FOR RECORD
+        </span>
+</div>
+<!-- AUDIT LOG STRIP -->
+<div class="bg-[#F4EDE0] ink-border p-3.5 mb-8 font-label-sm text-label-sm space-y-1">
+<div class="flex justify-between items-center text-on-surface-variant pb-1 border-b border-[#17181C]">
+<span>SYSTEM DISPOSITION EVENT LOG</span>
+<span>DISP-STATUS: ACTIVE_QUEUE</span>
+</div>
+<div class="text-on-surface pt-1 space-y-1">
+<p><span class="text-on-surface-variant font-mono">[2026-03-28 14:32]</span> Document submitted via student onboarding portal.</p>
+<p><span class="text-on-surface-variant font-mono">[2026-03-28 14:35]</span> Automated ledger security checksum: VALID (SHA-256: 7f83b165...)</p>
+<p><span class="text-on-surface-variant font-mono">[2026-03-29 09:12]</span> Dossier forwarded to Officer Division Desk 03 for physical match.</p>
+</div>
+</div>
+<!-- TACTILE ACTION BUTTONS (Hard Drop Shadows, Square Edges) -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-2">
+<!-- Refresh Status Primary Action -->
+<button class="press-button flex items-center justify-center gap-2 bg-[#FF5B14] text-[#17181C] font-headline-sm text-headline-sm font-bold ink-border hard-shadow px-6 py-3 transition-none" onclick="location.reload()" type="button">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+<span>Refresh status</span>
+</button>
+<!-- Secondary Log Out / Release Session Action -->
+<a class="press-button flex items-center justify-center gap-2 bg-[#F4EDE0] text-[#17181C] font-headline-sm text-headline-sm font-bold ink-border hard-shadow px-6 py-3 transition-none hover:bg-[#E9E7ED]" href="#logout">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span>Log out</span>
+</a>
+</div>
+<!-- Slip Bottom Stamp & Barcode Footer -->
+<div class="mt-8 pt-4 border-t border-[#17181C] flex flex-col sm:flex-row items-center justify-between gap-3 text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-2">
+<span class="font-mono tracking-widest uppercase">||| | ||||| || |||| ||||| |||</span>
+<span class="font-bold">#VRF-88219-P</span>
+</div>
+<div class="uppercase tracking-wider">
+          REGISTERED CODES: SEC-CLASS-B // AUTH-REQ
+        </div>
+</div>
+</article>
+</main>
+<!-- ARCHIVAL FOOTER (From Shared Components JSON) -->
+<footer class="w-full bg-surface-container dark:bg-surface-container-low border-t-2 border-on-surface dark:border-outline mt-auto">
+<div class="w-full px-gutter py-space-md max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<!-- Footer Copyright Text -->
+<div class="font-label-md text-label-md tracking-widest uppercase text-on-surface dark:text-inverse-on-surface text-center md:text-left">
+        PROPERTY DISPOSITION DIVISION // ARCHIVAL REGISTRY SYSTEM REF. NO. 4092-B
+      </div>
+<!-- Archival Links -->
+<div class="flex flex-wrap justify-center items-center gap-4">
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#">
+          System Manual
+        </a>
+<span class="text-outline text-xs">/</span>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#">
+          Retention Policy
+        </a>
+<span class="text-outline text-xs">/</span>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#">
+          Audit Log
+        </a>
+<span class="text-outline text-xs">/</span>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#">
+          Lost Property Act
+        </a>
+<span class="text-outline text-xs">/</span>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#">
+          Terminal Status
+        </a>
+</div>
+</div>
+</footer>
+</body></html>

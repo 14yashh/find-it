@@ -22,6 +22,9 @@ export async function getUsers(query) {
   limit = Math.min(100, Math.max(1, parseInt(limit, 10) || 20));
 
   const filter = {};
+  if (query.role) {
+    filter.role = query.role;
+  }
   if (verificationStatus) {
     filter.verificationStatus = verificationStatus;
   }
@@ -38,19 +41,19 @@ export async function getUsers(query) {
   const total = await User.countDocuments(filter);
   const totalPages = Math.ceil(total / limit);
 
-  let items = await User.find(filter)
+  let users = await User.find(filter)
     .sort(sortOpt)
     .skip((page - 1) * limit)
     .limit(limit)
     .select('+verificationDocPath');
 
-  items = items.map(doc => {
+  users = users.map(doc => {
     const obj = doc.toJSON();
     obj.hasDocument = !!doc.verificationDocPath;
     return obj;
   });
 
-  return { items, page, limit, total, totalPages };
+  return { users, page, limit, total, totalPages };
 }
 
 // ── GET User Document ─────────────────────────────────────────────────────────
@@ -160,7 +163,7 @@ export async function suspendUser(userId, adminId, suspendFlag) {
 
 export async function getStats() {
   const [pendingVerifications, openItems, returnedItems, totalUsers, pendingClaims] = await Promise.all([
-    User.countDocuments({ verificationStatus: 'pending' }),
+    User.countDocuments({ verificationStatus: 'pending', role: 'student' }),
     Item.countDocuments({ status: 'open' }),
     Item.countDocuments({ status: 'returned' }),
     User.countDocuments(),
@@ -231,8 +234,12 @@ export async function getClaims(query) {
     .sort({ createdAt: -1 })
     .skip((page - 1) * limit)
     .limit(limit)
-    .populate('item', 'title type status')
-    .populate('claimant', 'name email department');
+    .populate({
+      path: 'item',
+      select: 'title type status postedBy',
+      populate: { path: 'postedBy', select: 'name email phone department' },
+    })
+    .populate('claimant', 'name email department phone');
 
   return { claims, page, limit, total, totalPages };
 }

@@ -29,6 +29,7 @@ export function useAdminUsers(initialFilter = 'all') {
 
   const verifyUser = useCallback(async (userId, decision, reason = '') => {
     await apiVerifyUser(userId, decision, reason);
+    window.dispatchEvent(new Event('admin:refresh-stats'));
     // Optimistic update
     setData((prev) =>
       prev
@@ -79,9 +80,11 @@ export function useAdminUsers(initialFilter = 'all') {
     }
   }, []);
 
+  const studentUsers = (data?.users || []).filter((u) => u.role !== 'admin');
+
   return {
     data,
-    users: data?.users || [],
+    users: studentUsers,
     allUsers: data?.users || [],
     filter,
     setFilter,

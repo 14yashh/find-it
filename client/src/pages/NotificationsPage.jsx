@@ -12,11 +12,12 @@ import {
   GitCompare,
   ShieldCheck,
   ArrowRight,
+  Trash2,
 } from 'lucide-react';
 
 export default function NotificationsPage({ user }) {
   const navigate = useNavigate();
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+  const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification } = useNotifications();
 
   const getIcon = (type) => {
     switch (type) {
@@ -96,14 +97,23 @@ export default function NotificationsPage({ user }) {
                     <span className="font-meta text-[11px] font-bold uppercase tracking-wider text-ink-muted">
                       {n.type?.replace('_', ' ')}
                     </span>
-                    <span className="font-meta text-[11px] text-ink-faint">
-                      {new Date(n.createdAt).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-meta text-[11px] text-ink-faint">
+                        {new Date(n.createdAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </span>
+                      <button
+                        title="Remove notification"
+                        onClick={(e) => { e.stopPropagation(); deleteNotification(n._id); }}
+                        className="p-1 rounded text-ink-faint hover:text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
 
                   <p className="font-sans text-sm md:text-base text-ink font-semibold leading-snug">

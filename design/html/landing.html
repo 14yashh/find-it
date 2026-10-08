@@ -1,0 +1,830 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FINDIT // CENTRAL ARCHIVE - Campus Property Repository</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS with Containers and Forms -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#531600",
+            "on-primary-fixed-variant": "#822700",
+            "inverse-surface": "#2f3034",
+            "primary-container": "#ff5b14",
+            "surface-variant": "#e3e2e7",
+            "on-secondary-fixed-variant": "#524622",
+            "tertiary": "#00629f",
+            "on-secondary": "#ffffff",
+            "outline-variant": "#e4beb2",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed": "#241a00",
+            "error": "#ba1a1a",
+            "secondary-fixed": "#f4e1b1",
+            "surface-container-highest": "#e3e2e7",
+            "surface": "#faf8fe",
+            "surface-dim": "#dad9df",
+            "surface-container-low": "#f4f3f8",
+            "on-primary-fixed": "#390c00",
+            "secondary": "#6b5d38",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed": "#001d34",
+            "surface-container-high": "#e9e7ed",
+            "on-error-container": "#93000a",
+            "background": "#faf8fe",
+            "primary-fixed-dim": "#ffb59c",
+            "primary-fixed": "#ffdbcf",
+            "on-surface-variant": "#5b4138",
+            "error-container": "#ffdad6",
+            "surface-container": "#efedf3",
+            "inverse-on-surface": "#f1f0f6",
+            "outline": "#8f7066",
+            "on-tertiary-fixed-variant": "#004a79",
+            "on-primary": "#ffffff",
+            "tertiary-fixed-dim": "#9acbff",
+            "inverse-primary": "#ffb59c",
+            "secondary-fixed-dim": "#d7c597",
+            "tertiary-fixed": "#d0e4ff",
+            "on-surface": "#1a1b1f",
+            "on-background": "#1a1b1f",
+            "secondary-container": "#f4e1b1",
+            "primary": "#aa3600",
+            "on-tertiary-container": "#002d4d",
+            "surface-tint": "#aa3600",
+            "surface-bright": "#faf8fe",
+            "tertiary-container": "#0098f2",
+            "on-secondary-container": "#71633d"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem",
+            "margin": "3rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Space Grotesk"],
+            "body-md": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "label-md": ["JetBrains Mono"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-xl": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "700" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "28px", "fontWeight": "700" }],
+            "headline-lg": ["32px", { "lineHeight": "36px", "fontWeight": "700" }],
+            "headline-xl-mobile": ["32px", { "lineHeight": "38px", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+            "headline-xl": ["48px", { "lineHeight": "52px", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Physical Paper & Hard Brutalist Tokens */
+    :root {
+      --paper: #F4EDE0;
+      --ink: #17181C;
+      --manila: #EAD7A8;
+      --orange: #FF5B14;
+      --stamp-lost: #C8312B;
+      --stamp-found: #1E7B4F;
+      --stamp-returned: #243C8F;
+      --stamp-pending: #F6D743;
+    }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: 'Space Grotesk', sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .bg-paper { background-color: var(--paper); }
+    .bg-manila { background-color: var(--manila); }
+    .bg-orange-action { background-color: var(--orange); }
+    .border-ink { border-color: var(--ink); }
+    .text-ink { color: var(--ink); }
+
+    /* Mechanical Hard Cast Shadow */
+    .hard-shadow-4 {
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+    .hard-shadow-2 {
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+    .hard-shadow-6 {
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    /* Press Interaction */
+    .interactive-hard {
+      transition: none;
+    }
+    .interactive-hard:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0 var(--ink);
+    }
+
+    /* Ticker animation */
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Physical Eyelet / Punch Cutout */
+    .eyelet {
+      width: 16px;
+      height: 16px;
+      border-radius: 9999px;
+      background-color: var(--paper);
+      border: 1.5px solid var(--ink);
+      box-shadow: inset 1px 1px 0 rgba(23, 24, 28, 0.4);
+    }
+
+    /* Stamp Double Rectangles */
+    .stamp-badge {
+      display: inline-block;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border: 2px solid currentColor;
+      outline: 1.5px solid currentColor;
+      outline-offset: 2px;
+      background-color: rgba(255, 255, 255, 0.85);
+      user-select: none;
+    }
+
+    /* Perforated Stub Notches */
+    .ticket-stub {
+      position: relative;
+    }
+    .stub-notch-top {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 8px;
+      background-color: var(--paper);
+      border-bottom: 1.5px solid var(--ink);
+      border-radius: 0 0 16px 16px;
+      z-index: 10;
+    }
+    .stub-notch-bottom {
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 8px;
+      background-color: var(--paper);
+      border-top: 1.5px solid var(--ink);
+      border-radius: 16px 16px 0 0;
+      z-index: 10;
+    }
+
+    /* Tape simulation */
+    .tape-corner {
+      position: absolute;
+      width: 32px;
+      height: 14px;
+      background-color: rgba(234, 215, 168, 0.7);
+      border: 1px solid rgba(23, 24, 28, 0.25);
+      backdrop-filter: blur(0.5px);
+      transform: rotate(-35deg);
+      z-index: 20;
+    }
+  </style>
+</head>
+<body class="bg-paper text-ink min-h-screen selection:bg-primary-container selection:text-ink">
+<!-- ======================================================== -->
+<!-- TOP BAR (SHARED COMPONENT: TopNavBar mapped to landing)  -->
+<!-- ======================================================== -->
+<header class="w-full bg-surface-container-low dark:bg-surface border-b-2 border-on-surface dark:border-outline sticky top-0 z-50 [box-shadow:0px_4px_0px_#1a1b1f] dark:[box-shadow:0px_4px_0px_#000000]">
+<div class="w-full max-w-[1440px] mx-auto px-gutter flex items-center justify-between h-16">
+<!-- Left: Brand + Nav Anchor -->
+<div class="flex items-center gap-6">
+<a class="font-headline-sm text-headline-sm font-bold tracking-wider text-on-surface dark:text-inverse-on-surface uppercase border-2 border-on-surface dark:border-outline px-2 py-0.5 inline-block -rotate-1 interactive-hard active:translate-x-1 active:translate-y-1 active:shadow-none transition-none" href="#">
+          FINDIT // CENTRAL ARCHIVE
+        </a>
+<!-- Desktop Navigation Links from JSON & landing requirements -->
+<nav class="hidden md:flex items-center gap-6 font-label-md text-label-md">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-none px-1" href="#browse">
+            Browse Ledger
+          </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-none px-1" href="#how-it-works">
+            How it works
+          </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-none px-1" href="#claims">
+            Claims Registry
+          </a>
+</nav>
+</div>
+<!-- Right Actions: Landing Public Desk Protocol -->
+<div class="flex items-center gap-3">
+<div class="hidden sm:flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant mr-2">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="lock">lock</span>
+<span>CAMPUS SSO ACTIVE</span>
+</div>
+<a class="font-label-md text-label-md px-3 py-1.5 border-[1.5px] border-ink bg-paper text-ink underline underline-offset-4 decoration-2 decoration-ink interactive-hard hover:bg-manila" href="#login">
+          Log in
+        </a>
+<a class="font-headline-sm text-headline-sm text-ink bg-primary-container border-[1.5px] border-ink px-4 py-1.5 hard-shadow-2 interactive-hard font-bold" href="#signup">
+          Sign up
+        </a>
+</div>
+</div>
+</header>
+<!-- ======================================================== -->
+<!-- HERO SECTION: PHYSICAL DESK DISPATCH (Two Columns)       -->
+<!-- ======================================================== -->
+<main class="w-full max-w-[1440px] mx-auto px-gutter py-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center min-h-[580px] border-2 border-ink bg-paper hard-shadow-6 p-6 sm:p-10 relative">
+<!-- Institutional watermarked ledger corner tab -->
+<div class="absolute top-0 right-0 bg-manila border-b-2 border-l-2 border-ink px-3 py-1 font-label-sm text-label-sm font-bold tracking-wider">
+        REGISTER CODE // SEC-12-REG
+      </div>
+<!-- LEFT COLUMN (6 Cols) -->
+<div class="lg:col-span-6 flex flex-col justify-center space-y-6">
+<!-- Archival Dispatch Badge -->
+<div class="inline-flex items-center gap-2 border-[1.5px] border-ink bg-manila px-3 py-1 w-fit hard-shadow-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm font-bold tracking-widest uppercase">
+            CAMPUS PROPERTY REPOSITORY // PUBLIC DESK
+          </span>
+</div>
+<!-- Huge Headline -->
+<div class="space-y-1">
+<h1 class="font-headline-xl text-headline-xl sm:text-[54px] font-extrabold tracking-tight leading-[1.05] text-ink">
+            Lost something on campus?
+          </h1>
+<p class="font-label-lg text-label-lg text-secondary font-bold tracking-tight">
+            We've got a drawer for that.
+          </p>
+</div>
+<!-- Brief Dry Copy -->
+<p class="font-body-lg text-body-lg text-ink max-w-[500px] leading-relaxed">
+          Physical ledger meets student intranet. Check verified intake logs, claim your missing gear, or log what you stumbled across between lectures.
+        </p>
+<!-- CTA Buttons -->
+<div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+<button class="bg-primary-container text-ink font-headline-sm text-headline-sm font-bold px-6 py-3 border-[1.5px] border-ink hard-shadow-4 interactive-hard flex items-center justify-center gap-2 text-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+<span>I lost something</span>
+</button>
+<button class="bg-manila text-ink font-headline-sm text-headline-sm font-bold px-6 py-3 border-[1.5px] border-ink hard-shadow-4 interactive-hard flex items-center justify-center gap-2 text-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="inventory_2">inventory_2</span>
+<span>I found something</span>
+</button>
+</div>
+<!-- Quick Sub-verification info -->
+<div class="pt-4 border-t-[1.5px] border-ink/40 flex items-center gap-4 font-label-sm text-label-sm text-secondary">
+<span class="flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[16px] text-ink" data-icon="verified_user">verified_user</span>
+            CAMPUS DISPOSITION DIV.
+          </span>
+<span>•</span>
+<span>ROOM 102 STUDENT SERVICES</span>
+<span>•</span>
+<span>HOURS: 08:00 – 17:30</span>
+</div>
+</div>
+<!-- RIGHT COLUMN: Stack of 3 Physical Luggage Tag Cards (6 Cols) -->
+<div class="lg:col-span-6 relative flex items-center justify-center py-8 lg:py-4">
+<!-- Background Clipboard / Binder Sheet Backing -->
+<div class="w-full max-w-[480px] h-[500px] relative">
+<!-- Manila Backing Board with Carbon Lines -->
+<div class="absolute inset-0 bg-[#E3D4B6] border-2 border-ink hard-shadow-4 -rotate-1 pointer-events-none p-4 flex flex-col justify-between">
+<div class="flex justify-between font-label-sm text-label-sm opacity-50">
+<span>MANIFEST ARCHIVE #104</span>
+<span>INDEX: NORTH-QUAD</span>
+</div>
+<div class="border-b border-dashed border-ink/40 w-full my-auto"></div>
+<div class="border-b border-dashed border-ink/40 w-full my-auto"></div>
+<div class="border-b border-dashed border-ink/40 w-full my-auto"></div>
+<div class="font-label-sm text-label-sm text-right opacity-50">STATION RECEIPT LOG // PHYSICAL COPY</div>
+</div>
+<!-- CARD 3: CASIO CALCULATOR [LOST] (Bottom of stack) -->
+<div class="absolute left-4 top-10 sm:left-6 sm:top-12 w-[340px] sm:w-[380px] bg-paper border-[1.5px] border-ink hard-shadow-4 -rotate-3 p-4 transition-transform hover:z-30 hover:rotate-0">
+<!-- Punched Hole Eyelet -->
+<div class="flex items-center justify-between pb-2 border-b-[1.5px] border-dashed border-ink">
+<div class="flex items-center gap-2">
+<div class="eyelet"></div>
+<span class="font-label-sm text-label-sm font-bold text-ink">TAG No. 0425-M</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-mono">14 OCT 11:20</span>
+</div>
+<div class="mt-3 flex gap-3">
+<!-- Item Thumbnail with Taped Corner -->
+<div class="relative w-20 h-20 bg-surface-container-high border-[1.5px] border-ink flex-shrink-0 overflow-hidden">
+<div class="tape-corner -top-1 -left-1"></div>
+<img class="w-full h-full object-cover" data-alt="A vintage Casio fx-991EX scientific calculator resting flat on a weathered collegiate library oak study desk. The lighting is direct natural afternoon desk light emphasizing matte grey plastic buttons and a crisp dual-line LCD screen. The visual tone is grounded, analog, and archival collegiate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA32jdHbEpBczSxuFxWfR5WJ4u4BZxfdDqLKouC89F9pT1GeAsterNnyS-7nSYdAoeilVjXCwSatKdqSgbHsfNp5Q-K9JdW2KzcZnk6q6Y_3j0824y1Se0yiW_PJlXfqK4tCYeOO_ljaPAzurbDRKtwR-eKQisnL94q5jnheAZTzrcBbtmy2yZMb0nKYcfnVNmryVyUe-tBWRqP2VUc8bN3EpJs7ndyseTFS2Q6AaBq">
+</div>
+<!-- Item Details -->
+<div class="flex-1">
+<h4 class="font-headline-sm text-[16px] leading-tight font-bold text-ink">Casio scientific calculator</h4>
+<p class="font-label-sm text-label-sm text-secondary mt-0.5">Model fx-991EX, stylus markings</p>
+<p class="font-label-sm text-label-sm text-ink mt-1 font-semibold">LOC: Science Concourse L2</p>
+</div>
+</div>
+<!-- Tilted Rubber Stamp [LOST] -->
+<div class="mt-3 flex justify-between items-center">
+<span class="font-label-sm text-label-sm opacity-60">LOGGED BY: S. Vance (Bio)</span>
+<div class="stamp-badge text-[#C8312B] -rotate-2">
+                [ LOST ]
+              </div>
+</div>
+</div>
+<!-- CARD 2: BLUE HP LAPTOP BAG [CLAIM PENDING] (Middle of stack) -->
+<div class="absolute left-8 top-28 sm:left-14 sm:top-32 w-[340px] sm:w-[380px] bg-manila border-[1.5px] border-ink hard-shadow-4 rotate-3 p-4 transition-transform hover:z-30 hover:rotate-0 z-10">
+<!-- Punched Hole Eyelet -->
+<div class="flex items-center justify-between pb-2 border-b-[1.5px] border-dashed border-ink">
+<div class="flex items-center gap-2">
+<div class="eyelet"></div>
+<span class="font-label-sm text-label-sm font-bold text-ink">TAG No. 0426-B</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-mono">15 OCT 14:05</span>
+</div>
+<div class="mt-3 flex gap-3">
+<div class="relative w-20 h-20 bg-surface-container-high border-[1.5px] border-ink flex-shrink-0 overflow-hidden">
+<div class="tape-corner -top-1 -right-1"></div>
+<img class="w-full h-full object-cover" data-alt="A navy blue canvas laptop bag with brass metal zipper pulls and a padded shoulder strap positioned on a linoleum campus floor. Even institution lighting illuminates the rugged woven fabric and a small university lanyard attached to the handle. Archival, crisp institutional photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJI8DSXi8iCe5hvj9CR9tN0yaYAggg5zbJ9eq4M0OaDyQmzgS72zPFpwgmRm7oqOOqDogR0YOCxCY2KxCcIaQeu0_UIc2XyaLPMgYYcwxCyLPUz6mlEtNHikETiNGKOHgIYkKQ-V-VwejX3sUcS3pVau0LniNX-42LQNWrS6M5uWpdpyDhRAAEQBo4ApWsQEe9SPANyxuKEh5c_eCo01CW7_0DNLDck0qyCKiyBJ2y">
+</div>
+<div class="flex-1">
+<h4 class="font-headline-sm text-[16px] leading-tight font-bold text-ink">Blue HP laptop bag</h4>
+<p class="font-label-sm text-label-sm text-secondary mt-0.5">Includes charger &amp; spiral notepad</p>
+<p class="font-label-sm text-label-sm text-ink mt-1 font-semibold">LOC: Student Union Canteen</p>
+</div>
+</div>
+<!-- Tilted Rubber Stamp [CLAIM PENDING] -->
+<div class="mt-3 flex justify-between items-center">
+<span class="font-label-sm text-label-sm opacity-60">DESK: R. Davis (Desk 2)</span>
+<div class="stamp-badge text-ink bg-[#F6D743] border-ink outline-ink rotate-4">
+                [ CLAIM PENDING ]
+              </div>
+</div>
+</div>
+<!-- CARD 1: BLACK JBL EARBUDS [FOUND] (Top of stack) -->
+<div class="absolute left-12 top-48 sm:left-20 sm:top-56 w-[340px] sm:w-[380px] bg-paper border-[1.5px] border-ink hard-shadow-6 -rotate-2 p-4 transition-transform hover:z-30 hover:rotate-0 z-20">
+<!-- Punched Hole Eyelet -->
+<div class="flex items-center justify-between pb-2 border-b-[1.5px] border-dashed border-ink">
+<div class="flex items-center gap-2">
+<div class="eyelet"></div>
+<span class="font-label-sm text-label-sm font-bold text-ink">TAG No. 0427-E</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-mono">16 OCT 09:42</span>
+</div>
+<div class="mt-3 flex gap-3">
+<div class="relative w-20 h-20 bg-surface-container-high border-[1.5px] border-ink flex-shrink-0 overflow-hidden">
+<div class="tape-corner -bottom-1 -left-1"></div>
+<img class="w-full h-full object-cover" data-alt="A compact matte black JBL true-wireless earbud charging case sitting atop a numbered carbon intake receipt. High contrast studio archive lighting highlights the textured black plastic shell and subtle embossed audio logo. Gritty brutalist archival still-life." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAf1ZWbUo2p14KAzEoW1m7mFJiex0_gvYYC0I8WYGF2c4UBN_tKIo4zapS8aj8t_n-fDqNwczg8S9x6_l35iTNmgGNxAOFflWliEpzEkOlFxQ9KKthdQUagnEsuSUqWvsrGGGAeclDpnCaYgE4gaxQj1sAWMFgQ01ZP9iF7WVGgTYU7IV3WpvLo-fvSKYgUmlQuDpqPYezLMMpkk5rvH5EqlaS6J9yVZUBvJ_ZNk0w">
+</div>
+<div class="flex-1">
+<h4 class="font-headline-sm text-[16px] leading-tight font-bold text-ink">Black JBL earbuds</h4>
+<p class="font-label-sm text-label-sm text-secondary mt-0.5">Matte case with orange lanyard tie</p>
+<p class="font-label-sm text-label-sm text-ink mt-1 font-semibold">LOC: Main Library 2nd Fl</p>
+</div>
+</div>
+<!-- Tilted Rubber Stamp [FOUND] -->
+<div class="mt-3 flex justify-between items-center">
+<span class="font-label-sm text-label-sm opacity-60">VERIFIED INTAKE UNIT 01</span>
+<div class="stamp-badge text-[#1E7B4F] -rotate-3">
+                [ FOUND ]
+              </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- ======================================================== -->
+<!-- SCROLLING MONO TICKER STRIP                             -->
+<!-- ======================================================== -->
+<section class="w-full bg-ink text-paper border-y-2 border-ink py-2.5 overflow-hidden select-none">
+<div class="ticker-track font-label-md text-label-md tracking-wider">
+<div class="flex items-center gap-4 whitespace-nowrap px-4">
+<span class="text-primary font-bold">● LIVE INTAKE DISPATCH:</span>
+<span>INTAKE #0427-E: Black JBL earbuds [FOUND - Library 2nd Fl]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0426-B: Blue HP laptop bag [CLAIM PENDING - Canteen]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0425-M: Casio fx-991EX [LOST - Science Concourse]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0424-K: Brass locker key [FOUND - Gym Bleachers]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0419-C: Waterproof Windbreaker [FOUND - Gym]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0418-A: Ray-Ban Wayfarer Glasses [FOUND - Fine Arts Hall]</span>
+<span class="text-manila">///</span>
+</div>
+<!-- Duplicate for infinite seamless scroll -->
+<div aria-hidden="true" class="flex items-center gap-4 whitespace-nowrap px-4">
+<span class="text-primary font-bold">● LIVE INTAKE DISPATCH:</span>
+<span>INTAKE #0427-E: Black JBL earbuds [FOUND - Library 2nd Fl]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0426-B: Blue HP laptop bag [CLAIM PENDING - Canteen]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0425-M: Casio fx-991EX [LOST - Science Concourse]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0424-K: Brass locker key [FOUND - Gym Bleachers]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0419-C: Waterproof Windbreaker [FOUND - Gym]</span>
+<span class="text-manila">///</span>
+<span>INTAKE #0418-A: Ray-Ban Wayfarer Glasses [FOUND - Fine Arts Hall]</span>
+<span class="text-manila">///</span>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- HOW IT WORKS SECTION // 3-STEP DISPOSITION              -->
+<!-- ======================================================== -->
+<section class="w-full max-w-[1440px] mx-auto px-gutter py-space-xl" id="how-it-works">
+<!-- Section Header -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between border-b-2 border-ink pb-4 gap-4">
+<div>
+<div class="font-label-sm text-label-sm font-bold tracking-widest text-primary uppercase mb-1">
+          OPERATIONAL DIRECTIVE // 3-STEP DISPOSITION
+        </div>
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-ink tracking-tight">
+          HOW THE SYSTEM WORKS
+        </h2>
+</div>
+<div class="font-label-sm text-label-sm text-secondary font-mono">
+        STANDARD OPERATING MANUAL REV. 2024.11
+      </div>
+</div>
+<!-- Three Numbered Ticket Stubs in a row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- STUB 01 -->
+<div class="ticket-stub bg-manila border-2 border-ink hard-shadow-4 p-6 flex flex-col justify-between">
+<div class="stub-notch-top"></div>
+<div class="stub-notch-bottom"></div>
+<div>
+<!-- Stub Header -->
+<div class="flex items-center justify-between border-b-[1.5px] border-dashed border-ink pb-3 mb-4">
+<span class="font-label-md text-label-md font-bold tracking-wider text-ink">STUB 01 // REPORT</span>
+<span class="font-label-sm text-label-sm bg-ink text-paper px-2 py-0.5">PHASE I</span>
+</div>
+<div class="w-12 h-12 bg-paper border-[1.5px] border-ink flex items-center justify-center mb-4 hard-shadow-2">
+<span class="material-symbols-outlined text-[26px] text-ink" data-icon="edit_note">edit_note</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-ink mb-2">
+            File Intake or Loss Slip
+          </h3>
+<p class="font-body-md text-body-md text-ink leading-relaxed">
+            File a digital missing slip or hand in found items at verified campus stations. Describe the item. Add the location. Skip the speculation.
+          </p>
+</div>
+<div class="mt-6 pt-4 border-t-[1.5px] border-ink/40 font-label-sm text-label-sm text-secondary flex justify-between">
+<span>FIELD: CLASSIFICATION</span>
+<span class="font-bold text-ink">ENTRY VALIDATION</span>
+</div>
+</div>
+<!-- STUB 02 -->
+<div class="ticket-stub bg-paper border-2 border-ink hard-shadow-4 p-6 flex flex-col justify-between">
+<div class="stub-notch-top"></div>
+<div class="stub-notch-bottom"></div>
+<div>
+<!-- Stub Header -->
+<div class="flex items-center justify-between border-b-[1.5px] border-dashed border-ink pb-3 mb-4">
+<span class="font-label-md text-label-md font-bold tracking-wider text-ink">STUB 02 // MATCH</span>
+<span class="font-label-sm text-label-sm bg-ink text-paper px-2 py-0.5">PHASE II</span>
+</div>
+<div class="w-12 h-12 bg-manila border-[1.5px] border-ink flex items-center justify-center mb-4 hard-shadow-2">
+<span class="material-symbols-outlined text-[26px] text-ink" data-icon="compare_arrows">compare_arrows</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-ink mb-2">
+            Cross-Reference Logs
+          </h3>
+<p class="font-body-md text-body-md text-ink leading-relaxed">
+            Registry cross-references intake tags, serials, and campus concourse logs. Our manual desk and automated log cross-check reported losses.
+          </p>
+</div>
+<div class="mt-6 pt-4 border-t-[1.5px] border-ink/40 font-label-sm text-label-sm text-secondary flex justify-between">
+<span>FIELD: RECONCILIATION</span>
+<span class="font-bold text-ink">INDEX CORRELATION</span>
+</div>
+</div>
+<!-- STUB 03 -->
+<div class="ticket-stub bg-manila border-2 border-ink hard-shadow-4 p-6 flex flex-col justify-between">
+<div class="stub-notch-top"></div>
+<div class="stub-notch-bottom"></div>
+<div>
+<!-- Stub Header -->
+<div class="flex items-center justify-between border-b-[1.5px] border-dashed border-ink pb-3 mb-4">
+<span class="font-label-md text-label-md font-bold tracking-wider text-ink">STUB 03 // COLLECT</span>
+<span class="font-label-sm text-label-sm bg-ink text-paper px-2 py-0.5">PHASE III</span>
+</div>
+<div class="w-12 h-12 bg-primary-container border-[1.5px] border-ink flex items-center justify-center mb-4 hard-shadow-2">
+<span class="material-symbols-outlined text-[26px] text-ink" data-icon="key">key</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-ink mb-2">
+            Desk Handover &amp; Release
+          </h3>
+<p class="font-body-md text-body-md text-ink leading-relaxed">
+            Present student ID card at Central Depository Room 102. Show verification stamp, sign the release log, retrieve your gear.
+          </p>
+</div>
+<div class="mt-6 pt-4 border-t-[1.5px] border-ink/40 font-label-sm text-label-sm text-secondary flex justify-between">
+<span>FIELD: FINAL DISPOSITION</span>
+<span class="font-bold text-ink">PHYSICAL CHAIN CLOSED</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- "VERIFIED STUDENTS ONLY" SECTION (Student ID Dossier)   -->
+<!-- ======================================================== -->
+<section class="w-full max-w-[1440px] mx-auto px-gutter py-space-md">
+<div class="border-2 border-ink bg-manila hard-shadow-6 p-8 sm:p-12 relative overflow-hidden">
+<!-- Crosshatch Border Accent Simulation -->
+<div class="absolute top-0 left-0 w-full h-2 bg-ink"></div>
+<div class="absolute bottom-0 left-0 w-full h-2 bg-ink"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- Left: Official Seal & Card Layout (7 cols) -->
+<div class="lg:col-span-7 space-y-6">
+<div class="flex flex-wrap items-center gap-3">
+<div class="stamp-badge text-[#243C8F] border-[#243C8F] outline-[#243C8F] -rotate-1">
+              CAMPUS REGISTRAR SANCTIONED
+            </div>
+<span class="font-label-sm text-label-sm font-mono text-secondary">
+              SYSTEM AUDIT // RESTRICTED ACCESS
+            </span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-ink leading-tight">
+            Verified Students Only. No bots, no scammers.
+          </h2>
+<p class="font-body-lg text-body-lg text-ink max-w-[620px]">
+            Every single account is vetted against student enrollment records. No bots, no scraped marketplace listings, no public scammers trying to claim your AirPods.
+          </p>
+<!-- Archival Checklist with Stamped Checkmarks -->
+<div class="space-y-3 pt-2 font-body-md text-body-md font-semibold text-ink">
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 border-[1.5px] border-ink bg-paper flex items-center justify-center font-label-sm text-label-sm font-extrabold text-ink hard-shadow-2">
+                X
+              </div>
+<span>.edu institutional email verification (SSO Integrated)</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 border-[1.5px] border-ink bg-paper flex items-center justify-center font-label-sm text-label-sm font-extrabold text-ink hard-shadow-2">
+                X
+              </div>
+<span>Manual campus admin dispatch review prior to listing unlocks</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-6 h-6 border-[1.5px] border-ink bg-paper flex items-center justify-center font-label-sm text-label-sm font-extrabold text-ink hard-shadow-2">
+                X
+              </div>
+<span>Physical pickup requires university photo ID stamp and signature</span>
+</div>
+</div>
+</div>
+<!-- Right: Graphic Card Dossier / ID Badge Simulation (5 cols) -->
+<div class="lg:col-span-5 flex justify-center">
+<div class="w-full max-w-[380px] bg-paper border-2 border-ink hard-shadow-4 p-6 relative rotate-1">
+<!-- Perforated Header Strip -->
+<div class="flex justify-between items-start border-b-2 border-ink pb-4">
+<div>
+<p class="font-label-sm text-label-sm font-extrabold uppercase tracking-widest text-ink">STUDENT IDENTIFICATION</p>
+<p class="font-label-sm text-label-sm text-secondary font-mono">REGISTRY VALIDATION CARD</p>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-ink bg-manila flex items-center justify-center font-label-sm font-bold">
+                ID
+              </div>
+</div>
+<!-- Profile Photo Placeholder & Student Details -->
+<div class="my-4 flex gap-4">
+<div class="w-24 h-28 border-2 border-ink bg-surface-container-high relative overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Official collegiate identification photo portrait of a college student against a neutral studio backdrop with harsh flat institutional passport lighting. Monochrome contrast, passport style stamp texture, sharp lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhxrC7nP8sXPSxMrluJWSQRqY1EX1xYiPWM_QNeEsIiGZGx59zuyszkLfr8MfkcdbaLjCGkeriUkkShF7px-zlJfT5xuOK9BD9HCOHbRIHJoKxvppKbX5-X12sYlhYxQCIE0PHuk7uowE6kV56yir-t0NUGfWLZNfHXdjEzubNaqtgDTOK76cJgz0-cYN6aXskqUhq7VYfpCIqclyl1i9177P9ziixjhsmKqPhgs61">
+<div class="absolute bottom-0 inset-x-0 bg-ink text-paper text-center font-label-sm text-[9px] py-0.5">VERIFIED</div>
+</div>
+<div class="flex-1 space-y-1 font-label-sm text-label-sm">
+<div>
+<span class="text-secondary block text-[10px]">STUDENT NAME</span>
+<span class="font-bold text-ink">MARSHALL, JORDAN K.</span>
+</div>
+<div>
+<span class="text-secondary block text-[10px]">DEPARTMENT</span>
+<span class="font-semibold text-ink">ENGINEERING (DEPT 4)</span>
+</div>
+<div>
+<span class="text-secondary block text-[10px]">CAMPUS ID NUMBER</span>
+<span class="font-mono font-bold text-ink">9028-441-A</span>
+</div>
+<div>
+<span class="text-secondary block text-[10px]">CLEARANCE STATUS</span>
+<span class="text-[#1E7B4F] font-bold">ACTIVE REGISTRY</span>
+</div>
+</div>
+</div>
+<!-- Official Ink Seal Stamp Overlay -->
+<div class="pt-3 border-t-[1.5px] border-dashed border-ink flex items-center justify-between">
+<div class="stamp-badge text-[#243C8F] border-[#243C8F] outline-[#243C8F] -rotate-4 text-[10px] py-1">
+                OFFICE OF CAMPUS REGISTRAR // VERIFIED ACCESS ONLY
+              </div>
+</div>
+<!-- Barcode Simulation -->
+<div class="mt-4 pt-2 flex justify-between items-center opacity-70">
+<div class="h-6 flex items-center gap-[2px]">
+<div class="w-[2px] h-full bg-ink"></div>
+<div class="w-[3px] h-full bg-ink"></div>
+<div class="w-[1px] h-full bg-ink"></div>
+<div class="w-[4px] h-full bg-ink"></div>
+<div class="w-[2px] h-full bg-ink"></div>
+<div class="w-[1px] h-full bg-ink"></div>
+<div class="w-[3px] h-full bg-ink"></div>
+<div class="w-[2px] h-full bg-ink"></div>
+<div class="w-[4px] h-full bg-ink"></div>
+<div class="w-[1px] h-full bg-ink"></div>
+<div class="w-[2px] h-full bg-ink"></div>
+</div>
+<span class="font-mono text-[10px]">#9028441A-VER</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- BLURRED SAMPLE TAG CARDS PREVIEW (RECENT LOGBOOK)       -->
+<!-- ======================================================== -->
+<section class="w-full max-w-[1440px] mx-auto px-gutter py-space-xl" id="browse">
+<!-- Section Header -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between border-b-2 border-ink pb-4 gap-2">
+<div>
+<div class="font-label-sm text-label-sm font-bold tracking-widest text-primary uppercase mb-1">
+          CENTRAL REPOSITORY ARCHIVE VAULT
+        </div>
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-ink tracking-tight">
+          RECENT LOGBOOK ENTRIES
+        </h2>
+</div>
+<p class="font-label-sm text-label-sm text-secondary font-mono">
+        Latest physical intake from the central depository floor.
+      </p>
+</div>
+<!-- Container with Overlay Shield -->
+<div class="relative border-2 border-ink p-6 sm:p-8 bg-paper hard-shadow-6">
+<!-- 4 Sample Luggage Tag Cards Grid (Obscured underneath) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 select-none pointer-events-none filter blur-[4px] opacity-40">
+<!-- Sample Tag 1: Keys -->
+<div class="bg-manila border-2 border-ink p-4 hard-shadow-2">
+<div class="flex justify-between items-center pb-2 border-b border-ink">
+<span class="font-label-sm text-label-sm font-bold">TAG #0424-K</span>
+<div class="stamp-badge text-[#1E7B4F] text-[10px] py-0.5">[ FOUND ]</div>
+</div>
+<div class="h-32 my-3 bg-surface-container border border-ink overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A brass collegiate dormitory key ring with three numbered locker keys lying on a wooden study hall desk. Archival inspection lighting, crisp contrasts, physical stationery aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj9U4oy22oVJdEotq1Ka4uEP2UIGlOjKbWV7KI2sls5_qu3jQc9IbqXSk8jFalNPgptd3igSH-rkwkfzdg33exed3rPvAMOZzS6Pm15iMPwo67j7qlvdOZcxq28DPqTxj6rEEdrR_NXngoTO12x28Q67OW5Vn4Y_MNvQYM9mowqdjJqN1BS6fLK39eAUJFf_3FoNl54Nss03Px4wty6-BUvJOvYYBqsbJ-GjjUdIyA">
+</div>
+<h4 class="font-headline-sm text-[16px] font-bold">Brass locker key bunch</h4>
+<p class="font-label-sm text-label-sm text-secondary">Found: Gym Bleachers Locker Row</p>
+</div>
+<!-- Sample Tag 2: Backpack -->
+<div class="bg-paper border-2 border-ink p-4 hard-shadow-2">
+<div class="flex justify-between items-center pb-2 border-b border-ink">
+<span class="font-label-sm text-label-sm font-bold">TAG #0423-B</span>
+<div class="stamp-badge text-[#C8312B] text-[10px] py-0.5">[ LOST ]</div>
+</div>
+<div class="h-32 my-3 bg-surface-container border border-ink overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An olive canvas Herschel student backpack with leather zipper straps standing upright next to an auditorium lectern. Matte lighting, institutional archival inventory setup." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKhbNA2cXF7Vgw0Y4iWo1Zbar6EKj3jPGaiiUSzitOkcQoBLwgkuu8pnaFG5f3pVcMJl5i6JIXFGZnNqKDk74F1VzVkxCrDrRgRjnNPn0U1wMJpxh8UKK1zDbkuqgJS-l39KsqimEXfxmZnvIKCw0HQN1PyvfLh8PvE-8-GWrhZ7wIfldKlH4AIkl5rXaGWdX1tWmE1b4p1pibwC7_n61hD-PqoSDzw4QKvd4vQxb8">
+</div>
+<h4 class="font-headline-sm text-[16px] font-bold">Olive green backpack</h4>
+<p class="font-label-sm text-label-sm text-secondary">Reported: Lecture Hall A</p>
+</div>
+<!-- Sample Tag 3: Hydro Flask -->
+<div class="bg-manila border-2 border-ink p-4 hard-shadow-2">
+<div class="flex justify-between items-center pb-2 border-b border-ink">
+<span class="font-label-sm text-label-sm font-bold">TAG #0422-H</span>
+<div class="stamp-badge text-[#1E7B4F] text-[10px] py-0.5">[ FOUND ]</div>
+</div>
+<div class="h-32 my-3 bg-surface-container border border-ink overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A 32oz wide-mouth stainless steel Hydro Flask water bottle in pastel yellow with student club stickers on an intake shelf. Crisp brutalist archival lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALY2oO8ehsa_0FIXED-O4twHQmRAOEzg7AK0YUp3ZYTDcU7fcUvNFJXrqUemP0z5U00QAGQSB1XebZoG8PmQ9YEPT8PaCNvJtOLMtlTlg61ssP93qUaJJpXwxsHUQHcws66HQJsU-anG8fQlOufriFOkYxstG0OdGfMhMeacKl9Mx7WFRQCSINmnEeqooq6eRSx9U7CMtcXrISBT3AvsJoF0WFzXxY-XRGGPhXLZ48">
+</div>
+<h4 class="font-headline-sm text-[16px] font-bold">Hydro Flask bottle</h4>
+<p class="font-label-sm text-label-sm text-secondary">Found: Science Lab Bench 4</p>
+</div>
+<!-- Sample Tag 4: Umbrella -->
+<div class="bg-paper border-2 border-ink p-4 hard-shadow-2">
+<div class="flex justify-between items-center pb-2 border-b border-ink">
+<span class="font-label-sm text-label-sm font-bold">TAG #0421-U</span>
+<div class="stamp-badge text-ink bg-[#F6D743] border-ink outline-ink text-[10px] py-0.5">[ CLAIM PENDING ]</div>
+</div>
+<div class="h-32 my-3 bg-surface-container border border-ink overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A sturdy compact black windproof folding umbrella with a wooden hook handle resting inside an umbrella stand by the campus library turnstile. Archival inventory lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV1L-f5LDH7LfPmnYcCK5rpt4lK56NWsB1ugmDJ6K9zSvedif0sb1vez0aBatHMScwdxkEiMyPhNa8qCBqIbq3PKrQffdk2KoSqFZ6HaZZOebKC8WOk0pfxc8My6tAx1ag3848wBScs5K5TKXTStb_irm8OTTRuo1DT2fU1hQyom92KP_EhERt1vgwJzpT9Z4WlocjAe6aiYF6BDTcQIVgoBUW7wy_CENb9UOtl9Zg">
+</div>
+<h4 class="font-headline-sm text-[16px] font-bold">Black compact umbrella</h4>
+<p class="font-label-sm text-label-sm text-secondary">Found: Main Library Atrium</p>
+</div>
+</div>
+<!-- OVERLAY PAPER SHIELD BANNER -->
+<div class="absolute inset-0 flex items-center justify-center p-4">
+<div class="max-w-[540px] w-full bg-paper border-2 border-ink hard-shadow-6 p-8 text-center relative z-20">
+<div class="w-12 h-12 bg-manila border-2 border-ink mx-auto mb-4 flex items-center justify-center hard-shadow-2">
+<span class="material-symbols-outlined text-[28px] text-ink" data-icon="lock">lock</span>
+</div>
+<div class="stamp-badge text-ink border-ink outline-ink mb-3 -rotate-1 text-[11px]">
+            ARCHIVAL PRIVACY RESTRICTION
+          </div>
+<h3 class="font-headline-md text-headline-md font-extrabold text-ink tracking-tight mb-2">
+            LOG IN TO BROWSE FULL ARCHIVE
+          </h3>
+<p class="font-body-md text-body-md text-ink leading-relaxed mb-6">
+            Active student credentials required to view full item serials, locations, and filing dossiers. Prevents fraudulent claims on unattended campus items.
+          </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+<button class="w-full sm:w-auto bg-primary-container text-ink font-headline-sm text-headline-sm font-bold px-6 py-3 border-[1.5px] border-ink hard-shadow-4 interactive-hard">
+              Log In With Student ID
+            </button>
+<button class="w-full sm:w-auto bg-manila text-ink font-headline-sm text-headline-sm font-bold px-6 py-3 border-[1.5px] border-ink hard-shadow-4 interactive-hard">
+              Create Account
+            </button>
+</div>
+<p class="font-label-sm text-label-sm text-secondary mt-4 font-mono">
+            CAMPUS CENTRAL DISPOSITION PROTOCOL § 18-C
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================== -->
+<!-- FOOTER (SHARED COMPONENT: Footer mapped exactly)        -->
+<!-- ======================================================== -->
+<footer class="w-full bg-surface-container dark:bg-surface-container-low border-t-2 border-on-surface dark:border-outline mt-space-xl">
+<div class="w-full max-w-[1440px] mx-auto px-gutter py-space-md flex flex-col md:flex-row justify-between items-center gap-4">
+<!-- Archival Copyright / Reference Text from JSON -->
+<div class="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+<span class="font-label-md text-label-md tracking-widest uppercase text-on-surface dark:text-inverse-on-surface font-bold">
+          FINDIT
+        </span>
+<span class="hidden sm:inline text-on-surface-variant font-mono">|</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant font-mono">
+          PROPERTY DISPOSITION DIVISION // ARCHIVAL REGISTRY SYSTEM REF. NO. 4092-B
+        </p>
+</div>
+<!-- Links from JSON & landing prompts -->
+<div class="flex flex-wrap items-center justify-center gap-4 font-label-sm text-label-sm">
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#how-it-works">
+          How it works
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#manual">
+          System Manual
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#policy">
+          Retention Policy
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#audit">
+          Audit Log
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#act">
+          Lost Property Act
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none active:translate-y-0.5" href="#status">
+          Terminal Status
+        </a>
+</div>
+</div>
+</footer>
+</body></html>

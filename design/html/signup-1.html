@@ -1,0 +1,477 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FindIt - Student Registration (Step 1 of 2)</title>
+<!-- Fonts: Space Grotesk & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-on-surface": "#f1f0f6",
+            "inverse-primary": "#ffb59c",
+            "on-primary-fixed-variant": "#822700",
+            "surface-dim": "#dad9df",
+            "on-secondary-fixed-variant": "#524622",
+            "surface": "#faf8fe",
+            "surface-container-highest": "#e3e2e7",
+            "tertiary-fixed-dim": "#9acbff",
+            "error": "#ba1a1a",
+            "outline-variant": "#e4beb2",
+            "surface-container-high": "#e9e7ed",
+            "surface-variant": "#e3e2e7",
+            "on-tertiary": "#ffffff",
+            "surface-container-low": "#f4f3f8",
+            "on-surface-variant": "#5b4138",
+            "secondary-container": "#f4e1b1",
+            "primary-fixed-dim": "#ffb59c",
+            "tertiary": "#00629f",
+            "secondary-fixed": "#f4e1b1",
+            "on-tertiary-fixed": "#001d34",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#004a79",
+            "on-primary-fixed": "#390c00",
+            "secondary-fixed-dim": "#d7c597",
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#71633d",
+            "on-primary-container": "#531600",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "surface-container": "#efedf3",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#1a1b1f",
+            "surface-tint": "#aa3600",
+            "tertiary-container": "#0098f2",
+            "primary": "#aa3600",
+            "tertiary-fixed": "#d0e4ff",
+            "surface-bright": "#faf8fe",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#002d4d",
+            "primary-fixed": "#ffdbcf",
+            "outline": "#8f7066",
+            "inverse-surface": "#2f3034",
+            "on-background": "#1a1b1f",
+            "secondary": "#6b5d38",
+            "background": "#faf8fe",
+            "primary-container": "#ff5b14",
+            "on-secondary-fixed": "#241a00"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-mobile": "1rem",
+            "space-md": "1rem",
+            "space-xl": "2.5rem",
+            "margin": "3rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "gutter": "1.5rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Space Grotesk", "sans-serif"],
+            "label-lg": ["JetBrains Mono", "monospace"],
+            "body-lg": ["Space Grotesk", "sans-serif"],
+            "label-sm": ["JetBrains Mono", "monospace"],
+            "headline-xl": ["Space Grotesk", "sans-serif"],
+            "headline-xl-mobile": ["Space Grotesk", "sans-serif"],
+            "headline-sm": ["Space Grotesk", "sans-serif"],
+            "label-md": ["JetBrains Mono", "monospace"],
+            "headline-md": ["Space Grotesk", "sans-serif"],
+            "body-md": ["Space Grotesk", "sans-serif"]
+          },
+          "fontSize": {
+            "headline-lg": ["32px", { "lineHeight": "36px", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+            "headline-xl": ["48px", { "lineHeight": "52px", "fontWeight": "700" }],
+            "headline-xl-mobile": ["32px", { "lineHeight": "38px", "fontWeight": "700" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "headline-md": ["24px", { "lineHeight": "28px", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    /* Archival physical paper tactile tokens */
+    body {
+      background-color: #F4EDE0;
+      color: #17181C;
+    }
+    .carbon-border {
+      border: 1.5px solid #17181C;
+    }
+    .carbon-border-b {
+      border-bottom: 1.5px solid #17181C;
+    }
+    .carbon-border-t {
+      border-top: 1.5px solid #17181C;
+    }
+    .carbon-border-r {
+      border-right: 1.5px solid #17181C;
+    }
+    .hard-shadow {
+      box-shadow: 4px 4px 0 #17181C;
+    }
+    .hard-shadow-sm {
+      box-shadow: 2px 2px 0 #17181C;
+    }
+    .hard-shadow-pressed:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0px 0px 0 #17181C;
+    }
+    .hard-shadow-error {
+      box-shadow: 3px 3px 0 #C8312B;
+    }
+    /* Perforated edge lines */
+    .perforated-h {
+      border-top: 1.5px dashed #17181C;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md antialiased select-none selection:bg-on-surface selection:text-surface-container-lowest">
+<!-- TOP APP BAR / PUBLIC LEDGER HEADER (Auth Mode) -->
+<header class="w-full bg-[#EFE8DA] carbon-border-b z-30 sticky top-0">
+<div class="max-w-[1440px] mx-auto px-gutter h-16 flex items-center justify-between">
+<!-- Brand Anchor -->
+<div class="flex items-center gap-space-md">
+<a class="font-headline-sm text-headline-sm font-bold tracking-wider text-on-surface uppercase border-2 border-on-surface px-2 py-0.5 inline-block -rotate-1 bg-[#FAF8F4] hard-shadow-sm" href="#">
+          FINDIT // CENTRAL ARCHIVE
+        </a>
+<div class="hidden md:flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider pl-2 border-l border-on-surface/30">
+<span class="w-2 h-2 rounded-full bg-primary-container inline-block"></span>
+<span>DOCKET DISPOSITION TERMINAL 04</span>
+</div>
+</div>
+<!-- Navigation / Aux Links -->
+<div class="flex items-center gap-space-md">
+<a class="hidden sm:inline-flex items-center gap-1 font-label-md text-label-md text-on-surface hover:bg-on-surface hover:text-[#FAF8F4] px-2 py-1 transition-none border border-transparent hover:border-on-surface" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>Back to Archive</span>
+</a>
+<a class="hidden sm:inline-block font-label-md text-label-md text-on-surface-variant hover:text-on-surface underline underline-offset-4 px-2 py-1" href="#">
+          How it works
+        </a>
+<div class="h-6 w-[1.5px] bg-on-surface/30 hidden sm:block"></div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-on-surface bg-[#EAD7A8] carbon-border px-3 py-1.5 hard-shadow-sm hover:bg-[#F4EDE0] hard-shadow-pressed" href="#">
+<span class="material-symbols-outlined text-[16px]">lock_open</span>
+<span>Log in</span>
+</a>
+</div>
+</div>
+</header>
+<!-- MAIN CANVAS: Centered 1440px Grid Workspace -->
+<main class="flex-grow max-w-[1440px] mx-auto w-full px-gutter-mobile md:px-gutter py-space-xl">
+<!-- Status / Filing Ledger Meta Header -->
+<div class="mb-space-lg flex flex-wrap items-center justify-between gap-4 border-b pb-space-sm border-on-surface/20">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-md text-label-md px-2 py-0.5 bg-[#EAD7A8] carbon-border uppercase tracking-widest font-bold">
+          INTAKE DESK
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+          SECTION: STUDENT VERIFICATION &amp; ACCESS CONTROL
+        </span>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-2">
+<span>SECURITY LEVEL: <strong>RESTRICTED LEDGER</strong></span>
+<span>•</span>
+<span>DATE LOGGED: <strong>TODAY</strong></span>
+</div>
+</div>
+<!-- Layout Container: Primary Form (560px) + Memo Tag (approx 320px) -->
+<div class="flex flex-col lg:flex-row items-start justify-center gap-8 xl:gap-10">
+<!-- ================= 1. PRIMARY DOSSIER FORM ================= -->
+<section class="w-full max-w-[580px] bg-[#FAF8F4] carbon-border hard-shadow relative">
+<!-- Physical Staple Stamp at Top-Left -->
+<div class="absolute -top-2 left-6 z-10 w-9 h-3.5 bg-[#7D828A] border border-[#17181C] shadow-sm transform -rotate-12 flex items-center justify-center">
+<div class="w-7 h-[1.5px] bg-[#43464C]"></div>
+</div>
+<!-- Punch Hole Visual Metaphor at Top Right -->
+<div class="absolute top-4 right-4 w-4 h-4 rounded-full bg-[#F4EDE0] border border-[#17181C]"></div>
+<!-- Paper Intake Header Box -->
+<div class="p-6 carbon-border-b bg-[#FAF8F4] pt-8">
+<div class="flex items-start justify-between gap-4 mb-2">
+<div>
+<p class="font-label-sm text-label-sm tracking-widest text-on-surface-variant uppercase">
+                FORM 101-STU // VERIFIED ACCESS
+              </p>
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight mt-0.5">
+                STUDENT INTAKE REGISTRY
+              </h1>
+</div>
+<!-- Rubber Stamp: Page 1 of 2 -->
+<div class="border-2 border-[#1E7B4F] text-[#1E7B4F] px-2 py-1 rotate-3 font-label-md text-label-md font-bold tracking-wider uppercase text-center shrink-0">
+              PAGE 1 OF 2<br>
+<span class="text-[10px] tracking-normal font-normal">BASIC PARTICULARS</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 border-l-2 border-primary-container pl-3 py-0.5 bg-[#F4EDE0]/60">
+            Establish your campus file. You will need your physical student ID card or verified matriculation slip for step 2.
+          </p>
+</div>
+<!-- Form Fields Container -->
+<form class="p-6 md:p-8 space-y-5" onsubmit="event.preventDefault();">
+<!-- Field 1: Full Legal / Campus Name -->
+<div>
+<div class="flex items-baseline justify-between mb-1">
+<label class="font-label-md text-label-md font-bold text-on-surface tracking-wider uppercase" for="full-name">
+                FULL LEGAL / CAMPUS NAME <span class="text-primary">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant">REC: AS ON ROSTER</span>
+</div>
+<input class="w-full bg-[#FAF8F4] carbon-border px-3.5 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:bg-[#EAD7A8] focus:shadow-[3px_3px_0_#17181C] transition-none" id="full-name" placeholder="e.g. Jordan Taylor" type="text" value="Jordan Taylor">
+</div>
+<!-- Field 2: Campus Email -->
+<div>
+<div class="flex items-baseline justify-between mb-1">
+<label class="font-label-md text-label-md font-bold text-on-surface tracking-wider uppercase" for="campus-email">
+                CAMPUS EMAIL ADDRESS (.EDU) <span class="text-primary">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-[#1E7B4F] font-bold">DOMAIN MATCH</span>
+</div>
+<input class="w-full bg-[#FAF8F4] carbon-border px-3.5 py-2.5 font-label-md text-label-md text-on-surface focus:outline-none focus:bg-[#EAD7A8] focus:shadow-[3px_3px_0_#17181C] transition-none" id="campus-email" placeholder="username@institution.edu" type="email" value="j.taylor@campus.edu">
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">
+              Must end in <span class="font-bold text-on-surface">.edu</span> or an authorized collegiate portal domain.
+            </p>
+</div>
+<!-- Field 3: Password WITH ACTIVE ERROR STATE (Mandated) -->
+<div>
+<div class="flex items-baseline justify-between mb-1">
+<label class="font-label-md text-label-md font-bold text-[#C8312B] tracking-wider uppercase" for="password">
+                ACCESS PHRASE / PASSWORD <span class="text-[#C8312B]">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(min. 8 characters)</span>
+</div>
+<!-- Error Input Border & Background -->
+<div class="relative">
+<input aria-describedby="password-error" aria-invalid="true" class="w-full bg-[#FFF5F5] border-2 border-[#C8312B] hard-shadow-error px-3.5 py-2.5 font-label-md text-label-md text-on-surface focus:outline-none transition-none" id="password" type="password" value="qwerty">
+<span class="absolute right-3 top-3 text-[#C8312B] material-symbols-outlined text-[18px]">
+                warning
+              </span>
+</div>
+<!-- Red Inked Stamp Error Badge / Mono Tag -->
+<div class="mt-2 p-2 bg-[#FFECEB] border border-[#C8312B] flex items-center justify-between gap-2" id="password-error">
+<div class="flex items-center gap-1.5 text-[#C8312B]">
+<span class="material-symbols-outlined text-[16px] shrink-0">error</span>
+<span class="font-label-sm text-label-sm font-bold tracking-tight">
+                  [ERROR: 6 CHARACTERS ENTERED - MINIMUM 8 REQUIRED]
+                </span>
+</div>
+<span class="font-label-sm text-label-sm font-bold border border-[#C8312B] px-1 bg-[#FAF8F4] text-[#C8312B] -rotate-2">
+                INVALID
+              </span>
+</div>
+</div>
+<!-- Field 4: Department / Faculty Dropdown -->
+<div>
+<label class="block font-label-md text-label-md font-bold text-on-surface tracking-wider uppercase mb-1" for="department">
+              DEPARTMENT / FACULTY <span class="text-primary">*</span>
+</label>
+<div class="relative">
+<select class="w-full appearance-none bg-[#FAF8F4] carbon-border px-3.5 py-2.5 font-body-md text-body-md text-on-surface pr-10 focus:outline-none focus:bg-[#EAD7A8] focus:shadow-[3px_3px_0_#17181C] transition-none cursor-pointer" id="department">
+<option selected="">School of Engineering &amp; Applied Sciences</option>
+<option>Faculty of Arts, Humanities &amp; Design</option>
+<option>College of Natural Sciences &amp; Mathematics</option>
+<option>School of Architecture, Planning &amp; Landscape</option>
+<option>Faculty of Law &amp; Public Administration</option>
+<option>School of Business &amp; Economics</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 carbon-border-l bg-[#EAD7A8]">
+<span class="material-symbols-outlined text-on-surface text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Field 5: Year of Study -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block font-label-md text-label-md font-bold text-on-surface tracking-wider uppercase mb-1" for="year">
+                YEAR OF STUDY <span class="text-primary">*</span>
+</label>
+<div class="relative">
+<select class="w-full appearance-none bg-[#FAF8F4] carbon-border px-3.5 py-2.5 font-body-md text-body-md text-on-surface pr-10 focus:outline-none focus:bg-[#EAD7A8] focus:shadow-[3px_3px_0_#17181C] transition-none cursor-pointer" id="year">
+<option>Year 1 (Freshman)</option>
+<option>Year 2 (Sophomore)</option>
+<option selected="">Year 3 (Junior)</option>
+<option>Year 4 (Senior)</option>
+<option>Graduate / Doctoral</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 carbon-border-l bg-[#EAD7A8]">
+<span class="material-symbols-outlined text-on-surface text-[18px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Field 6: Contact Telephone (Optional) -->
+<div>
+<div class="flex items-baseline justify-between mb-1">
+<label class="font-label-md text-label-md font-bold text-on-surface tracking-wider uppercase" for="phone">
+                  TELEPHONE (OPT)
+                </label>
+</div>
+<input class="w-full bg-[#FAF8F4] carbon-border px-3.5 py-2.5 font-label-md text-label-md text-on-surface focus:outline-none focus:bg-[#EAD7A8] focus:shadow-[3px_3px_0_#17181C] transition-none" id="phone" placeholder="+1 (555) 019-2831" type="tel">
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant -mt-2">
+            Telephone number is utilized strictly for immediate claim matches &amp; urgent dispatch.
+          </p>
+<!-- Perforated Tear-off line -->
+<div class="relative pt-4 my-2">
+<div class="perforated-h w-full"></div>
+<div class="absolute -left-8 top-2.5 w-4 h-4 rounded-full bg-[#F4EDE0] border-r border-[#17181C]"></div>
+<div class="absolute -right-8 top-2.5 w-4 h-4 rounded-full bg-[#F4EDE0] border-l border-[#17181C]"></div>
+</div>
+<!-- Submit CTA Button -->
+<div class="pt-2">
+<button class="w-full bg-primary-container text-on-surface font-headline-sm text-headline-sm font-bold tracking-wide carbon-border hard-shadow hard-shadow-pressed py-3.5 px-6 flex items-center justify-center gap-2 hover:bg-[#ff6f33] transition-none cursor-pointer" type="submit">
+<span>NEXT: ATTACH STUDENT ID</span>
+<span class="material-symbols-outlined text-[22px]">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-2 mt-4 font-label-sm text-label-sm text-on-surface-variant">
+<span>ALREADY REGISTERED IN LEDGER?</span>
+<a class="font-bold text-on-surface underline underline-offset-2 hover:bg-on-surface hover:text-[#FAF8F4] px-1" href="#">LOG IN HERE</a>
+</div>
+</div>
+</form>
+<!-- Form Docket Footer Bar -->
+<div class="carbon-border-t px-6 py-2.5 bg-[#EAD7A8] flex items-center justify-between font-label-sm text-label-sm">
+<span>SEC: STU-REG // VOL 40</span>
+<span>CAMPUS CENTRAL ARCHIVE</span>
+</div>
+</section>
+<!-- ================= 2. RIGHT COLUMN: MANILA TAG MEMO CARD ================= -->
+<aside class="w-full max-w-[340px] flex flex-col gap-6">
+<!-- Manila Process Docket -->
+<div class="bg-[#EAD7A8] carbon-border hard-shadow relative p-6">
+<!-- Manila Tag Circular Cutout / Punch Hole at Top Center -->
+<div class="w-5 h-5 mx-auto rounded-full bg-[#F4EDE0] border-2 border-on-surface mb-3 flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-on-surface"></div>
+</div>
+<!-- Header -->
+<div class="text-center pb-4 carbon-border-b">
+<span class="font-label-sm text-label-sm text-on-secondary-container uppercase tracking-widest font-bold">
+              REGISTRATION PROTOCOL
+            </span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface uppercase tracking-tight mt-1">
+              WHAT HAPPENS NEXT
+            </h2>
+</div>
+<!-- Numbered Sequential Steps -->
+<div class="mt-5 space-y-5">
+<!-- Step 1: Active Docket -->
+<div class="p-3 bg-[#FAF8F4] carbon-border hard-shadow-sm relative">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm font-bold bg-primary-container text-on-surface px-1.5 py-0.2 carbon-border">
+                  [01] IN PROGRESS
+                </span>
+<span class="material-symbols-outlined text-[16px] text-primary">edit_document</span>
+</div>
+<h3 class="font-label-md text-label-md font-bold text-on-surface uppercase mt-1">
+                FILE YOUR DETAILS
+              </h3>
+<p class="font-body-md text-[13px] leading-4 text-on-surface-variant mt-1">
+                Fill out this docket so desk officers know who to catalog and return recovered items to.
+              </p>
+</div>
+<!-- Step 2: Next Step -->
+<div class="p-3 bg-[#EAD7A8] border border-on-surface/40">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant">
+                  [02] PENDING NEXT
+                </span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">badge</span>
+</div>
+<h3 class="font-label-md text-label-md font-bold text-on-surface uppercase mt-1">
+                ATTACH YOUR ID
+              </h3>
+<p class="font-body-md text-[13px] leading-4 text-on-surface-variant mt-1">
+                Upload a quick snap of your valid campus card or physical matriculation slip.
+              </p>
+</div>
+<!-- Step 3: Admin Review -->
+<div class="p-3 bg-[#EAD7A8] border border-on-surface/40">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant">
+                  [03] FINAL AUDIT
+                </span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">verified_user</span>
+</div>
+<h3 class="font-label-md text-label-md font-bold text-on-surface uppercase mt-1">
+                AN ADMIN APPROVES YOU
+              </h3>
+<p class="font-body-md text-[13px] leading-4 text-on-surface-variant mt-1">
+                A human desk officer checks your details before unlocking the unredacted claims ledger.
+              </p>
+</div>
+</div>
+<!-- Bottom Memo Note -->
+<div class="mt-6 pt-4 border-t border-on-surface/30">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface shrink-0 mt-0.5">info</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant leading-tight">
+                Review turnaround is usually under 15 minutes during campus operational depot hours (08:00 – 19:00).
+              </p>
+</div>
+</div>
+</div>
+<!-- Security Stamp / Verification Seal Card -->
+<div class="bg-[#FAF8F4] carbon-border hard-shadow p-4 relative">
+<!-- Rubber Stamp Badge tilted -->
+<div class="border-2 border-[#243C8F] text-[#243C8F] p-2 rotate-1 font-label-sm text-label-sm font-bold tracking-wider uppercase text-center mb-2">
+            OFFICIAL SECURITY NOTICE // STRICT COMPLIANCE
+          </div>
+<p class="font-body-md text-[13px] leading-tight text-on-surface-variant">
+<strong class="text-on-surface">VERIFIED ACCESS ONLY:</strong> Non-students cannot claim registered articles or inspect student contact indices. Unauthorized access violates Campus Statute Sec. 14-B.
+          </p>
+<div class="mt-3 pt-2 border-t border-on-surface/20 flex items-center justify-between font-label-sm text-[10px] text-on-surface-variant uppercase">
+<span>DEPOT ID: MAIN-LIB-B01</span>
+<span>STATUS: ACTIVE DISPATCH</span>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- ARCHIVAL SYSTEM FOOTER (Matching Shared Components JSON & Style Guidance) -->
+<footer class="w-full bg-surface-container carbon-border-t mt-auto">
+<div class="max-w-[1440px] mx-auto px-gutter py-space-md flex flex-col md:flex-row justify-between items-center gap-4">
+<!-- Footer Copyright Text -->
+<div class="font-label-sm text-label-sm font-bold tracking-wider text-on-surface uppercase text-center md:text-left">
+        PROPERTY DISPOSITION DIVISION // ARCHIVAL REGISTRY SYSTEM REF. NO. 4092-B
+      </div>
+<!-- Links Cluster -->
+<div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:bg-on-surface hover:text-[#FAF8F4] px-1 transition-none active:translate-y-0.5" href="#">
+          System Manual
+        </a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:bg-on-surface hover:text-[#FAF8F4] px-1 transition-none active:translate-y-0.5" href="#">
+          Retention Policy
+        </a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:bg-on-surface hover:text-[#FAF8F4] px-1 transition-none active:translate-y-0.5" href="#">
+          Audit Log
+        </a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:bg-on-surface hover:text-[#FAF8F4] px-1 transition-none active:translate-y-0.5" href="#">
+          Lost Property Act
+        </a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:bg-on-surface hover:text-[#FAF8F4] px-1 transition-none active:translate-y-0.5" href="#">
+          Terminal Status
+        </a>
+</div>
+</div>
+</footer>
+</body></html>

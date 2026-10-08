@@ -18,3 +18,9 @@ export async function markAllNotificationsRead() {
   const data = await apiClient('/api/notifications/read-all', { method: 'PATCH' });
   return data;
 }
+
+export async function deleteNotification(id) {
+  const data = await apiClient(`/api/notifications/${id}`, { method: 'DELETE' });
+  return data;
+}
+

@@ -22,7 +22,12 @@ export function useAdminStats() {
     }
   }, []);
 
-  useEffect(() => { fetch(); }, [fetch]);
+  useEffect(() => {
+    fetch();
+    const handleRefresh = () => fetch();
+    window.addEventListener('admin:refresh-stats', handleRefresh);
+    return () => window.removeEventListener('admin:refresh-stats', handleRefresh);
+  }, [fetch]);
 
   const stats = data?.stats || data || {
     pendingVerifications: 0,

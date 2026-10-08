@@ -1,0 +1,846 @@
+<!DOCTYPE html><html class="h-full" lang="en" style="width: 1280px; height: 1715px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Verification desk - FINDIT // CENTRAL ARCHIVE</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Fonts: Space Grotesk & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Custom Tailwind Config matching design system tokens -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface-variant": "#5b4138",
+            "tertiary-fixed": "#d0e4ff",
+            "tertiary-container": "#0098f2",
+            "on-primary": "#ffffff",
+            "on-surface": "#1a1b1f",
+            "on-primary-fixed-variant": "#822700",
+            "outline": "#8f7066",
+            "primary-fixed-dim": "#ffb59c",
+            "inverse-primary": "#ffb59c",
+            "surface-bright": "#faf8fe",
+            "surface-dim": "#dad9df",
+            "surface-tint": "#aa3600",
+            "on-tertiary-fixed-variant": "#004a79",
+            "error": "#ba1a1a",
+            "on-primary-container": "#531600",
+            "on-background": "#1a1b1f",
+            "on-secondary-fixed-variant": "#524622",
+            "surface-container-highest": "#e3e2e7",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#71633d",
+            "on-secondary-fixed": "#241a00",
+            "surface-container-low": "#f4f3f8",
+            "primary-container": "#ff5b14",
+            "on-tertiary-fixed": "#001d34",
+            "on-tertiary": "#ffffff",
+            "primary-fixed": "#ffdbcf",
+            "primary": "#aa3600",
+            "error-container": "#ffdad6",
+            "secondary-fixed": "#f4e1b1",
+            "on-error-container": "#93000a",
+            "surface-variant": "#e3e2e7",
+            "surface-container": "#efedf3",
+            "inverse-on-surface": "#f1f0f6",
+            "background": "#faf8fe",
+            "on-tertiary-container": "#002d4d",
+            "surface-container-high": "#e9e7ed",
+            "on-secondary": "#ffffff",
+            "on-primary-fixed": "#390c00",
+            "outline-variant": "#e4beb2",
+            "tertiary": "#00629f",
+            "secondary-container": "#f4e1b1",
+            "on-error": "#ffffff",
+            "inverse-surface": "#2f3034",
+            "secondary": "#6b5d38",
+            "secondary-fixed-dim": "#d7c597",
+            "tertiary-fixed-dim": "#9acbff",
+            "surface": "#faf8fe"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "margin": "3rem",
+            "space-sm": "0.5rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Space Grotesk"],
+            "headline-xl": ["Space Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "label-md": ["JetBrains Mono"],
+            "headline-sm": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "body-md": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+            "headline-xl": ["48px", { "lineHeight": "52px", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+            "headline-xl-mobile": ["32px", { "lineHeight": "38px", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "28px", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+            "headline-lg": ["32px", { "lineHeight": "36px", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Archival physical ink tokens and drop effects */
+    .ink-shadow {
+      box-shadow: 4px 4px 0 #1a1b1f;
+    }
+    .ink-shadow-sm {
+      box-shadow: 2px 2px 0 #1a1b1f;
+    }
+    .ink-shadow-press:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0 #1a1b1f;
+    }
+    .perforated-edge-left {
+      background-image: radial-gradient(#faf8fe 6px, transparent 6px);
+      background-size: 16px 16px;
+      background-position: -8px center;
+      background-repeat: repeat-y;
+    }
+    .perforated-border-top {
+      border-top: 2px dashed #1a1b1f;
+    }
+    .perforated-border-bottom {
+      border-bottom: 2px dashed #1a1b1f;
+    }
+    .manila-ticket {
+      background-color: #f4e1b1;
+    }
+    .kraft-card {
+      background-color: #efedf3;
+    }
+    .rubber-stamp {
+      border: 2px solid currentColor;
+      box-shadow: inset 0 0 0 1px currentColor;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-full flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- ==================== 1. TOP NAV BAR (SHARED COMPONENT IMPLEMENTATION) ==================== -->
+<header class="w-full bg-surface-container-low border-b-2 border-on-surface [box-shadow:0px_4px_0px_#1a1b1f] sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-gutter h-16 flex items-center justify-between">
+<!-- Left: Logo & Station Stamp -->
+<div class="flex items-center gap-4">
+<a class="font-headline-sm text-headline-sm font-bold tracking-wider text-on-surface uppercase border-2 border-on-surface px-2 py-0.5 inline-block -rotate-1 hover:bg-surface-container-high transition-none" href="#">
+          FINDIT // CENTRAL ARCHIVE
+        </a>
+<span class="hidden lg:inline-flex items-center gap-1.5 px-2 py-0.5 border border-on-surface bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase font-bold tracking-wider">
+<span class="w-2 h-2 rounded-full bg-primary-container inline-block animate-pulse"></span>
+          ADMIN DISPATCH PORTAL
+        </span>
+</div>
+<!-- Center: Navigation Links -->
+<nav class="hidden md:flex items-center space-x-6">
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-none" href="#">
+          Browse Ledger
+        </a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-none" href="#">
+          My Items
+        </a>
+<a class="text-on-surface font-label-md text-label-md underline underline-offset-4 decoration-2 decoration-primary font-bold" href="#">
+          Claims Registry
+        </a>
+</nav>
+<!-- Right: Primary Action & Officer Stamp -->
+<div class="flex items-center gap-3">
+<button class="hidden sm:inline-flex items-center gap-2 bg-primary-container text-on-surface border-2 border-on-surface px-3 py-1 font-headline-sm text-label-md font-bold ink-shadow-sm ink-shadow-press transition-none uppercase">
+<span class="material-symbols-outlined text-[18px]">add_box</span>
+          Report Item
+        </button>
+<!-- Notifications Icon Action -->
+<button class="relative w-9 h-9 border-2 border-on-surface bg-surface flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-none" title="Archive Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute -top-1 -right-1 w-3 h-3 bg-error border border-on-surface rounded-full"></span>
+</button>
+<!-- Officer Identification Photo Stamp -->
+<div class="flex items-center pl-2 border-l-2 border-on-surface gap-2">
+<div class="w-9 h-9 border-2 border-on-surface overflow-hidden bg-secondary-fixed p-0.5 relative" title="Officer identification photo stamp">
+<img class="w-full h-full object-cover grayscale contrast-125" data-alt="A gritty retro bureaucratic passport photograph of a female university intake clerk with a neutral expression against an off-white institutional photo backdrop. High contrast stark office tungsten lighting with archival grain, hard cardboard vignette border, and ink docket imprint style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqm1EsHIaY-UiaMrY9JQkhXfdoxEwnRf1-V3xr12IUtCbWKWO_Q6u3alDqwkAC_3gBP5f-eauqi0oyXSgdN8OuUbDc-CTyZodsiRWb0O9Tmhw0jaxOe8_XZsQ_UCRwgSwGUQg-YsslCa2oLv8B1RDQlAXJ14iMTt44Hzx6Vsdm7xssurQOqWikvu2CIs_Ub-__D-VROBZxCjXNcAV4GzzeTL-p4RTLxQBNoZt-guni">
+</div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="font-label-sm text-label-sm font-bold uppercase leading-none">OFFICER STERLING</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant leading-tight">DIV-04 // CLEARANCE B</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- ==================== 2. MAIN ADMIN SHELL ==================== -->
+<div class="max-w-[1440px] w-full mx-auto px-gutter-mobile md:px-gutter py-6 flex-1 flex flex-col lg:flex-row gap-6">
+<!-- ========== LEFT SIDEBAR (ADMINISTRATIVE REGISTRY) ========== -->
+<aside class="w-full lg:w-72 shrink-0 flex flex-col gap-4">
+<!-- Docket Sidebar Wrapper -->
+<div class="bg-surface-container-low border-2 border-on-surface ink-shadow p-3 flex flex-col justify-between h-full">
+<div class="space-y-4">
+<!-- Registry Heading & Tag Hole -->
+<div class="pb-3 border-b-2 border-on-surface flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">folder_managed</span>
+<h2 class="font-label-lg text-label-lg tracking-widest uppercase text-on-surface font-extrabold">
+                ADMINISTRATIVE REGISTRY
+              </h2>
+</div>
+<!-- Physical Punched Eyelet Ring -->
+<div class="w-4 h-4 rounded-full border-2 border-on-surface bg-surface-bright" title="Binder eyelet punch"></div>
+</div>
+<!-- Section Notice / Desk Badge -->
+<div class="bg-surface border border-on-surface p-2 text-left font-label-sm text-label-sm text-on-surface-variant flex items-center justify-between">
+<span>DISPATCH STATUS:</span>
+<span class="font-bold text-on-surface text-primary">LIVE INTAKE</span>
+</div>
+<!-- Navigation Items: Ticket/Docket Stack -->
+<nav class="space-y-2">
+<!-- Item 1: Verifications (Active State) -->
+<a class="block bg-secondary-fixed text-on-surface border-2 border-on-surface p-2.5 font-label-md text-label-md ink-shadow-sm transition-none relative overflow-hidden group" href="#">
+<div class="absolute -left-1 top-2 bottom-2 w-1.5 bg-primary-container border-r border-on-surface"></div>
+<div class="flex items-center justify-between pl-2">
+<span class="font-headline-sm text-headline-sm uppercase tracking-wide font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+                  Verifications
+                </span>
+<span class="bg-primary-container text-on-surface border border-on-surface px-1.5 py-0.5 text-label-sm font-bold rubber-stamp -rotate-2">
+                  14 Pending
+                </span>
+</div>
+<div class="mt-1 pl-2 text-[10px] font-label-sm text-on-surface-variant uppercase tracking-wider">
+                Enrollment ID &amp; Badges
+              </div>
+</a>
+<!-- Item 2: Items -->
+<a class="block bg-surface hover:bg-surface-container-high border-2 border-on-surface p-2.5 font-label-md text-label-md text-on-surface transition-none group" href="#">
+<div class="flex items-center justify-between">
+<span class="font-body-lg text-body-lg uppercase font-bold flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">inventory_2</span>
+                  Items
+                </span>
+<span class="bg-surface-container-high text-on-surface border border-on-surface px-1.5 py-0.5 text-label-sm font-bold">
+                  42 Open
+                </span>
+</div>
+<div class="mt-1 text-[10px] font-label-sm text-on-surface-variant uppercase tracking-wider">
+                Physical Property Manifest
+              </div>
+</a>
+<!-- Item 3: Claims -->
+<a class="block bg-surface hover:bg-surface-container-high border-2 border-on-surface p-2.5 font-label-md text-label-md text-on-surface transition-none group" href="#">
+<div class="flex items-center justify-between">
+<span class="font-body-lg text-body-lg uppercase font-bold flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">assignment</span>
+                  Claims
+                </span>
+<span class="bg-surface-container-high text-on-surface border border-on-surface px-1.5 py-0.5 text-label-sm font-bold">
+                  7 Review
+                </span>
+</div>
+<div class="mt-1 text-[10px] font-label-sm text-on-surface-variant uppercase tracking-wider">
+                Disputed Ownership Ledger
+              </div>
+</a>
+<!-- Item 4: Users -->
+<a class="block bg-surface hover:bg-surface-container-high border-2 border-on-surface p-2.5 font-label-md text-label-md text-on-surface transition-none group" href="#">
+<div class="flex items-center justify-between">
+<span class="font-body-lg text-body-lg uppercase font-bold flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">group</span>
+                  Users
+                </span>
+<span class="bg-surface-container-high text-on-surface border border-on-surface px-1.5 py-0.5 text-label-sm font-bold">
+                  1,280 Verified
+                </span>
+</div>
+<div class="mt-1 text-[10px] font-label-sm text-on-surface-variant uppercase tracking-wider">
+                Campus Student Registry
+              </div>
+</a>
+</nav>
+</div>
+<!-- System Audit Indicator at Bottom -->
+<div class="mt-6 pt-3 border-t-2 border-on-surface bg-surface-container p-2 font-label-sm text-[11px] text-on-surface space-y-1">
+<div class="flex items-center justify-between text-on-surface-variant font-bold">
+<span>TERMINAL LOG:</span>
+<span class="text-tertiary font-mono">SYS-ONLINE</span>
+</div>
+<p class="font-mono font-bold leading-tight uppercase text-on-surface">
+            STATION 04 // CLERK: J. STERLING (ID: 884-A)
+          </p>
+<div class="text-[10px] text-on-surface-variant font-mono">
+            HASH: 4092-B-DISPATCH-VERIF
+          </div>
+</div>
+</div>
+</aside>
+<!-- ========== MAIN CONTENT WORKSTATION ========== -->
+<main class="flex-1 flex flex-col gap-6 min-w-0">
+<!-- 2.1 Archival Workstation Header -->
+<div class="bg-surface-container-low border-2 border-on-surface ink-shadow p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-3 flex-wrap">
+<h1 class="font-headline-xl text-headline-lg md:text-headline-xl font-bold uppercase tracking-tight text-on-surface leading-none">
+              Verification desk
+            </h1>
+<!-- Priority Rubber Stamp Badge -->
+<span class="inline-block px-2.5 py-0.5 border-2 border-primary text-primary font-label-sm font-bold text-label-sm tracking-widest rubber-stamp rotate-2 bg-secondary-fixed">
+              [ PRIORITY QUEUE 1 ]
+            </span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-1.5">
+            OFFICIAL STUDENT ENROLLMENT &amp; CREDENTIAL AUDIT // QUEUE PRIORITY 1
+          </p>
+</div>
+<!-- Shift & Date Stamp -->
+<div class="shrink-0 flex items-center gap-3 bg-secondary-fixed border-2 border-on-surface p-2.5 -rotate-1 ink-shadow-sm">
+<span class="material-symbols-outlined text-primary text-[28px]">calendar_clock</span>
+<div class="text-left font-label-sm">
+<div class="text-[10px] text-on-surface-variant uppercase font-bold">DISPATCH TIMELOG</div>
+<div class="font-bold text-on-surface tracking-wider font-mono">OCT 24, 2024 // SHIFT B</div>
+</div>
+</div>
+</div>
+<!-- 2.2 Stat Tickets Row (Punched Ticket Stubs & Inspection Tags) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+<!-- Ticket 1: Pending Verifications -->
+<div class="bg-secondary-fixed border-2 border-on-surface ink-shadow p-3.5 relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between border-b border-on-surface pb-1.5 mb-2">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface">TICKET #01 // INTAKE</span>
+<div class="w-3 h-3 rounded-full border border-on-surface bg-surface"></div>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="font-label-md text-label-sm font-bold uppercase text-on-surface-variant">PENDING VERIFICATIONS</span>
+<span class="font-headline-xl text-headline-xl font-extrabold text-on-surface font-mono leading-none">14</span>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-on-surface flex items-center justify-between">
+<span class="inline-block bg-primary-container text-on-surface border border-on-surface px-1.5 py-0.2 font-label-sm text-[10px] font-bold">
+              +3 today
+            </span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-mono">WAIT: &lt; 25 MIN</span>
+</div>
+</div>
+<!-- Ticket 2: Open Items -->
+<div class="bg-surface-container border-2 border-on-surface ink-shadow p-3.5 relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between border-b border-on-surface pb-1.5 mb-2">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface">TICKET #02 // MANIFEST</span>
+<div class="w-3 h-3 rounded-full border border-on-surface bg-surface"></div>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="font-label-md text-label-sm font-bold uppercase text-on-surface-variant">OPEN ITEMS</span>
+<span class="font-headline-xl text-headline-xl font-extrabold text-on-surface font-mono leading-none">42</span>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-on-surface flex items-center justify-between">
+<span class="text-label-sm text-[10px] font-bold text-on-surface font-mono">VAULT STORAGE: BAY 3</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-mono">ACTIVE HOLD</span>
+</div>
+</div>
+<!-- Ticket 3: Returned Items -->
+<div class="bg-surface border-2 border-on-surface ink-shadow p-3.5 relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between border-b border-on-surface pb-1.5 mb-2">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface">TICKET #03 // DISCHARGED</span>
+<div class="w-3 h-3 rounded-full border border-on-surface bg-surface"></div>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="font-label-md text-label-sm font-bold uppercase text-on-surface-variant">RETURNED ITEMS</span>
+<span class="font-headline-xl text-headline-xl font-extrabold text-on-surface font-mono leading-none">389</span>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-on-surface flex items-center justify-between">
+<span class="inline-block border border-secondary text-on-surface bg-secondary-container px-1 py-0.5 text-label-sm text-[10px] font-bold rubber-stamp -rotate-1">
+              89.2% resolution rate
+            </span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-mono">SEMESTER YTD</span>
+</div>
+</div>
+<!-- Ticket 4: Total Users -->
+<div class="bg-surface-container-high border-2 border-on-surface ink-shadow p-3.5 relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-center justify-between border-b border-on-surface pb-1.5 mb-2">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface">TICKET #04 // POPULATION</span>
+<div class="w-3 h-3 rounded-full border border-on-surface bg-surface"></div>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="font-label-md text-label-sm font-bold uppercase text-on-surface-variant">TOTAL USERS</span>
+<span class="font-headline-xl text-headline-xl font-extrabold text-on-surface font-mono leading-none">1,280</span>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-on-surface flex items-center justify-between">
+<span class="inline-block px-1.5 py-0.5 border border-on-surface bg-surface text-on-surface font-label-sm text-[10px] font-bold uppercase tracking-wider">
+              OFFICIAL SEAL
+            </span>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-mono">AUTH 100%</span>
+</div>
+</div>
+</div>
+<!-- 2.3 Split Workstation Panes (Applications Queue vs Dossier Desk) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- ==================== LEFT PANE: APPLICATIONS QUEUE (5 cols) ==================== -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<div class="bg-surface-container-low border-2 border-on-surface ink-shadow p-4">
+<!-- Pane Header -->
+<div class="flex items-center justify-between pb-3 border-b-2 border-on-surface mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">fact_check</span>
+<h3 class="font-headline-sm text-headline-sm font-bold uppercase tracking-wider text-on-surface">
+                  APPLICANT INTAKE
+                </h3>
+</div>
+<span class="font-label-sm text-label-sm bg-surface px-2 py-0.5 border border-on-surface font-mono">
+                14 QUEUED
+              </span>
+</div>
+<!-- Search & Filter Controls -->
+<div class="space-y-3 mb-4">
+<!-- Search Bar -->
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">
+                  search
+                </span>
+<input class="w-full pl-9 pr-3 py-2 bg-surface border-2 border-on-surface font-label-md text-label-md text-on-surface placeholder:text-on-surface-variant focus:bg-secondary-fixed focus:outline-none focus:ring-0 ink-shadow-sm transition-none" placeholder="Filter by name, campus ID, or email..." type="text">
+</div>
+<!-- Filter Tabs Pill/Tag Buttons -->
+<div class="flex flex-wrap gap-1.5">
+<button class="bg-on-surface text-surface px-2.5 py-1 text-label-sm font-label-sm font-bold uppercase border border-on-surface transition-none">
+                  All (14)
+                </button>
+<button class="bg-surface hover:bg-surface-container-high text-on-surface px-2.5 py-1 text-label-sm font-label-sm font-semibold uppercase border border-on-surface transition-none">
+                  Flagged (3)
+                </button>
+<button class="bg-surface hover:bg-surface-container-high text-on-surface px-2.5 py-1 text-label-sm font-label-sm font-semibold uppercase border border-on-surface transition-none">
+                  Priority First-Year (6)
+                </button>
+<button class="bg-surface hover:bg-surface-container-high text-on-surface px-2.5 py-1 text-label-sm font-label-sm font-semibold uppercase border border-on-surface transition-none">
+                  Expiring (5)
+                </button>
+</div>
+</div>
+<!-- List of Applications (Filing Index Cards) -->
+<div class="space-y-3">
+<!-- Card 1: Elena Vance (ACTIVE / SELECTED STATE) -->
+<div class="bg-secondary-fixed border-2 border-on-surface p-3.5 ink-shadow relative cursor-pointer group">
+<!-- Manila Tag Edge Accent -->
+<div class="absolute -left-1 top-3 bottom-3 w-2 bg-primary-container border-r-2 border-on-surface"></div>
+<div class="flex items-start justify-between pl-2">
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-headline-sm text-headline-sm font-bold text-on-surface uppercase tracking-wide">
+                        Elena Vance
+                      </h4>
+<span class="inline-block text-[10px] font-label-sm bg-on-surface text-surface px-1 font-bold">
+                        ACTIVE FILE
+                      </span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant font-mono">
+                      e.vance@campus.edu
+                    </p>
+</div>
+<!-- Stamp Indicator -->
+<span class="border-2 border-primary text-primary px-1.5 py-0.5 font-label-sm text-[10px] font-bold rubber-stamp rotate-2">
+                    AWAITING REVIEW
+                  </span>
+</div>
+<div class="mt-2.5 pl-2 pt-2 border-t border-dashed border-on-surface flex flex-wrap items-center justify-between text-label-sm font-label-sm text-on-surface">
+<span class="font-semibold">Architecture &amp; Urban Design</span>
+<span class="font-mono text-on-surface-variant">Year 3 (Junior)</span>
+</div>
+<div class="pl-2 mt-1 flex items-center justify-between text-[11px] font-mono text-on-surface-variant">
+<span>REF: #2022-8491</span>
+<span class="text-primary font-bold">12 mins ago</span>
+</div>
+</div>
+<!-- Card 2: Marcus Chen (Flagged / Blurry) -->
+<div class="bg-surface hover:bg-surface-container border-2 border-on-surface p-3.5 ink-shadow-sm transition-none cursor-pointer">
+<div class="flex items-start justify-between">
+<div>
+<h4 class="font-headline-sm text-headline-sm font-bold text-on-surface uppercase tracking-wide">
+                      Marcus Chen
+                    </h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant font-mono">
+                      m.chen44@campus.edu
+                    </p>
+</div>
+<span class="border-2 border-error text-error px-1.5 py-0.5 font-label-sm text-[10px] font-bold rubber-stamp -rotate-1">
+                    FLAGGED - BLURRY
+                  </span>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-outline-variant flex flex-wrap items-center justify-between text-label-sm font-label-sm text-on-surface">
+<span>Computer Science &amp; AI Lab</span>
+<span class="font-mono text-on-surface-variant">Year 1 (Freshman)</span>
+</div>
+<div class="mt-1 flex items-center justify-between text-[11px] font-mono text-on-surface-variant">
+<span>REF: #2024-1102</span>
+<span>34 mins ago</span>
+</div>
+</div>
+<!-- Card 3: Amara Okafor -->
+<div class="bg-surface hover:bg-surface-container border-2 border-on-surface p-3.5 ink-shadow-sm transition-none cursor-pointer">
+<div class="flex items-start justify-between">
+<div>
+<h4 class="font-headline-sm text-headline-sm font-bold text-on-surface uppercase tracking-wide">
+                      Amara Okafor
+                    </h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant font-mono">
+                      a.okafor@campus.edu
+                    </p>
+</div>
+<span class="border-2 border-on-surface-variant text-on-surface-variant px-1.5 py-0.5 font-label-sm text-[10px] font-bold rubber-stamp rotate-1">
+                    AWAITING REVIEW
+                  </span>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-outline-variant flex flex-wrap items-center justify-between text-label-sm font-label-sm text-on-surface">
+<span>Bioengineering</span>
+<span class="font-mono text-on-surface-variant">Year 4 (Senior)</span>
+</div>
+<div class="mt-1 flex items-center justify-between text-[11px] font-mono text-on-surface-variant">
+<span>REF: #2021-0498</span>
+<span>1 hr ago</span>
+</div>
+</div>
+<!-- Card 4: Julian Ross -->
+<div class="bg-surface hover:bg-surface-container border-2 border-on-surface p-3.5 ink-shadow-sm transition-none cursor-pointer">
+<div class="flex items-start justify-between">
+<div>
+<h4 class="font-headline-sm text-headline-sm font-bold text-on-surface uppercase tracking-wide">
+                      Julian Ross
+                    </h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant font-mono">
+                      j.ross@campus.edu
+                    </p>
+</div>
+<span class="border-2 border-on-surface-variant text-on-surface-variant px-1.5 py-0.5 font-label-sm text-[10px] font-bold rubber-stamp -rotate-2">
+                    AWAITING REVIEW
+                  </span>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-outline-variant flex flex-wrap items-center justify-between text-label-sm font-label-sm text-on-surface">
+<span>Fine Arts &amp; Printmaking</span>
+<span class="font-mono text-on-surface-variant">Year 2 (Sophomore)</span>
+</div>
+<div class="mt-1 flex items-center justify-between text-[11px] font-mono text-on-surface-variant">
+<span>REF: #2023-9014</span>
+<span>2 hrs ago</span>
+</div>
+</div>
+<!-- Card 5: Sarah Lindqvist -->
+<div class="bg-surface hover:bg-surface-container border-2 border-on-surface p-3.5 ink-shadow-sm transition-none cursor-pointer">
+<div class="flex items-start justify-between">
+<div>
+<h4 class="font-headline-sm text-headline-sm font-bold text-on-surface uppercase tracking-wide">
+                      Sarah Lindqvist
+                    </h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant font-mono">
+                      s.lindqvist@campus.edu
+                    </p>
+</div>
+<span class="border-2 border-on-surface-variant text-on-surface-variant px-1.5 py-0.5 font-label-sm text-[10px] font-bold rubber-stamp rotate-1">
+                    AWAITING REVIEW
+                  </span>
+</div>
+<div class="mt-2 pt-2 border-t border-dashed border-outline-variant flex flex-wrap items-center justify-between text-label-sm font-label-sm text-on-surface">
+<span>School of Law</span>
+<span class="font-mono text-on-surface-variant">Graduate (1L)</span>
+</div>
+<div class="mt-1 flex items-center justify-between text-[11px] font-mono text-on-surface-variant">
+<span>REF: #2024-5541</span>
+<span>3 hrs ago</span>
+</div>
+</div>
+</div>
+<!-- Queue Footer Pagination -->
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-on-surface-variant font-mono">SHOWING 5 OF 14 RECORDS</span>
+<div class="flex gap-1">
+<button class="border border-on-surface px-2 py-0.5 bg-surface hover:bg-surface-container font-mono font-bold">&lt;</button>
+<button class="border border-on-surface px-2 py-0.5 bg-on-surface text-surface font-mono font-bold">1</button>
+<button class="border border-on-surface px-2 py-0.5 bg-surface hover:bg-surface-container font-mono font-bold">2</button>
+<button class="border border-on-surface px-2 py-0.5 bg-surface hover:bg-surface-container font-mono font-bold">3</button>
+<button class="border border-on-surface px-2 py-0.5 bg-surface hover:bg-surface-container font-mono font-bold">&gt;</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ==================== RIGHT PANE: SELECTED APPLICANT DOSSIER (7 cols) ==================== -->
+<div class="lg:col-span-7 flex flex-col gap-5">
+<div class="bg-surface-container-low border-2 border-on-surface ink-shadow p-5 sm:p-6">
+<!-- Dossier Header Section -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b-2 border-on-surface">
+<div>
+<div class="flex items-center gap-2">
+<span class="bg-on-surface text-surface font-label-sm text-[10px] font-bold px-1.5 py-0.5 uppercase tracking-wider">
+                    PRIMARY AUDIT DOSSIER
+                  </span>
+<span class="font-label-md text-label-md font-mono font-bold text-on-surface tracking-wider">
+                    REF: APP-2024-0982
+                  </span>
+</div>
+<h3 class="font-headline-lg text-headline-md sm:text-headline-lg font-bold text-on-surface uppercase mt-1">
+                  Elena Vance // Credentials
+                </h3>
+</div>
+<div class="text-left sm:text-right">
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-tertiary font-bold tracking-wider uppercase bg-tertiary-fixed px-2 py-0.5 border border-on-surface">
+<span class="material-symbols-outlined text-[14px]">cloud_done</span>
+                  SUBMITTED VIA SECURE UPLOAD
+                </span>
+<div class="text-[10px] font-mono text-on-surface-variant mt-1">OCT 24, 2024 // 14:28:11 UTC</div>
+</div>
+</div>
+<!-- PINNED EVIDENCE DISPLAY (Physical Pinned Cardboard & Student ID) -->
+<div class="my-5 bg-[#ede4d1] border-2 border-on-surface p-4 sm:p-6 relative ink-shadow-sm">
+<!-- Simulated Push Pins & Tape -->
+<div class="absolute -top-3 left-8 w-6 h-6 rounded-full bg-primary-container border-2 border-on-surface ink-shadow-sm flex items-center justify-center" title="Push Pin">
+<div class="w-1.5 h-1.5 bg-on-surface rounded-full"></div>
+</div>
+<div class="absolute -top-3 right-8 w-6 h-6 rounded-full bg-secondary border-2 border-on-surface ink-shadow-sm flex items-center justify-center" title="Push Pin">
+<div class="w-1.5 h-1.5 bg-on-surface rounded-full"></div>
+</div>
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-surface-container-high/80 border border-on-surface -rotate-1 pointer-events-none" title="Drafting Tape"></div>
+<!-- Top Controls Bar for Inspection Desk -->
+<div class="flex items-center justify-between pb-3 mb-4 border-b border-on-surface/40">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-widest text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                  EVIDENCE CARD: NASU-ID-SUBMISSION.WEBP
+                </span>
+<div class="flex items-center gap-2">
+<button class="bg-surface border border-on-surface px-2 py-0.5 font-label-sm text-[11px] font-bold hover:bg-surface-container uppercase transition-none" title="100% Zoom">
+                    100% Zoom
+                  </button>
+<button class="bg-surface border border-on-surface px-2 py-0.5 font-label-sm text-[11px] font-bold hover:bg-surface-container uppercase transition-none" title="Rotate">
+                    Rotate
+                  </button>
+<button class="bg-surface border border-on-surface px-2 py-0.5 font-label-sm text-[11px] font-bold hover:bg-surface-container uppercase transition-none text-tertiary" title="Raw WEBP">
+                    Raw WEBP
+                  </button>
+</div>
+</div>
+<!-- Physical Student University ID Mockup inside Evidence Panel -->
+<div class="max-w-lg mx-auto bg-surface-container-lowest border-2 border-on-surface p-4 ink-shadow relative rotate-0.5">
+<!-- ID Card Header -->
+<div class="border-b-2 border-on-surface pb-2 mb-3 flex items-center justify-between bg-surface-container-high p-2 -mx-4 -mt-4 border-t-0">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">account_balance</span>
+<div>
+<div class="font-headline-sm text-[13px] font-extrabold uppercase tracking-wider text-on-surface leading-tight">
+                        NORTHERN ARCHIVE STATE UNIVERSITY
+                      </div>
+<div class="font-label-sm text-[9px] text-on-surface-variant uppercase tracking-widest font-mono">
+                        OFFICIAL UNDERGRADUATE CREDENTIAL
+                      </div>
+</div>
+</div>
+<!-- Mini Campus Seal Stamp -->
+<div class="border border-on-surface px-1.5 py-0.5 text-[8px] font-bold font-mono uppercase bg-secondary-fixed">
+                    ACAD 2024-25
+                  </div>
+</div>
+<!-- ID Card Body: Photo + Demographics -->
+<div class="grid grid-cols-12 gap-3 items-center">
+<!-- ID Photo -->
+<div class="col-span-4 border-2 border-on-surface bg-surface-container-low p-1 relative">
+<img class="w-full aspect-[3/4] object-cover" data-alt="A color campus student portrait photograph of Elena Vance, a female undergraduate architecture student with dark hair tied back in a bun and focused expression, wearing an earth-toned collegiate crewneck sweater against a blue campus ID verification backdrop. Natural daylight studio lighting, clear sharp composition with official collegiate archival sharpness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsZw4pfvfak9m7C_aeRG0QAFam0w77gNVmn8S-dtVtHPak0NkgPxBxwC0Wu7RkWHukGm-D3K-cmEBetc-Sopj6lSA4D4kUHMtir7etQc3t9YPZtovGPNY6q2bqSuMLdF8c03nXrUdXu1sHIkodv-gFB5O0F2U2vCzYybdJ4E9LdZZjbfN4PtxeQscaUxW62lWn2EMW0t23i-Ag8OWV3XkuzPQcxf_TA1V-3C1WdgjB">
+<!-- Photo Corner Brackets -->
+<div class="absolute bottom-1 right-1 bg-on-surface text-surface text-[8px] font-mono px-0.5">AUTH</div>
+</div>
+<!-- Details -->
+<div class="col-span-8 flex flex-col justify-between h-full space-y-1">
+<div>
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">STUDENT NAME</span>
+<h4 class="font-headline-md text-headline-sm font-extrabold text-on-surface tracking-wide uppercase">
+                        ELENA VANCE
+                      </h4>
+</div>
+<div class="grid grid-cols-2 gap-2 text-left font-mono">
+<div>
+<span class="text-[9px] text-on-surface-variant block uppercase">STUDENT ID #</span>
+<span class="font-bold text-[12px] text-on-surface">2022-8491-ARCH</span>
+</div>
+<div>
+<span class="text-[9px] text-on-surface-variant block uppercase">VALID THRU</span>
+<span class="font-bold text-[12px] text-primary">SPRING 2026</span>
+</div>
+</div>
+<div>
+<span class="text-[9px] text-on-surface-variant font-mono block uppercase">PROGRAM FACULTY</span>
+<span class="font-label-md text-[11px] font-bold text-on-surface uppercase block">
+                        DEPT OF ARCHITECTURE // B.ARCH
+                      </span>
+</div>
+<!-- Simulated Barcode -->
+<div class="pt-2 border-t border-on-surface mt-1">
+<div class="h-6 bg-on-surface w-full flex items-center justify-between px-1">
+<div class="w-1 h-full bg-surface"></div>
+<div class="w-2 h-full bg-surface"></div>
+<div class="w-0.5 h-full bg-surface"></div>
+<div class="w-1.5 h-full bg-surface"></div>
+<div class="w-0.5 h-full bg-surface"></div>
+<div class="w-2 h-full bg-surface"></div>
+<div class="w-1 h-full bg-surface"></div>
+<div class="w-3 h-full bg-surface"></div>
+<div class="w-1 h-full bg-surface"></div>
+<div class="w-0.5 h-full bg-surface"></div>
+<div class="w-2 h-full bg-surface"></div>
+<div class="w-1 h-full bg-surface"></div>
+<div class="w-0.5 h-full bg-surface"></div>
+</div>
+<div class="text-[8px] font-mono tracking-widest text-center text-on-surface-variant uppercase mt-0.5">
+                        *20228491ARCHVANCE*
+                      </div>
+</div>
+</div>
+</div>
+<!-- Overlaid Inked Rubber Status Seal -->
+<div class="absolute -bottom-2 -right-2 border-2 border-primary text-primary px-2 py-0.5 font-label-md text-[11px] font-extrabold rubber-stamp rotate-[-6deg] bg-secondary-fixed/95 pointer-events-none">
+                  SEAL VALIDATED // ARCHIVE 04
+                </div>
+</div>
+</div>
+<!-- APPLICANT METADATA GRID (Typewriter Monospaced Filing Docket) -->
+<div class="bg-surface border-2 border-on-surface p-4 mb-5">
+<div class="flex items-center justify-between pb-2 mb-3 border-b border-on-surface">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">badge</span>
+                  VERIFICATION DATA LEDGER
+                </span>
+<span class="font-label-sm text-[10px] text-tertiary font-mono font-bold">
+                  DATABASE SYNC: OK
+                </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-left font-mono">
+<div class="bg-surface-container p-2 border border-on-surface/30">
+<span class="text-[10px] text-on-surface-variant uppercase block">Full Legal Name</span>
+<span class="font-bold text-label-md text-on-surface">Elena Marie Vance</span>
+</div>
+<div class="bg-surface-container p-2 border border-on-surface/30">
+<span class="text-[10px] text-on-surface-variant uppercase block">Student Email</span>
+<span class="font-bold text-label-md text-on-surface truncate block">e.vance@campus.edu</span>
+</div>
+<div class="bg-surface-container p-2 border border-on-surface/30">
+<span class="text-[10px] text-on-surface-variant uppercase block">Matriculation ID</span>
+<span class="font-bold text-label-md text-on-surface">2022-8491-ARCH</span>
+</div>
+<div class="bg-surface-container p-2 border border-on-surface/30">
+<span class="text-[10px] text-on-surface-variant uppercase block">Degree Program</span>
+<span class="font-bold text-label-md text-on-surface">B.Arch (Design Track)</span>
+</div>
+<div class="bg-surface-container p-2 border border-on-surface/30">
+<span class="text-[10px] text-on-surface-variant uppercase block">Enrollment Term</span>
+<span class="font-bold text-label-md text-on-surface">Fall 2024 (Full Time)</span>
+</div>
+<div class="bg-surface-container p-2 border border-on-surface/30">
+<span class="text-[10px] text-on-surface-variant uppercase block">IP / Terminal Dispatch</span>
+<span class="font-bold text-label-md text-on-surface">128.194.40.119 (Campus WiFi)</span>
+</div>
+</div>
+</div>
+<!-- DISPOSITION & ACTION SECTION -->
+<div class="bg-secondary-fixed/40 border-2 border-on-surface p-4 sm:p-5">
+<div class="mb-3">
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface flex items-center gap-1.5" for="rejection-reason">
+<span class="material-symbols-outlined text-error text-[16px]">report_problem</span>
+                    REJECTION REASON (REQUIRED IF DISAPPROVED)
+                  </label>
+<span class="text-[10px] font-mono text-on-surface-variant">AUDIT LOGGED</span>
+</div>
+<textarea class="w-full p-2.5 bg-surface border-2 border-on-surface font-mono text-label-md text-on-surface placeholder:text-on-surface-variant/70 focus:bg-surface-bright focus:outline-none focus:ring-0 ink-shadow-sm transition-none" id="rejection-reason" placeholder="State explicit defect (e.g. Photo obscured, expired semester sticker, unreadable name)..." rows="2"></textarea>
+<!-- Quick Reason Chips -->
+<div class="flex flex-wrap items-center gap-1.5 mt-2">
+<span class="text-[10px] font-mono text-on-surface-variant uppercase font-bold mr-1">Quick Select:</span>
+<button class="bg-surface hover:bg-surface-container-high border border-on-surface px-2 py-0.5 text-[10px] font-mono text-on-surface font-semibold transition-none" type="button">
+                    + Blurry Photo
+                  </button>
+<button class="bg-surface hover:bg-surface-container-high border border-on-surface px-2 py-0.5 text-[10px] font-mono text-on-surface font-semibold transition-none" type="button">
+                    + Expired Semester
+                  </button>
+<button class="bg-surface hover:bg-surface-container-high border border-on-surface px-2 py-0.5 text-[10px] font-mono text-on-surface font-semibold transition-none" type="button">
+                    + Name Mismatch
+                  </button>
+<button class="bg-surface hover:bg-surface-container-high border border-on-surface px-2 py-0.5 text-[10px] font-mono text-on-surface font-semibold transition-none" type="button">
+                    + Invalid Document Type
+                  </button>
+</div>
+</div>
+<!-- Main Decision Action Buttons -->
+<div class="pt-3 border-t-2 border-on-surface flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+<!-- Approve Button (Prominent Emerald Green with Stamp Styling) -->
+<button class="bg-[#1E7B4F] text-surface-container-lowest hover:bg-[#186440] border-2 border-on-surface px-5 py-3 font-headline-sm text-headline-sm uppercase font-extrabold tracking-wider ink-shadow ink-shadow-press flex items-center justify-center gap-2 transition-none">
+<span class="material-symbols-outlined text-[24px]">check_circle</span>
+                  [ APPROVE &amp; ISSUE PASS ]
+                </button>
+<!-- Reject Button (Archival Red with Stamp Texture) -->
+<button class="bg-[#C8312B] text-surface-container-lowest hover:bg-[#a62520] border-2 border-on-surface px-4 py-3 font-headline-sm text-headline-sm uppercase font-extrabold tracking-wider ink-shadow ink-shadow-press flex items-center justify-center gap-2 transition-none">
+<span class="material-symbols-outlined text-[24px]">cancel</span>
+                  [ REJECT APPLICATION ]
+                </button>
+<!-- Secondary Action: Escalate -->
+<button class="bg-surface hover:bg-surface-container border-2 border-on-surface px-3 py-3 font-label-md text-label-md uppercase font-bold text-on-surface ink-shadow-sm ink-shadow-press flex items-center justify-center gap-1.5 transition-none">
+<span class="material-symbols-outlined text-[18px]">forward_to_inbox</span>
+                  Escalate to Chief Registrar
+                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- ==================== 3. ARCHIVAL FOOTER (SHARED COMPONENT IMPLEMENTATION) ==================== -->
+<footer class="w-full bg-surface-container border-t-2 border-on-surface mt-auto">
+<div class="max-w-[1440px] mx-auto px-gutter py-space-md flex flex-col md:flex-row justify-between items-center gap-4">
+<!-- Left: Institutional Archival Stamp Text -->
+<div class="text-center md:text-left">
+<span class="font-label-md text-label-md tracking-widest uppercase text-on-surface font-extrabold block">
+          PROPERTY DISPOSITION DIVISION // ARCHIVAL REGISTRY SYSTEM REF. NO. 4092-B
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">
+          OFFICIAL CAMPUS LOST-AND-FOUND PORTAL // ALL RIGHTS RESERVED
+        </span>
+</div>
+<!-- Right: Institutional Regulatory Links -->
+<nav class="flex flex-wrap items-center justify-center gap-3 font-label-sm text-label-sm">
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">
+          System Manual
+        </a>
+<span class="text-outline">/</span>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">
+          Retention Policy
+        </a>
+<span class="text-outline">/</span>
+<a class="text-on-surface font-label-sm text-label-sm underline hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">
+          Audit Log
+        </a>
+<span class="text-outline">/</span>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">
+          Lost Property Act
+        </a>
+<span class="text-outline">/</span>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">
+          Terminal Status
+        </a>
+</nav>
+</div>
+</footer>
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div></body></html>

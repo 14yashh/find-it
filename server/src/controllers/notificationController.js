@@ -15,3 +15,9 @@ export const markAllAsRead = asyncHandler(async (req, res) => {
   await notificationSvc.markAllAsRead(req.user._id);
   res.json({ success: true, data: { message: 'All notifications marked as read' } });
 });
+
+export const deleteNotification = asyncHandler(async (req, res) => {
+  await notificationSvc.deleteNotification(req.user._id, req.params.id);
+  res.json({ success: true, data: { message: 'Notification deleted permanently' } });
+});
+

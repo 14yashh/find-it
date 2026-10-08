@@ -3,6 +3,7 @@ import {
   getNotifications,
   markNotificationRead as apiMarkRead,
   markAllNotificationsRead as apiMarkAllRead,
+  deleteNotification as apiDeleteNotification,
 } from '../api/notifications.js';
 
 export function useNotifications() {
@@ -58,6 +59,23 @@ export function useNotifications() {
     );
   }, []);
 
+  const deleteNotification = useCallback(async (id) => {
+    try {
+      await apiDeleteNotification(id);
+    } catch { /* optimistic */ }
+    setData((prev) => {
+      if (!prev) return prev;
+      const target = prev.notifications.find((n) => n._id === id);
+      const decr = target && !target.isRead ? 1 : 0;
+      return {
+        ...prev,
+        notifications: prev.notifications.filter((n) => n._id !== id),
+        total: Math.max(0, (prev.total || 0) - 1),
+        unreadCount: Math.max(0, (prev.unreadCount || 0) - decr),
+      };
+    });
+  }, []);
+
   const notifications = data?.notifications || [];
   const unreadCount = data?.unreadCount ?? notifications.filter((n) => !n.isRead).length;
 
@@ -67,6 +85,7 @@ export function useNotifications() {
     unreadCount,
     markAsRead,
     markAllAsRead,
+    deleteNotification,
     isLoading,
     isError,
     error,

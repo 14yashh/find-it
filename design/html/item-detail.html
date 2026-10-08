@@ -1,0 +1,962 @@
+<!DOCTYPE html><html class="light" lang="en" style="width: 1280px; height: 1323px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FINDIT // DOCKET #FD-88219 - Central Archival Ledger</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Space Grotesk & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#faf8fe",
+            "error-container": "#ffdad6",
+            "surface-variant": "#e3e2e7",
+            "inverse-on-surface": "#f1f0f6",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#524622",
+            "on-primary-fixed": "#390c00",
+            "tertiary-fixed": "#d0e4ff",
+            "on-background": "#1a1b1f",
+            "primary-fixed-dim": "#ffb59c",
+            "inverse-primary": "#ffb59c",
+            "tertiary-fixed-dim": "#9acbff",
+            "primary-container": "#ff5b14",
+            "on-surface": "#1a1b1f",
+            "secondary-fixed-dim": "#d7c597",
+            "on-surface-variant": "#5b4138",
+            "on-tertiary-container": "#002d4d",
+            "on-error": "#ffffff",
+            "on-secondary-fixed": "#241a00",
+            "surface-container": "#efedf3",
+            "secondary-fixed": "#f4e1b1",
+            "surface-container-low": "#f4f3f8",
+            "primary": "#aa3600",
+            "outline": "#8f7066",
+            "on-tertiary": "#ffffff",
+            "on-primary-container": "#531600",
+            "on-error-container": "#93000a",
+            "background": "#faf8fe",
+            "tertiary-container": "#0098f2",
+            "outline-variant": "#e4beb2",
+            "surface-container-high": "#e9e7ed",
+            "surface": "#faf8fe",
+            "on-tertiary-fixed": "#001d34",
+            "on-secondary-container": "#71633d",
+            "surface-dim": "#dad9df",
+            "primary-fixed": "#ffdbcf",
+            "on-primary-fixed-variant": "#822700",
+            "on-tertiary-fixed-variant": "#004a79",
+            "secondary": "#6b5d38",
+            "tertiary": "#00629f",
+            "surface-tint": "#aa3600",
+            "inverse-surface": "#2f3034",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#f4e1b1",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-highest": "#e3e2e7",
+            "error": "#ba1a1a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter-mobile": "1rem",
+            "margin-mobile": "1rem",
+            "margin": "3rem",
+            "space-xl": "2.5rem",
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "body-md": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "body-lg": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-xl": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "label-md": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["32px", { "lineHeight": "38px", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "36px", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+            "headline-xl": ["48px", { "lineHeight": "52px", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "28px", "fontWeight": "700" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Physical Paper & Archival Metaphor Styling */
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+
+    /* Manila paper grid grain */
+    .ledger-grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(26, 27, 31, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26, 27, 31, 0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    /* Ruled paper lined background */
+    .ruled-lines {
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 23px,
+        rgba(143, 112, 102, 0.25) 24px
+      );
+      line-height: 24px;
+    }
+
+    /* Neo-brutalist paper box shadow */
+    .paper-shadow {
+      box-shadow: 4px 4px 0px #1a1b1f;
+    }
+    .paper-shadow-sm {
+      box-shadow: 2px 2px 0px #1a1b1f;
+    }
+    .paper-shadow-lg {
+      box-shadow: 6px 6px 0px #1a1b1f;
+    }
+
+    /* Masking tape effect */
+    .tape-strip {
+      background: rgba(244, 225, 177, 0.85);
+      border-left: 2px dashed rgba(107, 93, 56, 0.4);
+      border-right: 2px dashed rgba(107, 93, 56, 0.4);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    /* Brass paperclip simulated styling */
+    .brass-clip {
+      position: absolute;
+      width: 14px;
+      height: 48px;
+      border: 3px solid #bda255;
+      border-radius: 8px;
+      z-index: 20;
+      box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Punch hole cutouts */
+    .punch-hole {
+      width: 18px;
+      height: 18px;
+      border-radius: 9999px;
+      background: #faf8fe;
+      border: 2px solid #1a1b1f;
+      box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Stamp ink effect */
+    .ink-stamp {
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      mix-blend-mode: multiply;
+      display: inline-block;
+      user-select: none;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col ledger-grid-bg selection:bg-primary-container selection:text-on-surface">
+<!-- ========================================================================= -->
+<!-- 1. TOP APP BAR (Shared Component Exact Implementation)                    -->
+<!-- ========================================================================= -->
+<header class="bg-surface-container-low dark:bg-surface border-b-2 border-on-surface dark:border-outline [box-shadow:0px_4px_0px_#1a1b1f] sticky top-0 z-40">
+<div class="w-full px-gutter max-w-[1440px] mx-auto flex items-center justify-between h-16">
+<!-- Left: Logo & Search -->
+<div class="flex items-center gap-6">
+<div class="font-headline-sm text-headline-sm font-bold tracking-wider text-on-surface dark:text-inverse-on-surface uppercase border-2 border-on-surface dark:border-outline px-2 py-0.5 inline-block -rotate-1 bg-surface-container-lowest">
+          FINDIT // CENTRAL ARCHIVE
+        </div>
+<div class="relative hidden lg:flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant pointer-events-none text-body-md">search</span>
+<input class="pl-9 pr-3 py-1 bg-surface-container-lowest border-2 border-on-surface font-label-md text-label-md text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:bg-secondary-fixed focus:[box-shadow:2px_2px_0px_#1a1b1f] w-72 rounded-none" placeholder="Search Ledger Dossiers (Tag, S/N, Location)..." type="text">
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-6">
+<!-- Active Nav: Browse Ledger -->
+<a class="text-on-surface dark:text-inverse-on-surface font-label-md text-label-md underline underline-offset-4 decoration-2 decoration-primary" href="#ledger">
+          Browse Ledger
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-on-surface dark:hover:text-inverse-on-surface" href="#my-items">
+          My Items
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:text-on-surface dark:hover:text-inverse-on-surface" href="#claims">
+          Claims Registry
+        </a>
+</nav>
+<!-- Trailing Primary Action & Icons -->
+<div class="flex items-center gap-3">
+<button class="bg-primary-container text-on-surface font-headline-sm text-label-md font-bold px-3 py-1.5 border-2 border-on-surface paper-shadow hover:bg-primary-fixed active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center gap-1.5 transition-none" onclick="switchVariant('lost')">
+<span class="material-symbols-outlined text-body-lg">post_add</span>
+          Report Item
+        </button>
+<button class="p-1.5 border-2 border-on-surface bg-surface-container-lowest paper-shadow hover:bg-surface-container-high active:translate-x-0.5 active:translate-y-0.5 active:shadow-none relative transition-none" title="Archive Notifications">
+<span class="material-symbols-outlined block text-on-surface">notifications</span>
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary-container border border-on-surface"></span>
+</button>
+<div class="border-2 border-on-surface p-0.5 bg-surface-container-lowest paper-shadow" title="Officer Identification Stamp">
+<div class="w-8 h-8 bg-secondary-fixed flex items-center justify-center font-label-md font-bold text-on-surface text-label-sm border border-dashed border-on-surface">
+            MV-42
+          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- ========================================================================= -->
+<!-- 2. CASE REGISTRY TOOLBAR & PROTOTYPE VIEW SELECTOR                       -->
+<!-- ========================================================================= -->
+<section class="border-b-2 border-on-surface bg-secondary-fixed px-gutter py-2.5">
+<div class="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-3 font-label-md text-label-md">
+<!-- Breadcrumb info -->
+<div class="flex items-center gap-3 w-full md:w-auto">
+<a class="flex items-center gap-1 font-bold text-on-surface hover:bg-on-surface hover:text-surface px-1.5 py-0.5 border border-on-surface bg-surface-container-lowest transition-none" href="#back">
+<span class="material-symbols-outlined text-body-md">arrow_back</span>
+<span>Back to The Drawer</span>
+</a>
+<span class="text-on-surface font-bold tracking-wider">/</span>
+<span class="text-on-surface font-bold tracking-wider">
+          CENTRAL ARCHIVE // DRAWER 04-B // <span class="bg-surface-container-lowest px-2 py-0.5 border border-on-surface font-extrabold text-primary">DOCKET #FD-88219</span>
+</span>
+<span class="hidden sm:inline-flex items-center gap-1 text-label-sm text-secondary px-2 py-0.5 border border-dashed border-secondary bg-surface-container-lowest">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+          ACTIVE REQUISITION
+        </span>
+</div>
+<!-- Prototype Interactive Switcher (4 Specifications) -->
+<div class="flex items-center gap-1.5 bg-surface-container-lowest border-2 border-on-surface p-1 paper-shadow w-full md:w-auto overflow-x-auto">
+<span class="text-label-sm font-bold text-on-surface px-1 uppercase tracking-tight flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md">visibility</span> Audit View:
+        </span>
+<button class="px-2.5 py-1 text-label-sm font-bold border border-on-surface bg-primary-container text-on-surface transition-none" id="tab-found" onclick="switchVariant('found')">
+          [1. Found Item (Primary)]
+        </button>
+<button class="px-2.5 py-1 text-label-sm font-bold border border-transparent hover:border-on-surface text-on-surface-variant hover:text-on-surface transition-none" id="tab-lost" onclick="switchVariant('lost')">
+          [2. Lost Item Variant]
+        </button>
+<button class="px-2.5 py-1 text-label-sm font-bold border border-transparent hover:border-on-surface text-on-surface-variant hover:text-on-surface transition-none" id="tab-owner" onclick="switchVariant('owner')">
+          [3. Custodian / Matches]
+        </button>
+<button class="px-2.5 py-1 text-label-sm font-bold border border-transparent hover:border-on-surface text-on-surface-variant hover:text-on-surface transition-none" id="tab-resolved" onclick="switchVariant('resolved')">
+          [4. Closed / Resolved]
+        </button>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- 3. MAIN WORKSPACE / DOSSIER CONTAINER                                     -->
+<!-- ========================================================================= -->
+<main class="flex-grow max-w-[1440px] w-full mx-auto px-gutter py-6">
+<!-- VIEW 1: FOUND ITEM (DEFAULT PRIMARY VIEW) -->
+<div class="space-y-6" id="view-found">
+<!-- Manila Envelope Folder Container -->
+<div class="relative bg-[#f7f2e7] border-2 border-on-surface paper-shadow-lg p-4 sm:p-8">
+<!-- Top Folder Tab & Manila Punch Hole Graphic -->
+<div class="absolute -top-7 left-8 bg-[#eadaaf] border-t-2 border-x-2 border-on-surface px-6 py-1 font-label-md font-bold text-on-surface tracking-wider uppercase text-label-sm flex items-center gap-2">
+<div class="punch-hole !w-3 !h-3"></div>
+          PHYSICAL DOSSIER CASE ENVELOPE: PROPERTY SEC-B
+        </div>
+<!-- Simulated Brass Paperclip graphic -->
+<div class="brass-clip -top-4 right-12 hidden md:block"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- LEFT COLUMN: EVIDENCE DOSSIER (LUGGAGE TAG / POLAROID) -->
+<div class="lg:col-span-5 flex flex-col gap-5">
+<!-- Polaroid Evidence Card with Washi Tape Corners -->
+<div class="relative bg-surface-container-lowest border-2 border-on-surface paper-shadow p-4 pt-6 pb-5">
+<!-- Tape strips -->
+<div class="tape-strip w-24 h-6 absolute -top-3 left-1/2 -translate-x-1/2 -rotate-1"></div>
+<div class="tape-strip w-16 h-5 absolute -top-2 left-4 rotate-12"></div>
+<!-- Tag Identification Bar -->
+<div class="flex items-center justify-between border-b border-dashed border-on-surface pb-2 mb-3 font-label-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1 font-bold text-on-surface">
+<span class="material-symbols-outlined text-body-md text-primary">photo_camera</span>
+                  EVIDENCE PHOTO 01-A
+                </span>
+<span>DEPOT REC. #88219-IMG</span>
+</div>
+<!-- Main Evidence Photo with Zoom Container -->
+<div class="relative border-2 border-on-surface bg-[#1a1b1f] overflow-hidden group">
+<img class="w-full h-72 object-cover object-center filter contrast-105" data-alt="A detailed photograph of a Space Grey 14-inch MacBook Pro sitting on a wooden library study desk. The closed aluminum lid is heavily decorated with distinct developer and synthesizer vinyl stickers including a GitHub octocat, a Rust gear logo, and an amber retro audio synthesizer badge. The lighting is realistic institution fluorescent overhead, with high tactile detail and crisp brutalist archival framing." id="main-evidence-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJxNeaXyBPKS5PZY15OoUOg-FOa1F4P6yHxAwRVnO4lONt7Xnm6uPLYHL9qlm8X2Eo-cmn78hV9Tb1Xf4lQ2ZmRCtT4DDmt3YzcrNnfLUhI6uk_hADjTwfcSSDOrfaNDukqjlNozI7trgHyweoCdvITOvn-mYsN0Ez31YPHc5LqPCSsh54Q8Ul_n2VHUxIIB_iyeOUBK8-ligBpNA2wDLO1cItLZw3joFAPK-baWQ8">
+<div class="absolute bottom-2 left-2 bg-on-surface text-surface px-2 py-0.5 font-label-sm text-label-sm flex items-center gap-1 border border-surface">
+<span class="material-symbols-outlined text-label-md">lock</span>
+                  PIN-LOCKED APPLE SILICON
+                </div>
+<div class="absolute top-2 right-2 bg-secondary-fixed text-on-surface px-2 py-0.5 font-label-sm text-label-sm font-bold border border-on-surface">
+                  SEC-B ARCHIVE DEPT
+                </div>
+</div>
+<!-- Evidence Thumbnail Strip -->
+<div class="mt-4">
+<div class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface mb-2 flex items-center justify-between">
+<span>Physical Inspection Stills (3 Plates)</span>
+<span class="text-secondary text-label-sm font-normal">Click to Inspect</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="border-2 border-on-surface p-0.5 bg-surface-container-high focus:border-primary-container paper-shadow-sm active:translate-x-0.5 active:translate-y-0.5 transition-none text-left" onclick="setEvidenceThumb('lid')">
+<div class="h-16 bg-[#2d3039] border border-on-surface flex items-center justify-center overflow-hidden">
+<span class="font-label-sm text-label-sm text-surface-variant text-center px-1 font-bold leading-tight">1. TOP LID STICKERS</span>
+</div>
+</button>
+<button class="border-2 border-on-surface p-0.5 bg-surface-container-lowest hover:border-on-surface paper-shadow-sm active:translate-x-0.5 active:translate-y-0.5 transition-none text-left" onclick="setEvidenceThumb('ports')">
+<div class="h-16 bg-[#3d4049] border border-on-surface flex items-center justify-center overflow-hidden">
+<span class="font-label-sm text-label-sm text-surface-variant text-center px-1 font-bold leading-tight">2. CHASSIS PORTS</span>
+</div>
+</button>
+<button class="border-2 border-on-surface p-0.5 bg-surface-container-lowest hover:border-on-surface paper-shadow-sm active:translate-x-0.5 active:translate-y-0.5 transition-none text-left" onclick="setEvidenceThumb('screen')">
+<div class="h-16 bg-[#1a1b1f] border border-on-surface flex items-center justify-center overflow-hidden">
+<span class="font-label-sm text-label-sm text-surface-variant text-center px-1 font-bold leading-tight">3. LOCKSCREEN</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Polaroid Bottom Caption -->
+<div class="mt-3 pt-2 border-t border-on-surface flex items-center justify-between font-label-sm text-label-sm">
+<span class="italic text-on-surface-variant">Lid sticker cluster registered as primary visual marker</span>
+<span class="font-bold text-on-surface">PLATE ID: #882-LID</span>
+</div>
+</div>
+<!-- Custody Chain Ticket Box -->
+<div class="bg-[#f0e7d5] border-2 border-on-surface p-4 paper-shadow">
+<div class="flex items-center gap-2 mb-2 pb-1 border-b-2 border-on-surface font-label-md font-bold text-label-md text-on-surface uppercase">
+<span class="material-symbols-outlined text-body-md text-primary">inventory_2</span>
+                Chain of Custody &amp; Vault Location
+              </div>
+<div class="space-y-2 font-label-sm text-label-sm">
+<div class="flex justify-between py-1 border-b border-dashed border-outline">
+<span class="text-on-surface-variant uppercase">Custodial Bin Location:</span>
+<span class="font-bold text-on-surface bg-surface-container-lowest px-1 border border-on-surface">LOCKER L-14 // TIER 2</span>
+</div>
+<div class="flex justify-between py-1 border-b border-dashed border-outline">
+<span class="text-on-surface-variant uppercase">Custodian on Duty:</span>
+<span class="font-bold text-on-surface">Officer M. Vance (#3091)</span>
+</div>
+<div class="flex justify-between py-1 border-b border-dashed border-outline">
+<span class="text-on-surface-variant uppercase">Hardware Battery State:</span>
+<span class="font-bold text-emerald-800">78% Powered (Offline Storage)</span>
+</div>
+<div class="flex justify-between py-1">
+<span class="text-on-surface-variant uppercase">Disposition Expiry:</span>
+<span class="font-bold text-error">Nov 23, 2024 (30-Day Rule)</span>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t-2 border-on-surface flex items-center justify-between">
+<span class="ink-stamp text-emerald-800 text-label-md border-2 border-emerald-800 px-2 py-0.5 -rotate-2">
+                  VERIFIED IN CUSTODY
+                </span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-right">
+                  SEAL INTACT<br>DEPOT #04
+                </span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: PROPERTY LEDGER DOSSIER -->
+<div class="lg:col-span-7 flex flex-col gap-5">
+<!-- Docket Header & Stamped Title Box -->
+<div class="bg-surface-container-lowest border-2 border-on-surface p-5 sm:p-6 paper-shadow relative">
+<!-- Big Hand Rubber Stamp: "FOUND" -->
+<div class="absolute -top-3 right-6 sm:right-10 pointer-events-none">
+<div class="ink-stamp text-emerald-700 border-4 border-emerald-700 px-4 py-1.5 text-2xl sm:text-3xl tracking-widest -rotate-6 bg-surface-container-lowest/80 [box-shadow:2px_2px_0px_rgba(20,80,40,0.3)]">
+                  ★ FOUND ★
+                </div>
+</div>
+<!-- Pre-Title Ledger Coordinates -->
+<div class="font-label-sm text-label-sm text-on-surface-variant flex flex-wrap items-center gap-2 mb-2">
+<span class="bg-secondary-fixed text-on-surface px-1.5 py-0.5 border border-on-surface font-bold">CASE CLASSIFICATION: TECH-88</span>
+<span>•</span>
+<span>REGISTERED: 24-OCT-2024 16:45 EST</span>
+<span>•</span>
+<span class="text-primary font-bold">URGENT RETENTION</span>
+</div>
+<!-- Main Title -->
+<h1 class="font-headline-lg text-headline-lg font-extrabold text-on-surface leading-tight tracking-tight mb-2 pr-28">
+                Space Grey 14” MacBook Pro M2
+              </h1>
+<!-- Subtitle badge -->
+<div class="inline-flex items-center gap-2 bg-[#f4e1b1] border border-on-surface px-2.5 py-1 text-label-md font-label-md text-on-surface font-bold mb-4">
+<span class="material-symbols-outlined text-body-md text-primary">label</span>
+                Sub-Docket: Vinyl Developer Stickers On Aluminum Lid
+              </div>
+<!-- Archival Table (Ledger Grid) -->
+<div class="border-2 border-on-surface bg-surface-container-lowest mb-5">
+<div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x border-b border-on-surface">
+<div class="p-2.5 font-label-md">
+<span class="block text-label-sm text-on-surface-variant uppercase font-medium">Tag Inventory Number</span>
+<span class="font-bold text-on-surface text-label-md tracking-wider">TAG-2024-88219</span>
+</div>
+<div class="p-2.5 font-label-md bg-[#faf8fe]">
+<span class="block text-label-sm text-on-surface-variant uppercase font-medium">Item Category</span>
+<span class="font-bold text-on-surface text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md text-primary">laptop_mac</span>
+                      Electronics / Computing
+                    </span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x border-b border-on-surface">
+<div class="p-2.5 font-label-md bg-[#faf8fe]">
+<span class="block text-label-sm text-on-surface-variant uppercase font-medium">Where Discovered</span>
+<span class="font-bold text-on-surface text-label-md">Main Library, 2nd Fl. Silent Study Carrel #42</span>
+</div>
+<div class="p-2.5 font-label-md">
+<span class="block text-label-sm text-on-surface-variant uppercase font-medium">Date &amp; Time Logged</span>
+<span class="font-bold text-on-surface text-label-md">Oct 24, 2024 • 16:45 EST (3 days ago)</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x">
+<div class="p-2.5 font-label-md">
+<span class="block text-label-sm text-on-surface-variant uppercase font-medium">Recorded By Official</span>
+<span class="font-bold text-on-surface text-label-md">Marcus Vance (Library Staff, Custodial)</span>
+</div>
+<div class="p-2.5 font-label-md bg-[#faf8fe]">
+<span class="block text-label-sm text-on-surface-variant uppercase font-medium">Safe Deposit Desk</span>
+<span class="font-bold text-on-surface text-label-md">Central Lost Property Office, Desk B</span>
+</div>
+</div>
+</div>
+<!-- Physical Description Note Block (Ruled Lines Paper) -->
+<div class="bg-[#faf8f2] border-2 border-on-surface p-4 relative mb-5">
+<div class="flex items-center justify-between pb-1 mb-2 border-b border-on-surface font-label-sm text-label-sm text-on-surface font-bold uppercase tracking-wider">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md text-primary">edit_note</span>
+                    Field Custodian Observation Notes
+                  </span>
+<span>TYPEWRITER ENTRY 01</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface ruled-lines">
+                  Discovered left on study table 42 after closing bell. Covered in vinyl developer stickers (GitHub octocat, Rust crab, Retro Synth logo). Machine is charged and PIN-locked. Hardware chassis has a slight scuff on front-left bezel. Serial number hash logged securely into the central campus property ledger.
+                </p>
+</div>
+<!-- Verification Requirement Notice (Institutional Yellow warning) -->
+<div class="bg-[#fff9db] border-2 border-on-surface p-3 mb-6 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-headline-sm mt-0.5">verified_user</span>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface uppercase tracking-wide">
+                    Mandatory Possession Verification Challenge
+                  </h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+                    To deter fraudulent filings, physical possession requires either correctly providing the custom lock screen wallpaper detail or presenting matching Apple purchase serial invoices at Office Desk B.
+                  </p>
+</div>
+</div>
+<!-- Primary Action Cluster -->
+<div class="space-y-3">
+<button class="w-full bg-primary-container text-on-surface font-headline-sm text-headline-sm font-bold py-3.5 px-6 border-2 border-on-surface paper-shadow hover:bg-primary-fixed active:translate-x-1 active:translate-y-1 active:shadow-none flex items-center justify-center gap-2 transition-none uppercase tracking-wider" onclick="openClaimModal()">
+<span class="material-symbols-outlined text-headline-md font-bold">assignment_turned_in</span>
+                  THIS IS MINE — FILE CLAIM REQUISITION
+                </button>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-2 pt-2 border-t border-dashed border-on-surface font-label-sm text-label-sm">
+<div class="flex items-center gap-3">
+<button class="text-on-surface hover:underline flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-body-md">share</span> Share Docket Notice
+                    </button>
+<button class="text-on-surface hover:underline flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-body-md">print</span> Print Physical Tag Slip
+                    </button>
+</div>
+<span class="text-on-surface-variant font-mono">HASH: 9a8f-88219-mac-2024</span>
+</div>
+</div>
+</div>
+<!-- Custody Office Operating Hours & Claim Counter Strip -->
+<div class="bg-surface-container-high border-2 border-on-surface p-3.5 paper-shadow flex flex-col sm:flex-row items-center justify-between gap-3 font-label-md text-label-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<span><strong>Office Desk B Hours:</strong> Mon–Fri 08:30 – 17:30 EST (Student Union Hall Basement)</span>
+</div>
+<div class="bg-surface-container-lowest border border-on-surface px-2 py-1 font-bold text-on-surface">
+                ACTIVE CLAIMS PENDING: 0
+              </div>
+</div>
+</div>
+</div>
+<!-- Perforated Bottom Edge (Receipt Notch Effect) -->
+<div class="mt-8 pt-4 border-t-2 border-dashed border-on-surface flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>ARCHIVAL REPOSITORY MANIFEST // ARCHIVE ENTRY ID #4092-B-88219</span>
+<span class="font-bold text-on-surface">OFFICIAL RECORD KEEPING — UNIVERSITY LOST PROPERTY ACT OF 1974</span>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- VIEW 2: LOST ITEM VARIANT ("I FOUND THIS")                                -->
+<!-- ========================================================================= -->
+<div class="hidden space-y-6" id="view-lost">
+<div class="relative bg-[#f8f5ee] border-2 border-on-surface paper-shadow-lg p-6 sm:p-8">
+<div class="absolute -top-7 left-8 bg-[#e8dec0] border-t-2 border-x-2 border-on-surface px-6 py-1 font-label-md font-bold text-on-surface tracking-wider uppercase text-label-sm">
+          REPORTED MISSING BY CITIZEN / STUDENT
+        </div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left: Polaroid of Lost Item -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<div class="bg-surface-container-lowest border-2 border-on-surface paper-shadow p-4 pt-6 relative">
+<div class="tape-strip w-24 h-6 absolute -top-3 left-1/2 -translate-x-1/2 rotate-2"></div>
+<div class="flex items-center justify-between border-b border-dashed border-on-surface pb-2 mb-3 font-label-sm text-label-sm">
+<span class="font-bold text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md">search_off</span>
+                  OWNER SUBMITTED PHOTO
+                </span>
+<span>REPORT #LS-1094</span>
+</div>
+<div class="border-2 border-on-surface bg-surface-container overflow-hidden">
+<img class="w-full h-72 object-cover object-center" data-alt="A detailed photograph of a vintage distressed brown leather backpack with brass buckles and a green canvas side water bottle pocket. The backpack is resting on a university concrete steps outdoors, showing signs of honest wear and an attached small brass key tag. Archival realistic high-contrast lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN1XZhyrJOGKuytPRXMggnPIez6y9vc6vlXrE9sCOWRqA3NRvgA_0KslrHAnqJHiuJ8Zc6uQh2qz_t_-pJBmiWHcrTiRRcelehNaMlSFCn0KMF7IDqLyUE-j9-zBwZ82s2cFmLTf7zd7oStv3cwogyKoaYf6eDRMLVeigWhTHi1ztrWCxRwf3Ams-kUcgyD2sACjbt-7vhdQ_W8HvkSxchg1iHXnHInhPoBRhMe5jP">
+</div>
+<div class="mt-3 bg-secondary-fixed/50 border border-on-surface p-2 font-label-sm text-label-sm">
+<strong>Stolen or Lost Location:</strong> Memorial Stadium Bleachers, Section 104 during Saturday football game.
+              </div>
+</div>
+<!-- Reward Note -->
+<div class="bg-[#faf3dc] border-2 border-on-surface p-3 paper-shadow">
+<div class="flex items-center gap-2 font-label-md font-bold text-label-md text-on-surface">
+<span class="material-symbols-outlined text-primary">paid</span>
+                Voluntary Student Reward Offered: $30.00
+              </div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+                Owner notes that the bag contains graduate sociology thesis notes and a red fountain pen with sentimental family value.
+              </p>
+</div>
+</div>
+<!-- Right: Lost Item Docket Details -->
+<div class="lg:col-span-7 flex flex-col gap-5">
+<div class="bg-surface-container-lowest border-2 border-on-surface p-6 paper-shadow relative">
+<!-- Red Rubber Ink Stamp: "LOST" -->
+<div class="absolute -top-3 right-6 pointer-events-none">
+<div class="ink-stamp text-error border-4 border-error px-5 py-1.5 text-3xl font-extrabold tracking-widest rotate-6 bg-surface-container-lowest/90 [box-shadow:3px_3px_0px_rgba(186,26,26,0.3)]">
+                  ✖ LOST ✖
+                </div>
+</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-2 mb-2">
+<span class="bg-error-container text-on-error-container px-2 py-0.5 border border-on-surface font-bold uppercase">SEARCH NOTICE ACTIVE</span>
+<span>•</span>
+<span>POSTED: 22-OCT-2024</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-on-surface leading-tight mb-2 pr-28">
+                Vintage Distressed Brown Leather Rucksack
+              </h2>
+<div class="border-2 border-on-surface bg-surface-container-lowest mb-5">
+<div class="grid grid-cols-2 border-b border-on-surface divide-x">
+<div class="p-2.5 font-label-md">
+<span class="block text-label-sm text-on-surface-variant uppercase">Missing Since</span>
+<span class="font-bold text-on-surface">Oct 21, 2024 (Approx 19:30)</span>
+</div>
+<div class="p-2.5 font-label-md bg-[#faf8fe]">
+<span class="block text-label-sm text-on-surface-variant uppercase">Likely Location</span>
+<span class="font-bold text-on-surface">Campus Stadium Bleachers</span>
+</div>
+</div>
+<div class="grid grid-cols-2 divide-x">
+<div class="p-2.5 font-label-md bg-[#faf8fe]">
+<span class="block text-label-sm text-on-surface-variant uppercase">Reported By</span>
+<span class="font-bold text-on-surface">Clara Oswald (Student ID #9921)</span>
+</div>
+<div class="p-2.5 font-label-md">
+<span class="block text-label-sm text-on-surface-variant uppercase">Contact Route</span>
+<span class="font-bold text-on-surface">Via Archival Messenger</span>
+</div>
+</div>
+</div>
+<div class="bg-[#faf8f2] border-2 border-on-surface p-4 mb-6">
+<h4 class="font-label-sm text-label-sm font-bold uppercase pb-1 mb-2 border-b border-on-surface text-on-surface">
+                  Specific Visual Clues &amp; Contents
+                </h4>
+<p class="font-body-md text-body-md text-on-surface ruled-lines">
+                  Heavy dark tan leather with twin brass buckled front pockets. Side left pocket has a small tear stitched with turquoise thread. Inside carries two Mead composition spiral notebooks titled "SOC 502" and a stainless water flask.
+                </p>
+</div>
+<!-- High Contrast Button: I FOUND THIS -->
+<button class="w-full bg-primary-container text-on-surface font-headline-sm text-headline-sm font-bold py-3.5 px-6 border-2 border-on-surface paper-shadow hover:bg-primary-fixed active:translate-x-1 active:translate-y-1 active:shadow-none flex items-center justify-center gap-2 transition-none uppercase tracking-wider" onclick="alert('Report Recovery form opened: You will be connected to Desk B Custodial Officer to lodge the found item.')">
+<span class="material-symbols-outlined text-headline-md font-bold">check_circle</span>
+                I FOUND THIS (REPORT RECOVERY TO DESK)
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- VIEW 3: OWNER / CUSTODIAN MANAGEMENT VIEW                                 -->
+<!-- ========================================================================= -->
+<div class="hidden space-y-6" id="view-owner">
+<div class="bg-[#f5eedf] border-2 border-on-surface paper-shadow-lg p-6 sm:p-8">
+<!-- Header Management Toolbar -->
+<div class="border-2 border-on-surface bg-surface-container-lowest p-4 paper-shadow mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="bg-secondary-fixed px-2 py-0.5 border border-on-surface font-label-sm text-label-sm font-bold">
+                CUSTODIAL ROLE: CUSTODIAN-OFFICER VANCE
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">LEDGER ACCESS: WRITE/DISPOSITION</span>
+</div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface mt-1">
+              Custodian Dossier Management // FD-88219
+            </h2>
+</div>
+<!-- Owner Actions Buttons -->
+<div class="flex flex-wrap items-center gap-2">
+<button class="bg-surface-container-high border-2 border-on-surface px-3 py-1.5 font-label-md font-bold paper-shadow-sm hover:bg-surface-container-highest transition-none flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md">edit</span> Edit Docket
+            </button>
+<button class="bg-emerald-600 text-surface border-2 border-on-surface px-3 py-1.5 font-label-md font-bold paper-shadow-sm hover:bg-emerald-700 transition-none flex items-center gap-1" onclick="switchVariant('resolved')">
+<span class="material-symbols-outlined text-body-md">done_all</span> Mark Returned
+            </button>
+<button class="bg-error-container text-on-error-container border-2 border-on-surface px-3 py-1.5 font-label-md font-bold paper-shadow-sm hover:bg-red-200 transition-none flex items-center gap-1">
+<span class="material-symbols-outlined text-body-md">delete</span> Delete Posting
+            </button>
+</div>
+</div>
+<!-- Section: Automated Cadre Matches -->
+<div class="border-2 border-on-surface bg-surface-container-lowest p-6 paper-shadow">
+<div class="flex items-center justify-between border-b-2 border-on-surface pb-3 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-headline-sm">compare_arrows</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface uppercase">
+                AUTOMATED CADRE MATCHES (3 Possible Matches in Drawer)
+              </h3>
+</div>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-0.5 border border-on-surface font-label-sm text-label-sm font-bold">
+              AI CADRE ENGINE V2.1
+            </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">
+            The central archival cross-referencer identified potential lost reports matching the physical description of this device:
+          </p>
+<!-- 3 Match Cards -->
+<div class="space-y-3">
+<!-- Match 1 -->
+<div class="border-2 border-on-surface bg-[#faf8fe] p-3.5 paper-shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 bg-surface-container-high border-2 border-on-surface flex-shrink-0 flex items-center justify-center font-label-sm font-bold">
+                  IMG-01
+                </div>
+<div>
+<div class="flex items-center gap-2">
+<span class="bg-emerald-700 text-surface px-1.5 py-0.2 font-label-sm text-label-sm font-bold">96% MATCH</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">REPORT #LS-9941</span>
+</div>
+<h4 class="font-body-lg text-body-lg font-bold text-on-surface mt-0.5">
+                    14-inch MacBook Pro M2 (Grey, Stickers on cover)
+                  </h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                    Reported by: Tyler Reed (Physics Dept) • Lost at Library 2nd Fl Carrel #40
+                  </p>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full md:w-auto justify-end">
+<button class="bg-secondary-fixed border-2 border-on-surface px-3 py-1 font-label-md font-bold text-label-md hover:bg-secondary-fixed-dim transition-none">
+                  Compare Docket
+                </button>
+<button class="bg-primary-container border-2 border-on-surface px-3 py-1 font-label-md font-bold text-label-md hover:bg-primary-fixed transition-none">
+                  Notify Student
+                </button>
+</div>
+</div>
+<!-- Match 2 -->
+<div class="border-2 border-on-surface bg-[#faf8fe] p-3.5 paper-shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 bg-surface-container-high border-2 border-on-surface flex-shrink-0 flex items-center justify-center font-label-sm font-bold">
+                  IMG-02
+                </div>
+<div>
+<div class="flex items-center gap-2">
+<span class="bg-amber-600 text-surface px-1.5 py-0.2 font-label-sm text-label-sm font-bold">78% MATCH</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">REPORT #LS-9912</span>
+</div>
+<h4 class="font-body-lg text-body-lg font-bold text-on-surface mt-0.5">
+                    Apple Laptop with developer stickers
+                  </h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                    Reported by: Sarah Lin • Lost at Student Union Café
+                  </p>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full md:w-auto justify-end">
+<button class="bg-secondary-fixed border-2 border-on-surface px-3 py-1 font-label-md font-bold text-label-md hover:bg-secondary-fixed-dim transition-none">
+                  Compare Docket
+                </button>
+<button class="bg-surface-container-high border-2 border-on-surface px-3 py-1 font-label-md font-bold text-label-md transition-none">
+                  Dismiss Match
+                </button>
+</div>
+</div>
+<!-- Match 3 -->
+<div class="border-2 border-on-surface bg-[#faf8fe] p-3.5 paper-shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-16 h-16 bg-surface-container-high border-2 border-on-surface flex-shrink-0 flex items-center justify-center font-label-sm font-bold">
+                  IMG-03
+                </div>
+<div>
+<div class="flex items-center gap-2">
+<span class="bg-secondary text-surface px-1.5 py-0.2 font-label-sm text-label-sm font-bold">64% MATCH</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">REPORT #LS-9801</span>
+</div>
+<h4 class="font-body-lg text-body-lg font-bold text-on-surface mt-0.5">
+                    Dark Grey MacBook 13” Air in Felt Sleeve
+                  </h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                    Reported by: David Cho • Lost at Engineering Hall Lobby
+                  </p>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full md:w-auto justify-end">
+<button class="bg-secondary-fixed border-2 border-on-surface px-3 py-1 font-label-md font-bold text-label-md hover:bg-secondary-fixed-dim transition-none">
+                  Compare Docket
+                </button>
+<button class="bg-surface-container-high border-2 border-on-surface px-3 py-1 font-label-md font-bold text-label-md transition-none">
+                  Dismiss Match
+                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- VIEW 4: CLOSED / RESOLVED STATE                                           -->
+<!-- ========================================================================= -->
+<div class="hidden space-y-6" id="view-resolved">
+<div class="relative bg-[#eee8dc] border-2 border-on-surface paper-shadow-lg p-6 sm:p-8">
+<!-- Large Stamped Watermark Effect -->
+<div class="border-4 border-dashed border-on-surface/40 p-6 bg-surface-container-lowest/80 relative overflow-hidden">
+<!-- Big Diagonal Stamp: RETURNED TO OWNER -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="ink-stamp text-emerald-800 border-8 border-emerald-800 p-8 text-4xl sm:text-6xl font-black tracking-widest -rotate-12 opacity-85 select-none bg-surface-container-lowest/60">
+              RETURNED TO OWNER
+            </div>
+</div>
+<div class="relative z-10 max-w-2xl mx-auto text-center py-8">
+<div class="inline-block bg-emerald-800 text-surface font-label-md font-bold px-3 py-1 border-2 border-on-surface mb-3">
+              CASE CLOSED &amp; ARCHIVED // RECEIPT DISPOSITION #RC-7712-B
+            </div>
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-on-surface mb-2">
+              Docket #FD-88219 Has Been Resolved
+            </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
+              Case closed and transferred to physical student custody on Oct 27, 2024 at 11:20 EST. The claimant provided exact matching lockscreen cryptographic credentials and matching serial registration.
+            </p>
+<div class="border-2 border-on-surface bg-[#faf8fe] p-4 text-left font-label-sm text-label-sm mb-6 paper-shadow-sm">
+<div class="font-bold text-on-surface mb-2 border-b border-on-surface pb-1 uppercase">Official Closing Audit Sign-Off:</div>
+<div class="grid grid-cols-2 gap-2">
+<div><strong>Verified By:</strong> Custodian M. Vance (#3091)</div>
+<div><strong>Claimant Student ID:</strong> STU-***-4091</div>
+<div><strong>Verification Prompt Result:</strong> Passed (Exact Wallpaper Match)</div>
+<div><strong>Physical Release Desk:</strong> Desk B, Central Union</div>
+</div>
+</div>
+<button class="w-full bg-surface-container-highest text-on-surface-variant font-headline-sm text-headline-sm font-bold py-3.5 px-6 border-2 border-on-surface cursor-not-allowed opacity-75 uppercase" disabled="">
+              [DOCKET ARCHIVED — CLAIM PETITIONS CLOSED]
+            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- ========================================================================= -->
+<!-- 4. CLAIM REQUISITION PETITION MODAL (FORM 409-C)                          -->
+<!-- ========================================================================= -->
+<div class="fixed inset-0 z-50 bg-[#1a1b1f]/70 hidden items-center justify-center p-4 overflow-y-auto" id="claim-modal">
+<div class="relative bg-[#fcf9f2] border-4 border-on-surface paper-shadow-lg max-w-2xl w-full p-6 sm:p-8 my-8">
+<!-- Brass staple graphic -->
+<div class="absolute -top-3 left-10 w-8 h-3 bg-stone-400 border border-on-surface"></div>
+<div class="absolute -top-3 right-10 w-8 h-3 bg-stone-400 border border-on-surface"></div>
+<!-- Top Bureaucracy Badge -->
+<div class="flex items-center justify-between border-b-2 border-on-surface pb-3 mb-4">
+<div>
+<span class="font-label-sm text-label-sm font-bold bg-primary-container text-on-surface px-2 py-0.5 border border-on-surface uppercase">
+            FORM 409-C // OFFICIAL PETITION
+          </span>
+<h3 class="font-headline-md text-headline-md font-extrabold text-on-surface mt-1">
+            File Physical Ownership Claim (Docket #FD-88219)
+          </h3>
+</div>
+<button class="border-2 border-on-surface p-1 hover:bg-error hover:text-surface transition-none" onclick="closeClaimModal()" title="Cancel Requisition">
+<span class="material-symbols-outlined block text-headline-sm">close</span>
+</button>
+</div>
+<!-- Warning text -->
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-4">
+        LEGAL DISCLAIMER: Filing a false claim requisition for property registered in the university archive constitutes a student code violation punishable by disciplinary referral.
+      </p>
+<form class="space-y-4" onsubmit="handleClaimSubmit(event)">
+<!-- Official Verification Challenge Box (Highlighter effect) -->
+<div class="bg-[#fffae0] border-2 border-on-surface p-3.5">
+<div class="font-label-sm text-label-sm font-bold text-primary flex items-center gap-1.5 uppercase tracking-wider mb-1">
+<span class="material-symbols-outlined text-body-md">lock_open</span>
+            OFFICIAL VERIFICATION CHALLENGE PROMPT
+          </div>
+<div class="font-headline-sm text-body-lg font-bold text-on-surface">
+            “What is set as the custom lock screen photo or lock screen wallpaper?”
+          </div>
+<div class="mt-2.5">
+<label class="block font-label-sm text-label-sm font-bold uppercase mb-1">Your Exact Answer:</label>
+<input class="w-full bg-surface-container-lowest border-2 border-on-surface p-2 font-label-md text-label-md text-on-surface focus:bg-secondary-fixed focus:outline-none focus:[box-shadow:2px_2px_0px_#1a1b1f]" placeholder="e.g. Photo of orange tabby cat sitting on a synth synthesizer..." required="" type="text">
+</div>
+</div>
+<!-- Circumstances and Serial Information -->
+<div>
+<label class="block font-label-sm text-label-sm font-bold text-on-surface uppercase mb-1">
+            Circumstances of Loss &amp; Distinguishing Hardware Marks:
+          </label>
+<textarea class="w-full bg-surface-container-lowest border-2 border-on-surface p-2 font-body-md text-body-md text-on-surface focus:bg-secondary-fixed focus:outline-none focus:[box-shadow:2px_2px_0px_#1a1b1f]" placeholder="Explain when you lost it, any specific files, hardware serial number if known, or minor scratches..." required="" rows="3"></textarea>
+</div>
+<!-- Claimant Identity Details -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block font-label-sm text-label-sm font-bold text-on-surface uppercase mb-1">Student / Staff ID No.:</label>
+<input class="w-full bg-surface-container-lowest border-2 border-on-surface p-2 font-label-md text-label-md text-on-surface focus:outline-none" placeholder="e.g. STU-992019" required="" type="text">
+</div>
+<div>
+<label class="block font-label-sm text-label-sm font-bold text-on-surface uppercase mb-1">Institutional Email:</label>
+<input class="w-full bg-surface-container-lowest border-2 border-on-surface p-2 font-label-md text-label-md text-on-surface focus:outline-none" placeholder="e.g. t.reed@campus.edu" required="" type="email">
+</div>
+</div>
+<!-- Optional Proof Upload Box -->
+<div>
+<label class="block font-label-sm text-label-sm font-bold text-on-surface uppercase mb-1">
+            Optional Ownership Proof Slip (Invoice, Barcode, Serial Card):
+          </label>
+<div class="border-2 border-dashed border-on-surface bg-surface-container-low p-4 text-center cursor-pointer hover:bg-surface-container">
+<span class="material-symbols-outlined text-headline-sm text-on-surface-variant block mb-1">cloud_upload</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Click to attach photo or invoice receipt</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant">PDF, JPG, PNG accepted (Max 5.0 MB)</span>
+</div>
+</div>
+<!-- Form Action Buttons -->
+<div class="pt-3 border-t-2 border-on-surface flex flex-col sm:flex-row items-center gap-3">
+<button class="w-full sm:flex-grow bg-primary-container text-on-surface font-headline-sm text-label-lg font-bold py-3 px-6 border-2 border-on-surface paper-shadow hover:bg-primary-fixed active:translate-x-0.5 active:translate-y-0.5 active:shadow-none uppercase tracking-wider transition-none" type="submit">
+            Submit Official Claim Requisition
+          </button>
+<button class="w-full sm:w-auto bg-surface-container-lowest text-on-surface font-label-md font-bold py-3 px-4 border-2 border-on-surface hover:bg-surface-variant transition-none uppercase" onclick="closeClaimModal()" type="button">
+            Cancel / Return
+          </button>
+</div>
+</form>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- 5. ARCHIVAL FOOTER (Shared Component Exact Implementation)                -->
+<!-- ========================================================================= -->
+<footer class="bg-surface-container dark:bg-surface-container-low border-t-2 border-on-surface dark:border-outline mt-12">
+<div class="w-full border-t border-on-surface dark:border-outline px-gutter py-space-md max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<!-- Brand & Copyright -->
+<div class="flex flex-col items-center md:items-start gap-1">
+<span class="font-label-md text-label-md tracking-widest uppercase text-on-surface dark:text-inverse-on-surface font-bold">
+          PROPERTY DISPOSITION DIVISION // ARCHIVAL REGISTRY SYSTEM REF. NO. 4092-B
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">
+          Campus Lost &amp; Found Central Repository Ledger • Operates under University Title 12
+        </span>
+</div>
+<!-- Links -->
+<nav class="flex flex-wrap justify-center items-center gap-4">
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none" href="#manual">
+          System Manual
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none" href="#retention">
+          Retention Policy
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none" href="#audit">
+          Audit Log
+        </a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface dark:hover:bg-inverse-on-surface dark:hover:text-inverse-surface px-1 transition-none" href="#act">
+          Lost Property Act
+        </a>
+<a class="text-on-surface dark:text-inverse-on-surface underline font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#terminal">
+          Terminal Status
+        </a>
+</nav>
+</div>
+</footer>
+<!-- ========================================================================= -->
+<!-- JAVASCRIPT: AUDIT VIEW SWITCHER & MODAL CONTROLS                          -->
+<!-- ========================================================================= -->
+<script>
+    // Tab variant switching logic
+    function switchVariant(variant) {
+      const views = ['found', 'lost', 'owner', 'resolved'];
+      
+      views.forEach(v => {
+        const viewEl = document.getElementById(`view-${v}`);
+        const tabEl = document.getElementById(`tab-${v}`);
+        
+        if (v === variant) {
+          viewEl.classList.remove('hidden');
+          tabEl.className = "px-2.5 py-1 text-label-sm font-bold border border-on-surface bg-primary-container text-on-surface transition-none";
+        } else {
+          viewEl.classList.add('hidden');
+          tabEl.className = "px-2.5 py-1 text-label-sm font-bold border border-transparent hover:border-on-surface text-on-surface-variant hover:text-on-surface transition-none";
+        }
+      });
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Modal display logic
+    function openClaimModal() {
+      const modal = document.getElementById('claim-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeClaimModal() {
+      const modal = document.getElementById('claim-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleClaimSubmit(e) {
+      e.preventDefault();
+      alert("OFFICIAL CLAIM PETITION SUBMITTED: Your challenge response has been encrypted and routed to Custodian Officer Marcus Vance at Desk B. Check your institutional email for receipt token #ACK-88219.");
+      closeClaimModal();
+    }
+
+    // Evidence thumbnail selector mock
+    function setEvidenceThumb(type) {
+      const img = document.getElementById('main-evidence-img');
+      if (type === 'lid') {
+        img.style.filter = "contrast(105%)";
+      } else if (type === 'ports') {
+        img.style.filter = "contrast(120%) brightness(0.95)";
+      } else if (type === 'screen') {
+        img.style.filter = "contrast(90%) hue-rotate(20deg)";
+      }
+    }
+  </script>
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div></body></html>

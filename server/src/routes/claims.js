@@ -12,5 +12,7 @@ router.get('/made', claimController.getMadeClaims);
 router.get('/received', claimController.getReceivedClaims);
 router.patch('/:id/decision', claimController.decideClaim);
 router.patch('/:id/cancel', claimController.cancelClaim);
+router.delete('/:id', claimController.cancelClaim);
+router.patch('/:id/handover', claimController.confirmHandover);
 
 export default router;

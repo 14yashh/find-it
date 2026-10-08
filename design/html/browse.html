@@ -1,0 +1,978 @@
+<!DOCTYPE html><html class="light" lang="en" style="width: 1280px; height: 1754px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>The Drawer // Physical Repository Index - FindIt Central Archive</title>
+<!-- Fonts & Material Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "outline": "#8f7066",
+            "primary-container": "#ff5b14",
+            "on-secondary": "#ffffff",
+            "on-primary-fixed-variant": "#822700",
+            "surface-tint": "#aa3600",
+            "surface-bright": "#faf8fe",
+            "secondary": "#6b5d38",
+            "on-primary-fixed": "#390c00",
+            "inverse-surface": "#2f3034",
+            "inverse-on-surface": "#f1f0f6",
+            "tertiary-fixed-dim": "#9acbff",
+            "outline-variant": "#e4beb2",
+            "surface": "#faf8fe",
+            "on-surface-variant": "#5b4138",
+            "primary-fixed": "#ffdbcf",
+            "secondary-fixed": "#f4e1b1",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#d0e4ff",
+            "on-primary": "#ffffff",
+            "error": "#ba1a1a",
+            "surface-container-lowest": "#ffffff",
+            "surface-container": "#efedf3",
+            "on-primary-container": "#531600",
+            "tertiary-container": "#0098f2",
+            "tertiary": "#00629f",
+            "error-container": "#ffdad6",
+            "surface-container-highest": "#e3e2e7",
+            "on-tertiary-fixed-variant": "#004a79",
+            "on-secondary-fixed": "#241a00",
+            "surface-container-high": "#e9e7ed",
+            "surface-container-low": "#f4f3f8",
+            "surface-dim": "#dad9df",
+            "secondary-fixed-dim": "#d7c597",
+            "surface-variant": "#e3e2e7",
+            "on-tertiary-fixed": "#001d34",
+            "secondary-container": "#f4e1b1",
+            "on-tertiary-container": "#002d4d",
+            "background": "#faf8fe",
+            "on-secondary-container": "#71633d",
+            "on-error-container": "#93000a",
+            "inverse-primary": "#ffb59c",
+            "on-error": "#ffffff",
+            "primary": "#aa3600",
+            "on-secondary-fixed-variant": "#524622",
+            "primary-fixed-dim": "#ffb59c",
+            "on-surface": "#1a1b1f",
+            "on-background": "#1a1b1f"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "space-xl": "2.5rem",
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem",
+            "margin": "3rem",
+            "space-lg": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "label-md": ["JetBrains Mono"],
+            "headline-xl": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "body-md": ["Space Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-lg": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "body-lg": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "headline-xl": ["48px", { "lineHeight": "52px", "fontWeight": "700" }],
+            "headline-xl-mobile": ["32px", { "lineHeight": "38px", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "36px", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "28px", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Physical archival paper tape & textures */
+    .masking-tape {
+      position: absolute;
+      width: 48px;
+      height: 18px;
+      background-color: rgba(234, 215, 168, 0.85);
+      border: 1px dashed #8f7066;
+      box-shadow: 1px 1px 2px rgba(26, 27, 31, 0.15);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .tape-tl { top: -8px; left: -12px; transform: rotate(-35deg); }
+    .tape-tr { top: -8px; right: -12px; transform: rotate(35deg); }
+    
+    /* Perforation / eyelet styles */
+    .grommet {
+      width: 14px;
+      height: 14px;
+      background: #faf8fe;
+      border: 2px solid #1a1b1f;
+      border-radius: 9999px;
+      box-shadow: inset 0 2px 3px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .grommet::after {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 4px;
+      width: 2px;
+      height: 14px;
+      background: repeating-linear-gradient(to bottom, #6b5d38, #6b5d38 2px, #faf8fe 2px, #faf8fe 4px);
+    }
+
+    /* Hard brutalist offset shadows */
+    .brutal-shadow {
+      box-shadow: 4px 4px 0px #1a1b1f;
+    }
+    .brutal-shadow-sm {
+      box-shadow: 2px 2px 0px #1a1b1f;
+    }
+    .brutal-shadow-lg {
+      box-shadow: 6px 6px 0px #1a1b1f;
+    }
+    
+    /* Pressed button translation */
+    .brutal-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px #1a1b1f;
+    }
+
+    /* Perforated ticket edge */
+    .perforated-h {
+      background-image: radial-gradient(circle, transparent 6px, #faf8fe 6px);
+      background-size: 20px 20px;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary selection:text-on-primary">
+<!-- TOP APP BAR (Shared Components JSON Anchor) -->
+<header class="w-full bg-surface-container-low border-b-2 border-on-surface [box-shadow:0px_4px_0px_#1a1b1f] sticky top-0 z-50">
+<div class="max-w-[1440px] mx-auto px-gutter h-16 flex items-center justify-between gap-4">
+<!-- Brand & Search cluster -->
+<div class="flex items-center gap-6">
+<a class="font-headline-sm text-headline-sm font-bold tracking-wider text-on-surface uppercase border-2 border-on-surface px-2 py-0.5 inline-block -rotate-1 brutal-shadow-sm bg-surface" href="#">
+          FINDIT // CENTRAL ARCHIVE
+        </a>
+<!-- Universal Search on Left -->
+<div class="hidden lg:flex items-center border-2 border-on-surface bg-surface px-3 py-1.5 brutal-shadow-sm w-72">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px] mr-2">search</span>
+<input class="bg-transparent font-label-md text-label-md text-on-surface placeholder:text-on-surface-variant border-none p-0 focus:ring-0 w-full outline-none" placeholder="Search Master Log #..." type="text">
+<span class="font-label-sm text-label-sm text-outline border border-outline px-1 bg-surface-container-high">⌘K</span>
+</div>
+</div>
+<!-- Navigation Links (Browse Ledger active) -->
+<nav class="hidden md:flex items-center space-x-6">
+<a class="text-on-surface font-label-md text-label-md underline underline-offset-4 decoration-2 decoration-primary" href="#browse">
+          Browse Ledger
+        </a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-none" href="#my-items">
+          My Items
+        </a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-none" href="#claims">
+          Claims Registry
+        </a>
+</nav>
+<!-- Trailing Primary Action & Officer Stamp -->
+<div class="flex items-center gap-4">
+<!-- Officer Badge / Stamp Profile -->
+<div class="hidden sm:flex items-center gap-2 border border-on-surface px-2 py-1 bg-secondary-container brutal-shadow-sm">
+<div class="w-6 h-6 border border-on-surface bg-surface flex items-center justify-center font-label-sm text-label-sm font-bold">
+            #42
+          </div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm leading-none font-bold">DISPATCHER STAMP</span>
+<span class="font-label-sm text-[9px] text-on-surface-variant leading-none">REG. OFFICER J. DOE</span>
+</div>
+</div>
+<button class="relative p-2 border-2 border-on-surface bg-surface brutal-shadow-sm hover:bg-surface-container-high active:translate-x-0.5 active:translate-y-0.5 transition-none" title="Notifications">
+<span class="material-symbols-outlined text-[20px] text-on-surface block">notifications</span>
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary-container border border-on-surface"></span>
+</button>
+<button class="bg-primary-container text-on-surface font-headline-sm text-label-lg px-4 py-2 border-2 border-on-surface brutal-shadow brutal-btn flex items-center gap-2 hover:bg-[#ff7133] transition-none">
+<span class="material-symbols-outlined text-[18px]">add_box</span>
+<span>Report Item</span>
+</button>
+</div>
+</div>
+</header>
+<!-- SUB-HEADER / BANNER (Institutional Title Deck) -->
+<section class="border-b-2 border-on-surface bg-secondary-container/40">
+<div class="max-w-[1440px] mx-auto px-gutter py-space-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-on-surface text-surface font-label-sm text-label-sm px-1.5 py-0.5 uppercase tracking-wider font-bold">SECTION 04</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ARCHIVAL INVENTORY VAULT // REPOSITORY DRAWER 12-A</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight uppercase">
+          THE DRAWER // PHYSICAL REPOSITORY INDEX
+        </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-0.5">
+          Active Custodial Records &amp; Physical Item Tags cataloged by collegiate bailiffs.
+        </p>
+</div>
+<!-- Quick Tally & System Stamp -->
+<div class="flex items-center gap-3 self-start md:self-auto">
+<div class="border-2 border-on-surface bg-surface-container-lowest p-2 brutal-shadow text-center min-w-[140px] rotate-1">
+<div class="font-label-sm text-label-sm uppercase text-outline">TOTAL CUSTODY LOG</div>
+<div class="font-headline-lg text-headline-lg font-bold text-primary leading-tight">42 ITEMS</div>
+<div class="font-label-sm text-[10px] text-on-surface-variant border-t border-outline-variant pt-0.5">CURRENT REGISTER</div>
+</div>
+<div class="border-2 border-primary text-primary px-3 py-2 -rotate-2 font-label-md text-label-md font-bold uppercase tracking-wider border-dashed flex flex-col items-center justify-center">
+<span>VERIFIED BY CLERK</span>
+<span class="text-[9px]">ID: 994-AUDIT-PASS</span>
+</div>
+</div>
+</div>
+</section>
+<!-- MAIN 2-COLUMN VIEWPORT LAYOUT -->
+<main class="max-w-[1440px] mx-auto px-gutter py-space-lg w-full flex-1">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- LEFT SIDEBAR: FILTERS / INDEX DRAWER CONTROLS (Col 1-3.5 ~ 320px) -->
+<aside class="lg:col-span-3 lg:sticky lg:top-24 space-y-space-md">
+<!-- Filter Card: Manila / Kraft index docket -->
+<div class="border-2 border-on-surface bg-[#EAD7A8] p-space-md brutal-shadow relative">
+<!-- Decorative Paper Clip Visual -->
+<div class="absolute -top-3 right-8 w-4 h-9 border-2 border-outline rounded-full bg-surface-container-high/60 z-20 pointer-events-none transform rotate-6"></div>
+<!-- Docket Header -->
+<div class="border-b-2 border-on-surface pb-2 mb-4 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<h2 class="font-headline-sm text-headline-sm uppercase font-bold tracking-tight">INDEX FILTERS</h2>
+</div>
+<span class="font-label-sm text-label-sm bg-surface px-1.5 border border-on-surface">FORM 109-F</span>
+</div>
+<form class="space-y-4" id="filterForm">
+<!-- 1. Search Query -->
+<div>
+<label class="block font-label-sm text-label-sm font-bold uppercase mb-1">Dossier / Keyword Search</label>
+<div class="relative">
+<input class="w-full bg-surface border-2 border-on-surface font-label-md text-label-md text-on-surface placeholder:text-on-surface-variant/70 p-2 brutal-shadow-sm focus:outline-none focus:bg-surface-container-lowest focus:ring-0" placeholder="Filter by keyword, serial, or tag #..." type="text">
+</div>
+</div>
+<!-- 2. Segmented Custodial Status Toggle -->
+<div>
+<label class="block font-label-sm text-label-sm font-bold uppercase mb-1">Custodial Classification</label>
+<div class="grid grid-cols-3 border-2 border-on-surface bg-surface p-0.5 brutal-shadow-sm">
+<button class="py-1 text-center font-label-sm text-label-sm font-bold bg-primary text-on-primary" type="button">
+                  ALL (42)
+                </button>
+<button class="py-1 text-center font-label-sm text-label-sm font-bold text-on-surface hover:bg-surface-container-high transition-none" type="button">
+                  FOUND [31]
+                </button>
+<button class="py-1 text-center font-label-sm text-label-sm font-bold text-on-surface hover:bg-surface-container-high transition-none" type="button">
+                  LOST [11]
+                </button>
+</div>
+</div>
+<!-- 3. Category Checkboxes (EXACT SPEC REQUIRED) -->
+<div class="border-t border-b border-on-surface/40 py-3">
+<div class="flex justify-between items-center mb-2">
+<label class="font-label-sm text-label-sm font-bold uppercase">Item Category Registry</label>
+<span class="font-label-sm text-[10px] text-on-surface-variant font-mono">SELECT ALL [x]</span>
+</div>
+<div class="space-y-1.5 font-label-md text-label-md">
+<!-- Electronics (Checked) -->
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="w-4 h-4 rounded-none border-2 border-on-surface text-on-surface focus:ring-0 focus:ring-offset-0 bg-surface" type="checkbox">
+<span class="group-hover:underline">Electronics</span>
+<span class="ml-auto font-label-sm text-[10px] bg-surface-container px-1 border border-on-surface/30">14</span>
+</label>
+<!-- ID cards -->
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-2 border-on-surface text-on-surface focus:ring-0 focus:ring-offset-0 bg-surface" type="checkbox">
+<span class="group-hover:underline">ID cards</span>
+<span class="ml-auto font-label-sm text-[10px] bg-surface-container px-1 border border-on-surface/30">8</span>
+</label>
+<!-- Bags -->
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-2 border-on-surface text-on-surface focus:ring-0 focus:ring-offset-0 bg-surface" type="checkbox">
+<span class="group-hover:underline">Bags</span>
+<span class="ml-auto font-label-sm text-[10px] bg-surface-container px-1 border border-on-surface/30">6</span>
+</label>
+<!-- Keys -->
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-2 border-on-surface text-on-surface focus:ring-0 focus:ring-offset-0 bg-surface" type="checkbox">
+<span class="group-hover:underline">Keys</span>
+<span class="ml-auto font-label-sm text-[10px] bg-surface-container px-1 border border-on-surface/30">5</span>
+</label>
+<!-- Books -->
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-2 border-on-surface text-on-surface focus:ring-0 focus:ring-offset-0 bg-surface" type="checkbox">
+<span class="group-hover:underline">Books</span>
+<span class="ml-auto font-label-sm text-[10px] bg-surface-container px-1 border border-on-surface/30">4</span>
+</label>
+<!-- Clothing -->
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-2 border-on-surface text-on-surface focus:ring-0 focus:ring-offset-0 bg-surface" type="checkbox">
+<span class="group-hover:underline">Clothing</span>
+<span class="ml-auto font-label-sm text-[10px] bg-surface-container px-1 border border-on-surface/30">3</span>
+</label>
+<!-- Other -->
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-2 border-on-surface text-on-surface focus:ring-0 focus:ring-offset-0 bg-surface" type="checkbox">
+<span class="group-hover:underline">Other</span>
+<span class="ml-auto font-label-sm text-[10px] bg-surface-container px-1 border border-on-surface/30">2</span>
+</label>
+</div>
+</div>
+<!-- 4. Campus Physical Location Dropdown -->
+<div>
+<label class="block font-label-sm text-label-sm font-bold uppercase mb-1">Custody Intake Location</label>
+<div class="relative">
+<select class="w-full bg-surface border-2 border-on-surface font-label-md text-label-md text-on-surface p-2 brutal-shadow-sm focus:outline-none rounded-none appearance-none">
+<option selected="">Main Library 2F</option>
+<option>Engineering Hall B</option>
+<option>Student Union Dining</option>
+<option>West Gymnasium</option>
+<option>Science Quad</option>
+<option>-- All Facilities Registry --</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 pointer-events-none text-on-surface text-[20px]">arrow_drop_down</span>
+</div>
+</div>
+<!-- 5. Date-Range Pickers (Archival Stamp Style) -->
+<div class="space-y-1.5">
+<label class="block font-label-sm text-label-sm font-bold uppercase">Date Stamp Window</label>
+<div class="grid grid-cols-2 gap-2">
+<div class="border-2 border-on-surface bg-surface p-1.5 brutal-shadow-sm">
+<span class="block font-label-sm text-[9px] text-outline uppercase font-bold">Logged From:</span>
+<input class="w-full bg-transparent p-0 text-on-surface font-label-sm text-[11px] border-none focus:ring-0" type="date" value="2023-10-01">
+</div>
+<div class="border-2 border-on-surface bg-surface p-1.5 brutal-shadow-sm">
+<span class="block font-label-sm text-[9px] text-outline uppercase font-bold">Logged To:</span>
+<input class="w-full bg-transparent p-0 text-on-surface font-label-sm text-[11px] border-none focus:ring-0" type="date" value="2023-10-24">
+</div>
+</div>
+</div>
+<!-- Reset Filters Link (Struck-through red ink style) -->
+<div class="pt-2 flex justify-between items-center">
+<button class="text-error font-label-md text-label-md font-bold tracking-tight hover:underline flex items-center gap-1 group" type="reset">
+<span class="material-symbols-outlined text-[16px] text-error">ink_eraser</span>
+<span class="line-through decoration-2 decoration-error">Clear all filters</span>
+<span class="text-[10px] ml-1">[Reset Drawer]</span>
+</button>
+<button class="bg-on-surface text-surface font-label-sm text-label-sm font-bold px-3 py-1.5 brutal-btn uppercase" type="submit">
+                Apply Ledger
+              </button>
+</div>
+</form>
+</div>
+<!-- Archival Custody Notice Box -->
+<div class="border-2 border-dashed border-on-surface/70 bg-surface-container p-3 font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-1 font-bold text-on-surface mb-1 uppercase">
+<span class="material-symbols-outlined text-[16px] text-primary">gavel</span>
+<span>Custody Retention Act §40</span>
+</div>
+<p class="text-[11px] leading-tight">
+            Valuables unclaimed for 60 calendar days are reassigned to university surplus auction. Inspect tags before submission.
+          </p>
+</div>
+</aside>
+<!-- RIGHT MAIN AREA: REPOSITORY DRAWER MANIFEST (Col 4-12) -->
+<section class="lg:col-span-9 space-y-space-md">
+<!-- Top Bar of Main Area: View Controls & State Switcher -->
+<div class="border-2 border-on-surface bg-surface-container-low p-space-md brutal-shadow flex flex-col md:flex-row md:items-center justify-between gap-4">
+<!-- Left: Count & Active Filter Chips -->
+<div class="space-y-1.5">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 bg-primary-container rounded-none inline-block"></span>
+<span class="font-headline-sm text-headline-sm uppercase font-bold">Showing 42 tagged items in circulation</span>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-label-sm text-label-sm text-outline uppercase font-bold">Active Indices:</span>
+<span class="inline-flex items-center gap-1 bg-[#EAD7A8] border border-on-surface px-2 py-0.5 font-label-sm text-label-sm">
+                Category: Electronics
+                <button class="hover:text-primary font-bold">✕</button>
+</span>
+<span class="inline-flex items-center gap-1 bg-[#EAD7A8] border border-on-surface px-2 py-0.5 font-label-sm text-label-sm">
+                Location: Main Library 2F
+                <button class="hover:text-primary font-bold">✕</button>
+</span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high border border-on-surface px-2 py-0.5 font-label-sm text-label-sm">
+                Status: All
+              </span>
+</div>
+</div>
+<!-- Right: Drawer Pull Sort & Interactive State Switcher Tabs -->
+<div class="flex flex-col sm:flex-row items-end sm:items-center gap-3">
+<!-- Sort dropdown styled like a catalog drawer pull -->
+<div class="flex items-center gap-2 border-2 border-on-surface bg-surface px-2.5 py-1 brutal-shadow-sm">
+<span class="material-symbols-outlined text-outline text-[18px]">swap_vert</span>
+<label class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase" for="catalogSort">Drawer Order:</label>
+<select class="bg-transparent font-label-md text-label-md text-on-surface font-bold border-none p-0 focus:ring-0 cursor-pointer" id="catalogSort">
+<option>Most Recently Tagged</option>
+<option>Oldest Unclaimed</option>
+<option>Category [A-Z]</option>
+<option>Physical Tag Serial #</option>
+</select>
+</div>
+<!-- Interactive Showcase Tabs to Inspect Requested States -->
+<div class="flex border-2 border-on-surface bg-surface p-0.5 brutal-shadow-sm font-label-sm text-label-sm font-bold">
+<button class="px-2 py-1 bg-on-surface text-surface" id="tab-active" onclick="switchLedgerState('active')">
+                Active Ledger
+              </button>
+<button class="px-2 py-1 hover:bg-surface-container transition-none" id="tab-loading" onclick="switchLedgerState('loading')">
+                Skeleton
+              </button>
+<button class="px-2 py-1 hover:bg-surface-container transition-none" id="tab-empty" onclick="switchLedgerState('empty')">
+                Empty
+              </button>
+<button class="px-2 py-1 hover:bg-surface-container transition-none" id="tab-error" onclick="switchLedgerState('error')">
+                503 Error
+              </button>
+</div>
+</div>
+</div>
+<!-- STATE CONTAINER 1: PRIMARY 3-COLUMN TAG GRID (Active Ledger) -->
+<div class="space-y-space-md block" id="state-active-ledger">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- CARD 1: Sony Headphones (FOUND) -->
+<article class="bg-[#EAD7A8] border-2 border-on-surface p-4 brutal-shadow relative transform rotate-[-0.5deg] hover:rotate-0 transition-transform flex flex-col justify-between">
+<!-- Grommet top punch -->
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet"></div>
+</div>
+<!-- Top Row: Tag # and Stamp Badge -->
+<div class="flex items-start justify-between mb-3">
+<div>
+<span class="font-label-md text-label-md font-bold tracking-wider text-on-surface bg-surface px-1.5 py-0.5 border border-on-surface inline-block">
+                    TAG #LDG-8821
+                  </span>
+<div class="font-label-sm text-[10px] text-on-surface-variant mt-0.5 font-mono">BIN: SHELF-04-B</div>
+</div>
+<!-- Green FOUND Rubber Stamp -->
+<div class="border-2 border-[#1E7B4F] text-[#1E7B4F] px-2 py-0.5 font-label-md text-label-md font-bold tracking-widest uppercase rotate-3 bg-[#EAD7A8]/90">
+                  FOUND [IN CUSTODY]
+                </div>
+</div>
+<!-- Photo Container with Kraft Masking Tape corners -->
+<div class="relative bg-surface-container-high border-2 border-on-surface overflow-hidden aspect-[4/3] mb-3">
+<div class="masking-tape tape-tl"></div>
+<div class="masking-tape tape-tr"></div>
+<img class="w-full h-full object-cover" data-alt="A pair of matte black Sony noise-cancelling over-ear headphones resting inside an open charcoal grey zippered protective hard case on a weathered wooden desk under bright daylight lamp lighting, captured in an archival forensic inventory photographic style with harsh clean contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGeUlKeA7aCUDWT_aDijHCT5btddcMm2fyiRru7LINxQGFvJRNu-JJXzC6fs2ZFcc5dhhDMpdv1OYgVYOfljRbJnmqrwdUfgYgM-5riy9wC9EdytniXYE7NIjtFMRFtn_C0v9vXpH-CTAwHN_AUaLyNqXXBjFwzI2eSY1Vl_EQ2ZB4JbmkERK-DOcwRgVchDlbPlhIojenxUjkYWKNBwRpJolPGfT6HjjuMIRSDnHy">
+</div>
+<!-- Content Deck -->
+<div class="space-y-2 flex-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug line-clamp-2">
+                  Matte Black Sony WH-1000XM4 Headphones in Grey Zippered Case
+                </h3>
+<div class="border-t border-dashed border-on-surface/50 pt-2 space-y-1 font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">category</span>
+<span class="font-bold">Electronics</span>
+<span class="text-on-surface-variant font-normal">/ Audio Equipment</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">location_on</span>
+<span>Main Library 2F (Quiet Study Area)</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+<span>Logged 3 hours ago (10:14 AM)</span>
+</div>
+</div>
+</div>
+<!-- Physical Action Slip Button -->
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline uppercase font-mono">SEAL: #0921-UNBROKEN</span>
+<button class="bg-surface text-on-surface hover:bg-primary hover:text-on-primary border-2 border-on-surface font-headline-sm text-label-md font-bold px-3 py-1.5 brutal-shadow-sm brutal-btn flex items-center gap-1">
+<span>Inspect Tag / File Claim</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- CARD 2: Student ID Card (FOUND) -->
+<article class="bg-[#F4EDE0] border-2 border-on-surface p-4 brutal-shadow relative transform rotate-[0.8deg] hover:rotate-0 transition-transform flex flex-col justify-between">
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet"></div>
+</div>
+<div class="flex items-start justify-between mb-3">
+<div>
+<span class="font-label-md text-label-md font-bold tracking-wider text-on-surface bg-surface px-1.5 py-0.5 border border-on-surface inline-block">
+                    TAG #LDG-8822
+                  </span>
+<div class="font-label-sm text-[10px] text-on-surface-variant mt-0.5 font-mono">BIN: WALLET-SAFE-01</div>
+</div>
+<div class="border-2 border-[#1E7B4F] text-[#1E7B4F] px-2 py-0.5 font-label-md text-label-md font-bold tracking-widest uppercase -rotate-2 bg-[#F4EDE0]/90">
+                  FOUND [IN CUSTODY]
+                </div>
+</div>
+<div class="relative bg-surface-container-high border-2 border-on-surface overflow-hidden aspect-[4/3] mb-3">
+<div class="masking-tape tape-tl"></div>
+<div class="masking-tape tape-tr"></div>
+<img class="w-full h-full object-cover" data-alt="A standardized blue and white university student ID card with magnetic stripe and barcode, placed flat on a graph paper archival measurement sheet beside an identification label under direct fluorescent overhead office lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYTu9tXkatlUHsDzFnLwn2uB8Eq2ExW5szNI1PjXI3loDKMv-y6SfOssIDg_7dZFwa_-BLA9dpx7OtwepF7LD3p7bxBUfRFA7Jud_7c0q4GzRaU937DBNt5aRSmOqLSYaKLhCM9LE06SvfPRCbnuyxVTihXdv-03lxEToAGStyrP7SuUrq4_Pl6v2JG-FOTMGb__9-44CKTgkd4chHgJJzlKWgCFcHk939DKozkxGv">
+</div>
+<div class="space-y-2 flex-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug line-clamp-2">
+                  Undergraduate Campus ID Card with Red Lanyard &amp; Keycard Pass
+                </h3>
+<div class="border-t border-dashed border-on-surface/50 pt-2 space-y-1 font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">badge</span>
+<span class="font-bold">ID cards</span>
+<span class="text-on-surface-variant font-normal">/ Student Dossier</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">location_on</span>
+<span>Student Union Dining (Register 4)</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+<span>Logged 5 hours ago (08:30 AM)</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline uppercase font-mono">PHOTO MASKED FOR PRIVACY</span>
+<button class="bg-surface text-on-surface hover:bg-primary hover:text-on-primary border-2 border-on-surface font-headline-sm text-label-md font-bold px-3 py-1.5 brutal-shadow-sm brutal-btn flex items-center gap-1">
+<span>Inspect Tag / File Claim</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- CARD 3: TI-84 Plus CE Calculator (LOST INQUIRY) -->
+<article class="bg-[#EAD7A8] border-2 border-on-surface p-4 brutal-shadow relative transform rotate-[-1deg] hover:rotate-0 transition-transform flex flex-col justify-between">
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet"></div>
+</div>
+<div class="flex items-start justify-between mb-3">
+<div>
+<span class="font-label-md text-label-md font-bold tracking-wider text-on-surface bg-surface px-1.5 py-0.5 border border-on-surface inline-block">
+                    TAG #LDG-8819
+                  </span>
+<div class="font-label-sm text-[10px] text-on-surface-variant mt-0.5 font-mono">STATUS: ACTIVE BULLETIN</div>
+</div>
+<!-- Red LOST Rubber Stamp -->
+<div class="border-2 border-[#C8312B] text-[#C8312B] px-2 py-0.5 font-label-md text-label-md font-bold tracking-widest uppercase rotate-2 bg-[#EAD7A8]/90">
+                  LOST [INQUIRY]
+                </div>
+</div>
+<div class="relative bg-surface-container-high border-2 border-on-surface overflow-hidden aspect-[4/3] mb-3">
+<div class="masking-tape tape-tl"></div>
+<div class="masking-tape tape-tr"></div>
+<img class="w-full h-full object-cover" data-alt="A black Texas Instruments graphing calculator with a slide-on protective hard cover, featuring minor sticker residue on the reverse casing, documented on top of an archival manila folder under crisp warm desktop lamp illumination." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD84IlyXsGhBricfKF2SglYLuZa9QWcIEWD35HEEm2O92vfPuvGFSfu3Tw9tPwxMhBtwugiZL5nWKsx9HuQCLz5Z4aNKOx1jYXXOv1AQhKq4MkM10NPujTXu4ZxdnPh4XiLMf7_POmUqKgnVkuk52mbIwUe37-MIxHGhcAWKMqIjpUACfNKxzM91FNmDDVYj0p44vrtuN_RMr3CrDKK4mNJFREB96CqAlGWbWMIC0L">
+</div>
+<div class="space-y-2 flex-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug line-clamp-2">
+                  TI-84 Plus CE Graphing Calculator with Math Club Decal
+                </h3>
+<div class="border-t border-dashed border-on-surface/50 pt-2 space-y-1 font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">calculate</span>
+<span class="font-bold">Electronics</span>
+<span class="text-on-surface-variant font-normal">/ Computation</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">location_on</span>
+<span>Engineering Hall B (Lecture Hall 101)</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+<span>Reported Yesterday by Student</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-error uppercase font-mono">OWNER SEEKING RECOVERY</span>
+<button class="bg-surface text-on-surface hover:bg-primary hover:text-on-primary border-2 border-on-surface font-headline-sm text-label-md font-bold px-3 py-1.5 brutal-shadow-sm brutal-btn flex items-center gap-1">
+<span>I Found This / Report</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- CARD 4: Leather Messenger Bag (FOUND) -->
+<article class="bg-[#F4EDE0] border-2 border-on-surface p-4 brutal-shadow relative transform rotate-[0.5deg] hover:rotate-0 transition-transform flex flex-col justify-between">
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet"></div>
+</div>
+<div class="flex items-start justify-between mb-3">
+<div>
+<span class="font-label-md text-label-md font-bold tracking-wider text-on-surface bg-surface px-1.5 py-0.5 border border-on-surface inline-block">
+                    TAG #LDG-8815
+                  </span>
+<div class="font-label-sm text-[10px] text-on-surface-variant mt-0.5 font-mono">BIN: LOCKER-BAY-C</div>
+</div>
+<div class="border-2 border-[#1E7B4F] text-[#1E7B4F] px-2 py-0.5 font-label-md text-label-md font-bold tracking-widest uppercase -rotate-1 bg-[#F4EDE0]/90">
+                  FOUND [IN CUSTODY]
+                </div>
+</div>
+<div class="relative bg-surface-container-high border-2 border-on-surface overflow-hidden aspect-[4/3] mb-3">
+<div class="masking-tape tape-tl"></div>
+<div class="masking-tape tape-tr"></div>
+<img class="w-full h-full object-cover" data-alt="A vintage distressed brown leather messenger satchel bag with brass buckles and a canvas shoulder strap, standing upright against an institutional concrete wall under neutral white indoor institutional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG4gnesf9757sssW30vcWHCiCBi4QU8ZfQ73_vhE_6Z0dVNOjpSxl6U1pG30V82wJYMFTppJf7Df8CZVJda_Hy3v-nJa43aWcZquNjeui1zxtjXpacAwWWlHs8ZKlLxU3L4Z5YnE_HCz0gm7erJh4ZAwAf-Cn7zbdfGz6SnSQEIsEY13hjy7FmeSAsSA59vEjzuqGPBYbKlsTi0FUQ_eBN8ZPqt3z_ruq_4Ner_htX">
+</div>
+<div class="space-y-2 flex-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug line-clamp-2">
+                  Distressed Saddle Leather Satchel with Brass Buckle Closures
+                </h3>
+<div class="border-t border-dashed border-on-surface/50 pt-2 space-y-1 font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">work</span>
+<span class="font-bold">Bags</span>
+<span class="text-on-surface-variant font-normal">/ Luggage</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">location_on</span>
+<span>Science Quad (Breezeway Bench)</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+<span>Logged 1 day ago</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline uppercase font-mono">CONTAINS TEXTBOOKS</span>
+<button class="bg-surface text-on-surface hover:bg-primary hover:text-on-primary border-2 border-on-surface font-headline-sm text-label-md font-bold px-3 py-1.5 brutal-shadow-sm brutal-btn flex items-center gap-1">
+<span>Inspect Tag / File Claim</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- CARD 5: Brass Dorm Key Ring (FOUND) -->
+<article class="bg-[#EAD7A8] border-2 border-on-surface p-4 brutal-shadow relative transform rotate-[-0.8deg] hover:rotate-0 transition-transform flex flex-col justify-between">
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet"></div>
+</div>
+<div class="flex items-start justify-between mb-3">
+<div>
+<span class="font-label-md text-label-md font-bold tracking-wider text-on-surface bg-surface px-1.5 py-0.5 border border-on-surface inline-block">
+                    TAG #LDG-8809
+                  </span>
+<div class="font-label-sm text-[10px] text-on-surface-variant mt-0.5 font-mono">BIN: KEY-CABINET-08</div>
+</div>
+<div class="border-2 border-[#1E7B4F] text-[#1E7B4F] px-2 py-0.5 font-label-md text-label-md font-bold tracking-widest uppercase rotate-3 bg-[#EAD7A8]/90">
+                  FOUND [IN CUSTODY]
+                </div>
+</div>
+<div class="relative bg-surface-container-high border-2 border-on-surface overflow-hidden aspect-[4/3] mb-3">
+<div class="masking-tape tape-tl"></div>
+<div class="masking-tape tape-tr"></div>
+<img class="w-full h-full object-cover" data-alt="A heavy brass key ring holding four residential cut keys and a black plastic dorm electronic access proximity fob, arranged carefully on a brushed metallic desk surface with clear directional shadow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOpZDuqtwZYuyxBHtE0Kn2iKPXPP1BRnxe2oxvPSnlkSIwew1bMSQaj7EIZTeGmyFNFZANA6LonU5sbkA0v8IKZ2WPiIwUJghMEgxDVDq2LMftQ92YJ07N1fvHX7KoWiZlKlqpZ8hVKk2nnBQrgtf_XTTiGMJ5KT-1yIFT3EKuSY8R0sDZjyZiv0L2ijVfdfXrL1Ni94huRvY9botncQl-Tw3U-R6IA5vb8OcNDLsd">
+</div>
+<div class="space-y-2 flex-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug line-clamp-2">
+                  Brass Keychain with 4 Keys &amp; North Hall Dorm Access FOB
+                </h3>
+<div class="border-t border-dashed border-on-surface/50 pt-2 space-y-1 font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">vpn_key</span>
+<span class="font-bold">Keys</span>
+<span class="text-on-surface-variant font-normal">/ Residence Hardware</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">location_on</span>
+<span>West Gymnasium (Locker Hallway)</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+<span>Logged 2 days ago</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline uppercase font-mono">RESIDENCE DISPATCH NOTIFIED</span>
+<button class="bg-surface text-on-surface hover:bg-primary hover:text-on-primary border-2 border-on-surface font-headline-sm text-label-md font-bold px-3 py-1.5 brutal-shadow-sm brutal-btn flex items-center gap-1">
+<span>Inspect Tag / File Claim</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+<!-- CARD 6: Cobalt Hydroflask (FOUND) -->
+<article class="bg-[#F4EDE0] border-2 border-on-surface p-4 brutal-shadow relative transform rotate-[0.6deg] hover:rotate-0 transition-transform flex flex-col justify-between">
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet"></div>
+</div>
+<div class="flex items-start justify-between mb-3">
+<div>
+<span class="font-label-md text-label-md font-bold tracking-wider text-on-surface bg-surface px-1.5 py-0.5 border border-on-surface inline-block">
+                    TAG #LDG-8802
+                  </span>
+<div class="font-label-sm text-[10px] text-on-surface-variant mt-0.5 font-mono">BIN: CRATE-09</div>
+</div>
+<div class="border-2 border-[#1E7B4F] text-[#1E7B4F] px-2 py-0.5 font-label-md text-label-md font-bold tracking-widest uppercase -rotate-2 bg-[#F4EDE0]/90">
+                  FOUND [IN CUSTODY]
+                </div>
+</div>
+<div class="relative bg-surface-container-high border-2 border-on-surface overflow-hidden aspect-[4/3] mb-3">
+<div class="masking-tape tape-tl"></div>
+<div class="masking-tape tape-tr"></div>
+<img class="w-full h-full object-cover" data-alt="A 32oz cobalt blue stainless steel insulated water bottle covered in colorful botanical stickers with a black flex cap, sitting on a pale cream textured archival index card background with stark side lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRh8iLuc4Bt0GcK574-5y43pyq5JsM2AJrMX3GpBiQW_aXzXMG2GgO3F1a5nM-uo4S_at4-IJEawDArNvWh3j1jKfr7-9u1RrS4Z9g8Fl-Hrtd8cpi22Sq3e79dadqx6uWwZXo2IJpNlLwqGqIRJ6tq4UlDhQVDXoJbwXX_rAUsn_BBkCQkirGvW-Z8M3Hob9euCaWQ2tl1Ry4BtfGrtElLDT0Hot7uCp_VEdgopGM">
+</div>
+<div class="space-y-2 flex-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug line-clamp-2">
+                  32oz Cobalt Blue Hydroflask Flask with National Park Decals
+                </h3>
+<div class="border-t border-dashed border-on-surface/50 pt-2 space-y-1 font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">local_drink</span>
+<span class="font-bold">Other</span>
+<span class="text-on-surface-variant font-normal">/ Personal Vessels</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-[15px] text-outline">location_on</span>
+<span>Main Library 2F (Printer Station)</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[15px]">schedule</span>
+<span>Logged 2 days ago</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-outline uppercase font-mono">DISINFECTED &amp; SHELVED</span>
+<button class="bg-surface text-on-surface hover:bg-primary hover:text-on-primary border-2 border-on-surface font-headline-sm text-label-md font-bold px-3 py-1.5 brutal-shadow-sm brutal-btn flex items-center gap-1">
+<span>Inspect Tag / File Claim</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</article>
+</div>
+<!-- Bottom of Primary Grid: Punch Card Load Action -->
+<div class="pt-6 pb-2 text-center">
+<button class="w-full max-w-xl mx-auto border-2 border-on-surface bg-secondary-container p-3 brutal-shadow-lg brutal-btn flex items-center justify-center gap-3 hover:bg-[#ebd39a] transition-none group">
+<span class="material-symbols-outlined text-[24px] text-on-surface">inventory_2</span>
+<span class="font-headline-sm text-headline-sm font-bold uppercase tracking-wider">
+                PULL NEXT 24 TAGS FROM VAULT ARCHIVE
+              </span>
+<span class="font-label-sm text-label-sm bg-surface px-2 py-0.5 border border-on-surface font-mono">
+                [REMAINING: 18]
+              </span>
+</button>
+<div class="mt-2 font-label-sm text-label-sm text-on-surface-variant font-mono">
+              PROPERTY DISPOSITION SYSTEM // CACHED AS OF CURRENT DISPATCH HOUR
+            </div>
+</div>
+</div>
+<!-- STATE CONTAINER 2: SKELETON LOADING STATE (Interactive Showcase) -->
+<div class="space-y-space-md hidden" id="state-loading-ledger">
+<div class="border-2 border-dashed border-on-surface p-3 bg-surface-container-high/40 text-center font-label-md text-label-md font-bold text-outline">
+            [VAULT RETRIEVAL IN PROGRESS... SHIFTING ARCHIVAL MICROFICHE CARDS]
+          </div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Skeleton Card 1 -->
+<div class="bg-surface-container-low border-2 border-on-surface p-4 brutal-shadow relative animate-pulse">
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet bg-surface-variant"></div>
+</div>
+<div class="flex justify-between items-center mb-3">
+<div class="h-5 w-24 bg-surface-variant border border-on-surface"></div>
+<div class="h-6 w-28 bg-surface-variant border border-dashed border-outline"></div>
+</div>
+<div class="relative bg-surface-variant border-2 border-on-surface aspect-[4/3] mb-3 flex items-center justify-center">
+<span class="font-label-sm text-label-sm text-outline font-mono">[UNINDEXED SLIP]</span>
+</div>
+<div class="space-y-2">
+<div class="h-5 bg-surface-variant w-4/5"></div>
+<div class="h-4 bg-surface-variant w-2/3"></div>
+<div class="h-3 bg-surface-variant w-1/2 mt-3"></div>
+</div>
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex justify-between items-center">
+<div class="h-3 w-20 bg-surface-variant"></div>
+<div class="h-8 w-28 bg-surface-variant border border-on-surface"></div>
+</div>
+</div>
+<!-- Skeleton Card 2 -->
+<div class="bg-surface-container-low border-2 border-on-surface p-4 brutal-shadow relative animate-pulse">
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet bg-surface-variant"></div>
+</div>
+<div class="flex justify-between items-center mb-3">
+<div class="h-5 w-24 bg-surface-variant border border-on-surface"></div>
+<div class="h-6 w-28 bg-surface-variant border border-dashed border-outline"></div>
+</div>
+<div class="relative bg-surface-variant border-2 border-on-surface aspect-[4/3] mb-3 flex items-center justify-center">
+<span class="font-label-sm text-label-sm text-outline font-mono">[UNINDEXED SLIP]</span>
+</div>
+<div class="space-y-2">
+<div class="h-5 bg-surface-variant w-5/6"></div>
+<div class="h-4 bg-surface-variant w-1/2"></div>
+<div class="h-3 bg-surface-variant w-3/4 mt-3"></div>
+</div>
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex justify-between items-center">
+<div class="h-3 w-20 bg-surface-variant"></div>
+<div class="h-8 w-28 bg-surface-variant border border-on-surface"></div>
+</div>
+</div>
+<!-- Skeleton Card 3 -->
+<div class="bg-surface-container-low border-2 border-on-surface p-4 brutal-shadow relative animate-pulse">
+<div class="flex justify-center -mt-6 mb-2">
+<div class="grommet bg-surface-variant"></div>
+</div>
+<div class="flex justify-between items-center mb-3">
+<div class="h-5 w-24 bg-surface-variant border border-on-surface"></div>
+<div class="h-6 w-28 bg-surface-variant border border-dashed border-outline"></div>
+</div>
+<div class="relative bg-surface-variant border-2 border-on-surface aspect-[4/3] mb-3 flex items-center justify-center">
+<span class="font-label-sm text-label-sm text-outline font-mono">[UNINDEXED SLIP]</span>
+</div>
+<div class="space-y-2">
+<div class="h-5 bg-surface-variant w-3/4"></div>
+<div class="h-4 bg-surface-variant w-2/3"></div>
+<div class="h-3 bg-surface-variant w-2/5 mt-3"></div>
+</div>
+<div class="mt-4 pt-3 border-t-2 border-on-surface flex justify-between items-center">
+<div class="h-3 w-20 bg-surface-variant"></div>
+<div class="h-8 w-28 bg-surface-variant border border-on-surface"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- STATE CONTAINER 3: EMPTY DRAWER STATE (Interactive Showcase) -->
+<div class="space-y-space-md hidden" id="state-empty-ledger">
+<div class="border-2 border-on-surface bg-[#EAD7A8]/60 p-12 text-center brutal-shadow max-w-2xl mx-auto relative overflow-hidden">
+<!-- Background Watermark Stamp -->
+<div class="absolute -right-10 -bottom-10 border-4 border-on-surface/10 rounded-full w-64 h-64 flex items-center justify-center font-headline-xl font-bold uppercase pointer-events-none select-none text-on-surface/10 rotate-12">
+              DRAWER NULL
+            </div>
+<div class="w-20 h-20 mx-auto border-2 border-on-surface bg-surface flex items-center justify-center brutal-shadow mb-4 rotate-3">
+<span class="material-symbols-outlined text-[44px] text-on-surface">inventory_2</span>
+</div>
+<div class="inline-block border-2 border-on-surface bg-surface px-3 py-1 font-label-md text-label-md font-bold uppercase tracking-wider mb-2">
+              ARCHIVAL DRAWER: EMPTY // ZERO CUSTODIAL MATCHES
+            </div>
+<h3 class="font-headline-lg text-headline-lg font-bold text-on-surface uppercase mb-2">
+              Nothing here. Suspiciously tidy.
+            </h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto mb-6">
+              No items currently match your filter criteria in the central lockbox. The ledger indicates this storage bin has been cleared or items were already claimed by owners.
+            </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+<button class="bg-primary text-on-primary border-2 border-on-surface font-headline-sm text-label-lg font-bold px-5 py-2.5 brutal-shadow brutal-btn uppercase flex items-center gap-2" onclick="switchLedgerState('active')">
+<span class="material-symbols-outlined text-[18px]">filter_alt_off</span>
+<span>Reset All Filters &amp; Return to Ledger</span>
+</button>
+<button class="bg-surface text-on-surface border-2 border-on-surface font-headline-sm text-label-lg font-bold px-4 py-2.5 brutal-shadow brutal-btn uppercase">
+                Report a Missing Item
+              </button>
+</div>
+</div>
+</div>
+<!-- STATE CONTAINER 4: ERROR STATE 503 (Interactive Showcase) -->
+<div class="space-y-space-md hidden" id="state-error-ledger">
+<div class="border-2 border-error bg-[#FFDAD6]/40 p-10 brutal-shadow max-w-2xl mx-auto relative">
+<!-- Red Warning Header Strip -->
+<div class="flex items-center justify-between border-b-2 border-error pb-3 mb-6">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined text-[28px]">warning</span>
+<span class="font-headline-sm text-headline-sm font-bold uppercase">INCIDENT REPORT // REGISTRY TIMEOUT 503</span>
+</div>
+<span class="font-label-sm text-label-sm bg-error text-on-error px-2 py-0.5 font-mono font-bold">ERROR_CODE_0x53</span>
+</div>
+<!-- Heavy Warning Stamp Visual -->
+<div class="border-2 border-error text-error p-3 text-center uppercase tracking-widest font-label-lg text-label-lg font-bold rotate-1 mb-6 border-dashed bg-surface">
+              UNABLE TO OPEN LOCKER DRAWER // TIMEOUT CONTACTING PERIPHERAL VAULT GATEWAY
+            </div>
+<p class="font-body-md text-body-md text-on-error-container mb-6 leading-relaxed">
+              The automated campus repository service failed to respond within 4,000ms. Vault rack solenoids may be undergoing routine mechanical maintenance or the local mainframe dispatch connection is saturated.
+            </p>
+<div class="bg-surface border border-error p-3 font-mono text-[11px] text-on-surface mb-6 space-y-1">
+<div>&gt; ATTEMPT: GET /vault/api/v1/drawer/browse-items?offset=0&amp;limit=42</div>
+<div>&gt; RESPONSE: 503 SERVICE UNAVAILABLE (GATEWAY_COMM_FAILURE)</div>
+<div>&gt; HOST: VAULT-SRV-NORTH.CAMPUS.LOCAL:8080</div>
+</div>
+<div class="flex items-center justify-between">
+<button class="bg-primary text-on-primary border-2 border-on-surface font-headline-sm text-label-lg font-bold px-6 py-2 brutal-shadow brutal-btn uppercase flex items-center gap-2" onclick="switchLedgerState('active')">
+<span class="material-symbols-outlined text-[18px]">replay</span>
+<span>Retry Connection</span>
+</button>
+<span class="font-label-sm text-label-sm text-outline font-mono">
+                DESK DISPATCH PH: 555-0192-EXT4
+              </span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- ARCHIVAL FOOTER (Shared Components JSON Anchor) -->
+<footer class="w-full bg-surface-container border-t-2 border-on-surface mt-16">
+<div class="max-w-[1440px] mx-auto px-gutter py-space-md flex flex-col md:flex-row justify-between items-center gap-4">
+<!-- Archival Copyright & Classification -->
+<div class="flex flex-col items-center md:items-start">
+<span class="font-label-sm text-label-sm text-on-surface font-bold tracking-wider uppercase">
+          PROPERTY DISPOSITION DIVISION // ARCHIVAL REGISTRY SYSTEM REF. NO. 4092-B
+        </span>
+<span class="font-label-sm text-[10px] text-on-surface-variant mt-0.5">
+          Authorized Campus Lockbox Custodian Database • Form 4092 Revision 12
+        </span>
+</div>
+<!-- Footer Policy Links -->
+<nav class="flex flex-wrap items-center justify-center gap-4 font-label-sm text-label-sm">
+<a class="text-on-surface-variant hover:bg-on-surface hover:text-surface px-1 transition-none" href="#manual">
+          System Manual
+        </a>
+<span class="text-outline">/</span>
+<a class="text-on-surface-variant hover:bg-on-surface hover:text-surface px-1 transition-none" href="#retention">
+          Retention Policy
+        </a>
+<span class="text-outline">/</span>
+<a class="text-on-surface-variant hover:bg-on-surface hover:text-surface px-1 transition-none" href="#audit">
+          Audit Log
+        </a>
+<span class="text-outline">/</span>
+<a class="text-on-surface-variant hover:bg-on-surface hover:text-surface px-1 transition-none" href="#act">
+          Lost Property Act
+        </a>
+<span class="text-outline">/</span>
+<a class="text-on-surface-variant hover:bg-on-surface hover:text-surface px-1 transition-none flex items-center gap-1" href="#status">
+<span class="w-2 h-2 rounded-full bg-[#1E7B4F]"></span>
+<span>Terminal Status</span>
+</a>
+</nav>
+</div>
+</footer>
+<!-- Light Micro-Interaction Script for State Toggle Showcase -->
+<script>
+    function switchLedgerState(stateName) {
+      // Hide all containers
+      document.getElementById('state-active-ledger').classList.add('hidden');
+      document.getElementById('state-loading-ledger').classList.add('hidden');
+      document.getElementById('state-empty-ledger').classList.add('hidden');
+      document.getElementById('state-error-ledger').classList.add('hidden');
+
+      // Reset tab button styles
+      const tabs = ['active', 'loading', 'empty', 'error'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        btn.className = "px-2 py-1 hover:bg-surface-container transition-none";
+      });
+
+      // Activate chosen container and tab style
+      const activeBtn = document.getElementById(`tab-${stateName}`);
+      if (activeBtn) {
+        activeBtn.className = "px-2 py-1 bg-on-surface text-surface";
+      }
+
+      const activeView = document.getElementById(`state-${stateName}-ledger`);
+      if (activeView) {
+        activeView.classList.remove('hidden');
+      }
+    }
+  </script>
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div></body></html>

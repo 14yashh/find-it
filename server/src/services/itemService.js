@@ -3,6 +3,7 @@ import path from 'path';
 import sharp from 'sharp';
 import crypto from 'crypto';
 import Item from '../models/Item.js';
+import Claim from '../models/Claim.js';
 import { ApiError } from '../utils/ApiError.js';
 import { ITEMS_DIR } from '../config/uploadDirs.js';
 import emitter from '../events/emitter.js';
@@ -63,7 +64,11 @@ export async function getMyItems(userId) {
 export async function getItemById(id) {
   const item = await Item.findById(id).populate('postedBy', 'name department');
   if (!item) throw new ApiError(404, 'Item not found', 'NOT_FOUND');
-  return item;
+  const activeClaim = await Claim.findOne({ item: id, status: { $in: ['pending', 'approved'] } }).select('_id status');
+  const itemObj = item.toJSON();
+  itemObj.hasActiveClaim = !!activeClaim;
+  itemObj.activeClaimStatus = activeClaim ? activeClaim.status : null;
+  return itemObj;
 }
 
 export async function createItem(userId, data, files = []) {

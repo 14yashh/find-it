@@ -57,7 +57,10 @@ app.use(mongoSanitize());
 // ── Global rate limiter (relaxed; auth routes get a stricter one in phase 2) ─
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,  // 15 minutes
-  max:      process.env.NODE_ENV === 'test' ? 2000 : 200,
+  max:      process.env.NODE_ENV === 'test' ? 2000 : 500,
+  // Skip counting plain GET requests — they are read-only and low-risk.
+  // This prevents page navigation / polling from burning the write-action budget.
+  skip: (req) => req.method === 'GET',
   standardHeaders: true,
   legacyHeaders:   false,
   message: {

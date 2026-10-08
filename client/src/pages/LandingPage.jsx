@@ -5,6 +5,9 @@ import Stamp from '../components/ui/Stamp.jsx';
 import TicketStub from '../components/ui/TicketStub.jsx';
 import Button from '../components/ui/Button.jsx';
 import Tape from '../components/ui/Tape.jsx';
+import TagCard from '../components/ui/TagCard.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
+import { useItems } from '../hooks/useItems.js';
 import {
   Search,
   PackagePlus,
@@ -14,9 +17,12 @@ import {
   GitCompare,
   KeyRound,
   Check,
+  Package,
 } from 'lucide-react';
 
 export default function LandingPage() {
+  const { currentUser } = useAuth();
+  const { items: recentItems, isLoading: itemsLoading } = useItems({ limit: 4, page: 1, sort: 'newest' });
   return (
     <div className="font-sans">
 
@@ -41,7 +47,7 @@ export default function LandingPage() {
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] text-ink">
                 Lost something on campus?
               </h1>
-              <p className="font-meta text-base sm:text-lg text-secondary font-bold tracking-tight">
+              <p className="font-meta text-base sm:text-lg text-primary font-bold tracking-tight">
                 We've got a drawer for that.
               </p>
             </div>
@@ -55,7 +61,7 @@ export default function LandingPage() {
               <Button
                 variant="primary"
                 size="lg"
-                to="/browse?type=lost"
+                to={currentUser ? "/items/new?type=lost" : "/browse?type=lost"}
                 className="flex items-center gap-2"
               >
                 <Search className="w-5 h-5" />
@@ -64,7 +70,7 @@ export default function LandingPage() {
               <Button
                 variant="secondary"
                 size="lg"
-                to="/login"
+                to={currentUser ? "/items/new?type=found" : "/login"}
                 className="flex items-center gap-2 bg-manila"
               >
                 <PackagePlus className="w-5 h-5" />
@@ -430,94 +436,132 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* Container with Blurred Cards and Privacy Overlay */}
-        <div className="relative border-2 border-ink p-6 sm:p-8 bg-paper hard-shadow-6 overflow-hidden">
-          {/* Blurred Background Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 select-none pointer-events-none filter blur-[5px] opacity-40">
-            <div className="bg-manila border-2 border-ink p-4 hard-shadow-2">
-              <div className="flex justify-between items-center pb-2 border-b border-ink">
-                <span className="font-meta text-xs font-bold">TAG #0424-K</span>
-                <Stamp type="found" size="sm" />
+        {/* Recent Entries - For Logged In Users vs Guests */}
+        {currentUser ? (
+          /* AUTHENTICATED: Show Actual Live Logbook Entries */
+          <div className="border-2 border-ink p-6 sm:p-8 bg-paper hard-shadow-6">
+            {itemsLoading ? (
+              <div className="py-12 text-center font-meta text-xs text-ink-muted">
+                Accessing central ledger records…
               </div>
-              <div className="h-28 my-3 bg-paper border border-ink flex items-center justify-center font-meta text-xs">
-                [Locker Keys]
-              </div>
-              <h4 className="font-heading text-sm font-bold">Brass locker key bunch</h4>
-              <p className="font-meta text-xs text-ink-muted">Gym Bleachers Row</p>
-            </div>
+            ) : recentItems && recentItems.length > 0 ? (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {recentItems.slice(0, 4).map((it) => (
+                    <TagCard key={it._id} item={it} />
+                  ))}
+                </div>
 
-            <div className="bg-paper border-2 border-ink p-4 hard-shadow-2">
-              <div className="flex justify-between items-center pb-2 border-b border-ink">
-                <span className="font-meta text-xs font-bold">TAG #0423-B</span>
-                <Stamp type="lost" size="sm" />
+                <div className="pt-4 border-t-2 border-dashed border-ink/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <span className="font-meta text-xs text-ink-muted font-bold">
+                    Showing latest entries logged into the Central Registry.
+                  </span>
+                  <Button variant="primary" size="md" to="/browse" className="flex items-center gap-2">
+                    <Search className="w-4 h-4" />
+                    <span>Browse Full Drawer Archive</span>
+                  </Button>
+                </div>
               </div>
-              <div className="h-28 my-3 bg-paper-light border border-ink flex items-center justify-center font-meta text-xs">
-                [Backpack]
-              </div>
-              <h4 className="font-heading text-sm font-bold">Olive green backpack</h4>
-              <p className="font-meta text-xs text-ink-muted">Lecture Hall A</p>
-            </div>
-
-            <div className="bg-manila border-2 border-ink p-4 hard-shadow-2">
-              <div className="flex justify-between items-center pb-2 border-b border-ink">
-                <span className="font-meta text-xs font-bold">TAG #0422-H</span>
-                <Stamp type="found" size="sm" />
-              </div>
-              <div className="h-28 my-3 bg-paper border border-ink flex items-center justify-center font-meta text-xs">
-                [Hydro Flask]
-              </div>
-              <h4 className="font-heading text-sm font-bold">Yellow Hydro Flask</h4>
-              <p className="font-meta text-xs text-ink-muted">Science Lab Bench 4</p>
-            </div>
-
-            <div className="bg-paper border-2 border-ink p-4 hard-shadow-2">
-              <div className="flex justify-between items-center pb-2 border-b border-ink">
-                <span className="font-meta text-xs font-bold">TAG #0421-U</span>
-                <Stamp type="claim pending" size="sm" />
-              </div>
-              <div className="h-28 my-3 bg-paper-light border border-ink flex items-center justify-center font-meta text-xs">
-                [Umbrella]
-              </div>
-              <h4 className="font-heading text-sm font-bold">Black compact umbrella</h4>
-              <p className="font-meta text-xs text-ink-muted">Main Library Atrium</p>
-            </div>
-          </div>
-
-          {/* OVERLAY PAPER SHIELD BANNER */}
-          <div className="absolute inset-0 flex items-center justify-center p-4 bg-paper/30 backdrop-blur-xs">
-            <div className="max-w-[500px] w-full bg-paper border-2 border-ink hard-shadow-6 p-6 sm:p-8 text-center relative z-20">
-              <Tape position="top-center" />
-              <div className="w-12 h-12 bg-manila border-2 border-ink mx-auto mb-3 flex items-center justify-center hard-shadow-2">
-                <Lock className="w-6 h-6 text-ink" />
-              </div>
-
-              <div className="stamp-badge text-ink border-ink outline-ink mb-3 -rotate-1 text-[11px]">
-                ARCHIVAL PRIVACY RESTRICTION
-              </div>
-
-              <h3 className="font-heading text-2xl font-extrabold text-ink tracking-tight mb-2 uppercase">
-                Log In to Browse Full Archive
-              </h3>
-
-              <p className="font-sans text-sm text-ink leading-relaxed mb-6">
-                Active student credentials are required to view full item serials, locations, and filing dossiers. Prevents fraudulent claims on unattended campus items.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Button variant="primary" size="md" to="/login" className="w-full sm:w-auto">
-                  Log In With Student ID
-                </Button>
-                <Button variant="secondary" size="md" to="/signup" className="w-full sm:w-auto bg-manila">
-                  Create Account
+            ) : (
+              <div className="py-12 text-center space-y-2">
+                <Package className="w-10 h-10 text-ink mx-auto stroke-[1.5]" />
+                <p className="font-meta text-xs text-ink-muted">No items currently logged in the central ledger.</p>
+                <Button variant="secondary" size="sm" to="/items/new" className="bg-manila">
+                  Log the First Property Item
                 </Button>
               </div>
+            )}
+          </div>
+        ) : (
+          /* GUEST / LOGGED OUT: Blurred Cards and Privacy Overlay */
+          <div className="relative border-2 border-ink p-6 sm:p-8 bg-paper hard-shadow-6 overflow-hidden">
+            {/* Blurred Background Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 select-none pointer-events-none filter blur-[5px] opacity-40">
+              <div className="bg-manila border-2 border-ink p-4 hard-shadow-2">
+                <div className="flex justify-between items-center pb-2 border-b border-ink">
+                  <span className="font-meta text-xs font-bold">TAG #0424-K</span>
+                  <Stamp type="found" size="sm" />
+                </div>
+                <div className="h-28 my-3 bg-paper border border-ink flex items-center justify-center font-meta text-xs">
+                  [Locker Keys]
+                </div>
+                <h4 className="font-heading text-sm font-bold">Brass locker key bunch</h4>
+                <p className="font-meta text-xs text-ink-muted">Gym Bleachers Row</p>
+              </div>
 
-              <p className="font-meta text-[11px] text-ink-muted mt-4">
-                CAMPUS CENTRAL DISPOSITION PROTOCOL § 18-C
-              </p>
+              <div className="bg-paper border-2 border-ink p-4 hard-shadow-2">
+                <div className="flex justify-between items-center pb-2 border-b border-ink">
+                  <span className="font-meta text-xs font-bold">TAG #0423-B</span>
+                  <Stamp type="lost" size="sm" />
+                </div>
+                <div className="h-28 my-3 bg-paper-light border border-ink flex items-center justify-center font-meta text-xs">
+                  [Backpack]
+                </div>
+                <h4 className="font-heading text-sm font-bold">Olive green backpack</h4>
+                <p className="font-meta text-xs text-ink-muted">Lecture Hall A</p>
+              </div>
+
+              <div className="bg-manila border-2 border-ink p-4 hard-shadow-2">
+                <div className="flex justify-between items-center pb-2 border-b border-ink">
+                  <span className="font-meta text-xs font-bold">TAG #0422-H</span>
+                  <Stamp type="found" size="sm" />
+                </div>
+                <div className="h-28 my-3 bg-paper border border-ink flex items-center justify-center font-meta text-xs">
+                  [Hydro Flask]
+                </div>
+                <h4 className="font-heading text-sm font-bold">Yellow Hydro Flask</h4>
+                <p className="font-meta text-xs text-ink-muted">Science Lab Bench 4</p>
+              </div>
+
+              <div className="bg-paper border-2 border-ink p-4 hard-shadow-2">
+                <div className="flex justify-between items-center pb-2 border-b border-ink">
+                  <span className="font-meta text-xs font-bold">TAG #0421-U</span>
+                  <Stamp type="claim pending" size="sm" />
+                </div>
+                <div className="h-28 my-3 bg-paper-light border border-ink flex items-center justify-center font-meta text-xs">
+                  [Umbrella]
+                </div>
+                <h4 className="font-heading text-sm font-bold">Black compact umbrella</h4>
+                <p className="font-meta text-xs text-ink-muted">Main Library Atrium</p>
+              </div>
+            </div>
+
+            {/* OVERLAY PAPER SHIELD BANNER */}
+            <div className="absolute inset-0 flex items-center justify-center p-4 bg-paper/30 backdrop-blur-xs">
+              <div className="max-w-[500px] w-full bg-paper border-2 border-ink hard-shadow-6 p-6 sm:p-8 text-center relative z-20">
+                <Tape position="top-center" />
+                <div className="w-12 h-12 bg-manila border-2 border-ink mx-auto mb-3 flex items-center justify-center hard-shadow-2">
+                  <Lock className="w-6 h-6 text-ink" />
+                </div>
+
+                <div className="stamp-badge text-ink border-ink outline-ink mb-3 -rotate-1 text-[11px]">
+                  ARCHIVAL PRIVACY RESTRICTION
+                </div>
+
+                <h3 className="font-heading text-2xl font-extrabold text-ink tracking-tight mb-2 uppercase">
+                  Log In to Browse Full Archive
+                </h3>
+
+                <p className="font-sans text-sm text-ink leading-relaxed mb-6">
+                  Active student credentials are required to view full item serials, locations, and filing dossiers. Prevents fraudulent claims on unattended campus items.
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <Button variant="primary" size="md" to="/login" className="w-full sm:w-auto">
+                    Log In With Student ID
+                  </Button>
+                  <Button variant="secondary" size="md" to="/signup" className="w-full sm:w-auto bg-manila">
+                    Create Account
+                  </Button>
+                </div>
+
+                <p className="font-meta text-[11px] text-ink-muted mt-4">
+                  CAMPUS CENTRAL DISPOSITION PROTOCOL § 18-C
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
     </div>
   );

@@ -47,7 +47,7 @@ export default function AdminUsersPage({ onLogout }) {
   });
 
   const handleConfirmToggleSuspend = () => {
-    if (suspendModalUser) {
+    if (suspendModalUser && suspendModalUser.role !== 'admin') {
       toggleSuspend(suspendModalUser._id);
       setSuspendModalUser(null);
     }
@@ -188,21 +188,27 @@ export default function AdminUsersPage({ onLogout }) {
 
                       {/* Moderation Actions */}
                       <td className="p-3 align-top text-right whitespace-nowrap space-x-2">
-                        {user.verificationStatus === 'pending' && (
+                        {user.verificationStatus === 'pending' && user.role !== 'admin' && (
                           <Link to="/admin/verifications">
                             <Button variant="secondary" size="sm" className="text-xs">
                               Audit ID
                             </Button>
                           </Link>
                         )}
-                        <Button
-                          variant={user.isSuspended ? 'secondary' : 'danger'}
-                          size="sm"
-                          onClick={() => setSuspendModalUser(user)}
-                          className="text-xs"
-                        >
-                          {user.isSuspended ? 'Lift Suspension' : 'Suspend'}
-                        </Button>
+                        {user.role === 'admin' ? (
+                          <span className="font-meta text-[10px] font-bold text-ink-muted uppercase px-2 py-1 bg-paper border border-ink/30 inline-block">
+                            Admin Account // Exempt
+                          </span>
+                        ) : (
+                          <Button
+                            variant={user.isSuspended ? 'secondary' : 'danger'}
+                            size="sm"
+                            onClick={() => setSuspendModalUser(user)}
+                            className="text-xs"
+                          >
+                            {user.isSuspended ? 'Lift Suspension' : 'Suspend'}
+                          </Button>
+                        )}
                       </td>
                     </tr>
                   ))}

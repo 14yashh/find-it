@@ -46,3 +46,9 @@ export const cancelClaim = asyncHandler(async (req, res) => {
   const claim = await claimSvc.cancelClaim(req.user._id, req.params.id);
   res.json({ success: true, data: { claim } });
 });
+
+export const confirmHandover = asyncHandler(async (req, res) => {
+  const result = await claimSvc.confirmHandover(req.user._id, req.params.id);
+  res.json({ success: true, data: result });
+});
+

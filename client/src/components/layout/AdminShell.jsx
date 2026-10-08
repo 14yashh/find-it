@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import {
   ShieldCheck,
@@ -9,16 +9,24 @@ import {
   LogOut,
   ArrowLeft,
 } from 'lucide-react';
+import { useAdminStats } from '../../hooks/useAdminStats.js';
 
 export default function AdminShell({ children, title, subtitle, onLogout }) {
   const location = useLocation();
+  const { stats, refetch } = useAdminStats();
+
+  useEffect(() => {
+    refetch();
+  }, [location.pathname, refetch]);
+
+  const pendingVerificationsCount = stats?.pendingVerifications || 0;
 
   const navLinks = [
     {
       name: 'Verifications',
       path: '/admin/verifications',
       icon: ShieldCheck,
-      badge: 'Pending',
+      badge: pendingVerificationsCount > 0 ? 'Pending' : null,
     },
     {
       name: 'Archive Stats',
@@ -124,6 +132,11 @@ export default function AdminShell({ children, title, subtitle, onLogout }) {
               >
                 <Icon className="w-3.5 h-3.5" />
                 <span>{item.name}</span>
+                {item.badge && (
+                  <span className="bg-primary-container text-ink font-meta text-[9px] px-1 border border-ink">
+                    {item.badge}
+                  </span>
+                )}
               </Link>
             );
           })}

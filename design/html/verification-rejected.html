@@ -1,0 +1,391 @@
+<!DOCTYPE html><html class="light" lang="en" style="width: 1280px; height: 1333px; overflow: hidden; position: relative;"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FINDIT // Verification Slip - Rejected</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Fonts: Space Grotesk & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-tint": "#aa3600",
+            "surface-variant": "#e3e2e7",
+            "secondary-container": "#f4e1b1",
+            "surface-container-highest": "#e3e2e7",
+            "on-secondary-fixed": "#241a00",
+            "inverse-primary": "#ffb59c",
+            "error": "#ba1a1a",
+            "surface-bright": "#faf8fe",
+            "tertiary-fixed-dim": "#9acbff",
+            "secondary": "#6b5d38",
+            "on-secondary-container": "#71633d",
+            "outline-variant": "#e4beb2",
+            "surface-container-high": "#e9e7ed",
+            "outline": "#8f7066",
+            "on-primary-fixed-variant": "#822700",
+            "on-primary-container": "#531600",
+            "background": "#faf8fe",
+            "on-error": "#ffffff",
+            "on-primary-fixed": "#390c00",
+            "on-secondary": "#ffffff",
+            "on-surface": "#1a1b1f",
+            "surface-dim": "#dad9df",
+            "on-background": "#1a1b1f",
+            "primary-container": "#ff5b14",
+            "surface-container-low": "#f4f3f8",
+            "tertiary": "#00629f",
+            "surface": "#faf8fe",
+            "primary": "#aa3600",
+            "inverse-on-surface": "#f1f0f6",
+            "on-surface-variant": "#5b4138",
+            "on-tertiary-container": "#002d4d",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed": "#ffdbcf",
+            "inverse-surface": "#2f3034",
+            "secondary-fixed": "#f4e1b1",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#ffb59c",
+            "on-secondary-fixed-variant": "#524622",
+            "tertiary-fixed": "#d0e4ff",
+            "surface-container": "#efedf3",
+            "tertiary-container": "#0098f2",
+            "on-tertiary-fixed": "#001d34",
+            "on-tertiary": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "secondary-fixed-dim": "#d7c597",
+            "on-tertiary-fixed-variant": "#004a79"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "1rem",
+            "space-lg": "1.5rem",
+            "margin": "3rem",
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "gutter-mobile": "1rem",
+            "space-xl": "2.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "body-md": ["Space Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "label-md": ["JetBrains Mono"],
+            "headline-xl": ["Space Grotesk"],
+            "headline-xl-mobile": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "label-lg": ["JetBrains Mono"],
+            "headline-md": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "body-lg": ["Space Grotesk"]
+          },
+          "fontSize": {
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "headline-xl": ["48px", { "lineHeight": "52px", "fontWeight": "700" }],
+            "headline-xl-mobile": ["32px", { "lineHeight": "38px", "fontWeight": "700" }],
+            "headline-sm": ["18px", { "lineHeight": "22px", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "28px", "fontWeight": "700" }],
+            "headline-lg": ["32px", { "lineHeight": "36px", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Tactile Paper and Ink Foundation */
+    body {
+      background-color: #F4EDE0;
+      color: #17181C;
+    }
+
+    .ink-border {
+      border: 1.5px solid #17181C;
+    }
+
+    .ink-border-b {
+      border-bottom: 1.5px solid #17181C;
+    }
+
+    .ink-border-t {
+      border-top: 1.5px solid #17181C;
+    }
+
+    .ink-shadow {
+      box-shadow: 4px 4px 0 #17181C;
+    }
+
+    .ink-shadow-sm {
+      box-shadow: 2px 2px 0 #17181C;
+    }
+
+    .stamp-rejected {
+      border: 3px double #C8312B;
+      color: #C8312B;
+      transform: rotate(-4deg);
+      letter-spacing: 0.12em;
+    }
+
+    .perforation-divider {
+      background-image: repeating-linear-gradient(to right, #17181C 0, #17181C 6px, transparent 6px, transparent 12px);
+      height: 2px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-surface">
+<!-- ================= TOP HEADER (Shared Component: TopNavBar Context) ================= -->
+<header class="w-full bg-[#EAD7A8] ink-border-b z-20">
+<div class="max-w-[1440px] mx-auto px-gutter h-16 flex items-center justify-between">
+<!-- Left: Brand Logotype & Archival Marker -->
+<div class="flex items-center gap-4">
+<div class="font-headline-sm text-headline-sm font-bold tracking-wider text-on-surface uppercase border-2 border-on-surface px-2 py-0.5 inline-block -rotate-1 bg-[#F4EDE0]">
+          FINDIT // CENTRAL ARCHIVE
+        </div>
+<div class="hidden md:flex items-center gap-1.5 px-2 py-0.5 bg-[#17181C] text-[#F4EDE0] font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>SECURITY CLASSIFICATION: C-RESTRICTED</span>
+</div>
+</div>
+<!-- Navigation Ledger (Shared Component Structure) -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface hover:underline" href="#">Browse Ledger</a>
+<a class="text-on-surface font-label-md text-label-md underline underline-offset-4 decoration-2 decoration-primary" href="#">My Items</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface hover:underline" href="#">Claims Registry</a>
+</nav>
+<!-- Right: User Avatar Card & Status Block -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-2.5 py-1 bg-[#F4EDE0] ink-border ink-shadow-sm">
+<div class="w-6 h-6 bg-[#C8312B] text-[#FFFFFF] flex items-center justify-center font-label-md text-label-md font-bold">
+            !
+          </div>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md font-bold leading-tight text-on-surface">Alex Chen</span>
+<span class="font-label-sm text-label-sm text-[#C8312B] font-bold tracking-wider">[UNVERIFIED]</span>
+</div>
+</div>
+<button class="p-1.5 bg-[#F4EDE0] ink-border hover:bg-[#17181C] hover:text-[#F4EDE0] transition-none" title="Notifications">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<!-- ================= ARCHIVAL WARNING BANNER ================= -->
+<div class="w-full bg-[#17181C] text-[#F4EDE0] ink-border-b py-2.5 px-gutter">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#FF5B14] text-[20px]">warning</span>
+<p class="font-label-md text-label-md font-bold tracking-wide">
+          TERMINAL ACCESS RESTRICTED: Identification credentials rejected. Ledger access suspended.
+        </p>
+</div>
+<div class="hidden md:block font-label-sm text-label-sm text-[#EAD7A8]">
+        AUDIT REF: SEC-LOG-44012
+      </div>
+</div>
+</div>
+<!-- ================= MAIN VIEWPORT CANVAS ================= -->
+<main class="flex-1 w-full max-w-[1440px] mx-auto px-4 md:px-gutter py-8 md:py-12 flex justify-center items-start">
+<!-- Central Stamped Manila Filing Slip (Approx 680px Wide) -->
+<article class="w-full max-w-[680px] bg-[#EAD7A8] ink-border ink-shadow relative flex flex-col">
+<!-- Paper Punch Tag Hole Metaphor (Top-center) -->
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#F4EDE0] ink-border z-10 flex items-center justify-center">
+<div class="w-3.5 h-3.5 rounded-full bg-[#17181C]"></div>
+</div>
+<!-- Filing Slip Top Metadata Bar -->
+<div class="pt-6 pb-4 px-6 md:px-8 ink-border-b bg-[#E3CE9B] flex flex-wrap items-center justify-between gap-2">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold tracking-widest text-[#5b4138]">FORM DP-402 // CAMPUS CENTRAL LEDGER</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">CAMPUS VERIFICATION &amp; IDENTIFICATION FILING SLIP</span>
+</div>
+<div class="px-2 py-1 bg-[#17181C] text-[#F4EDE0] font-label-md text-label-md tracking-wider">
+          REF: #VRF-88219-R
+        </div>
+</div>
+<!-- Main Slip Canvas Body -->
+<div class="p-6 md:p-8 space-y-6">
+<!-- Header & Stamped Status Grid -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative">
+<div>
+<h1 class="font-headline-md text-headline-md font-bold tracking-tight text-on-surface">
+              CREDENTIAL DISPOSITION
+            </h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">
+              PRIMARY SUBMISSION RECORD // DISPOSITION CODE: REJ-04
+            </p>
+</div>
+<!-- The Authority Stamp: STATUS REJECTED -->
+<div class="stamp-rejected px-4 py-1.5 bg-[#F4EDE0] text-center self-end md:self-auto shadow-sm select-none">
+<span class="block font-label-lg text-label-lg font-extrabold leading-none">STATUS: REJECTED</span>
+<span class="block font-label-sm text-[10px] tracking-normal font-semibold mt-0.5">DISPOSITION INK 2026-B</span>
+</div>
+</div>
+<!-- Student Identification Dossier Grid -->
+<div class="bg-[#F4EDE0] ink-border p-4">
+<div class="text-[10px] font-label-sm text-on-surface-variant uppercase tracking-wider mb-2 font-bold border-b border-[#17181C]/20 pb-1">
+            CLAIMANT IDENTIFICATION RECORD
+          </div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div>
+<span class="block font-label-sm text-label-sm text-[#5b4138]">Claimant Name</span>
+<span class="font-body-md text-body-md font-bold text-on-surface">Alex Chen</span>
+</div>
+<div>
+<span class="block font-label-sm text-label-sm text-[#5b4138]">University Matric ID</span>
+<span class="font-label-md text-label-md font-bold text-on-surface">STU-992014-X</span>
+</div>
+<div>
+<span class="block font-label-sm text-label-sm text-[#5b4138]">Academic Division</span>
+<span class="font-body-md text-body-md font-bold text-on-surface">Engineering '26</span>
+</div>
+</div>
+</div>
+<!-- Admin Rejection Note Box (High Priority Warning Callout) -->
+<div class="bg-[#F4EDE0] border-2 border-[#17181C] p-5 relative">
+<div class="flex items-center justify-between border-b border-[#17181C] pb-2 mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#C8312B] text-[18px]">gavel</span>
+<h2 class="font-label-md text-label-md font-bold tracking-wider text-on-surface">
+                ADMINISTRATIVE OFFICER DISPOSITION NOTE
+              </h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">STATION #4</span>
+</div>
+<!-- Official Reason Callout -->
+<div class="bg-[#F4E1B1] ink-border px-3.5 py-2.5 mb-3 flex items-start gap-2">
+<span class="font-label-sm text-label-sm font-bold text-[#C8312B] uppercase mt-0.5">REASON:</span>
+<p class="font-label-md text-label-md font-bold text-on-surface italic">
+              "Photo is too blurry to read."
+            </p>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+            The attached document failed legibility standards. Student name, expiration date, or barcode must be distinctly visible. Glare, motion blur, and low-contrast photographic prints are automatically invalidated under Central Archive Section 14.
+          </p>
+</div>
+<!-- Perforation Division Line -->
+<div class="relative py-2">
+<div class="perforation-divider w-full"></div>
+<span class="absolute right-0 -top-1 bg-[#EAD7A8] px-2 font-label-sm text-[10px] text-on-surface-variant tracking-widest uppercase">
+            DETACH OR OVERWRITE PRIOR TO RE-FILING
+          </span>
+</div>
+<!-- Re-submission File Upload Section -->
+<section aria-labelledby="re-submission-heading" class="space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface" id="re-submission-heading">
+              SUBMIT REMEDIATION DOCUMENT
+            </h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">MAX: 5.0 MB</span>
+</div>
+<!-- Dashed Drop Area Box -->
+<div class="bg-[#F4EDE0] border-2 border-dashed border-[#17181C] p-6 text-center hover:bg-[#FAF8FE] transition-none flex flex-col items-center justify-center gap-3">
+<div class="w-10 h-10 bg-[#EAD7A8] ink-border flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface text-[24px]">upload_file</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">
+                Attach replacement ID or fee receipt
+              </p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">
+                Supported Archival Formats: JPG, PNG or PDF (up to 5 MB)
+              </p>
+</div>
+<!-- Upload Interactive Button & Hidden Input -->
+<label class="cursor-pointer inline-flex items-center gap-2 bg-[#EAD7A8] text-[#17181C] font-label-md text-label-md font-bold ink-border ink-shadow-sm px-4 py-2 hover:bg-[#17181C] hover:text-[#F4EDE0] active:translate-x-0.5 active:translate-y-0.5 transition-none mt-1">
+<span class="material-symbols-outlined text-[16px]">folder_open</span>
+<span>Choose File</span>
+<input accept=".jpg,.jpeg,.png,.pdf" class="sr-only" id="file-input" onchange="document.getElementById('filename-display').innerText = this.files[0]?.name || 'No file selected';" type="file">
+</label>
+<span class="font-label-sm text-label-sm text-on-surface font-mono italic" id="filename-display">
+              No replacement dossier staged.
+            </span>
+</div>
+</section>
+<!-- Compliance Attestation Square Box -->
+<div class="flex items-start gap-3 bg-[#F4EDE0] ink-border p-3">
+<input class="mt-0.5 w-[18px] h-[18px] ink-border rounded-none text-[#17181C] focus:ring-0 focus:outline-none cursor-pointer bg-[#F4EDE0] checked:bg-[#17181C]" id="affirmation" type="checkbox">
+<label class="font-label-sm text-label-sm text-on-surface cursor-pointer leading-tight select-none" for="affirmation">
+            I certify under penalty of institutional disciplinary action that the replacement document belongs solely to matriculant STU-992014-X.
+          </label>
+</div>
+<!-- Terminal Actions Block -->
+<div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+<!-- Secondary Action: Log out / Return link -->
+<a class="order-2 sm:order-1 inline-flex items-center justify-center gap-1.5 py-3 px-5 bg-transparent font-label-md text-label-md text-[#17181C] underline hover:bg-[#17181C] hover:text-[#F4EDE0] transition-none text-center" href="#">
+<span class="material-symbols-outlined text-[16px]">logout</span>
+<span>Log out</span>
+</a>
+<!-- Primary Button: Send again -->
+<button class="order-1 sm:order-2 inline-flex items-center justify-center gap-2 bg-[#FF5B14] text-[#17181C] font-headline-sm text-headline-sm font-bold ink-border ink-shadow px-8 py-3.5 hover:bg-[#E04F10] active:translate-x-1 active:translate-y-1 active:shadow-none transition-none" type="button">
+<span>Send again</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+<!-- Manila Slip Footer Bar -->
+<div class="bg-[#E3CE9B] ink-border-t px-6 py-2.5 flex items-center justify-between text-[#5b4138] font-label-sm text-[11px]">
+<span>REGISTRY TERMINAL 09</span>
+<span>ISSUED: 11-FEB-2026 // DISPATCH: REJ</span>
+</div>
+</article>
+</main>
+<!-- ================= ARCHIVAL FOOTER (Shared Component: Footer) ================= -->
+<footer class="w-full bg-[#EFEDF3] ink-border-t mt-auto">
+<div class="max-w-[1440px] mx-auto px-gutter py-space-md flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+<!-- Archival System Reference Copyright -->
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold tracking-wider">
+          PROPERTY DISPOSITION DIVISION // ARCHIVAL REGISTRY SYSTEM REF. NO. 4092-B
+        </span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">
+          OFFICIAL CAMPUS LOG REPOSITORY // STRICT INSTITUTIONAL CUSTODY PROTOCOLS APPLY
+        </span>
+</div>
+<!-- Regulatory Nav Links -->
+<nav class="flex flex-wrap items-center justify-center gap-4">
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">System Manual</a>
+<span class="text-[#8f7066] font-label-sm text-label-sm">|</span>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">Retention Policy</a>
+<span class="text-[#8f7066] font-label-sm text-label-sm">|</span>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">Audit Log</a>
+<span class="text-[#8f7066] font-label-sm text-label-sm">|</span>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">Lost Property Act</a>
+<span class="text-[#8f7066] font-label-sm text-label-sm">|</span>
+<a class="text-on-surface underline font-label-sm text-label-sm hover:bg-on-surface hover:text-surface px-1 transition-none" href="#">Terminal Status</a>
+</nav>
+</div>
+</footer>
+<div id="snapdom-sandbox" data-snapdom-sandbox="true" aria-hidden="true" style="position: absolute; left: -9999px; top: -9999px; width: 0px; height: 0px; overflow: hidden;"></div></body></html>

@@ -16,22 +16,21 @@ import {
 } from 'lucide-react';
 
 export default function AdminVerificationsPage() {
-  const { users, filter, setFilter, verifyUser } = useAdminUsers();
+  const { users, filter, setFilter, verifyUser, isLoading, isError, error, refetch } = useAdminUsers();
 
-  const [selectedUser, setSelectedUser] = useState(users[0] || null);
+  const studentUsers = users.filter((u) => u.role !== 'admin');
+  const [selectedId, setSelectedId] = useState(null);
+  const selectedUser = studentUsers.find((u) => u._id === selectedId) || studentUsers[0] || null;
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [rejectReason, setRejectReason] = useState('');
   const [rejectError, setRejectError] = useState('');
 
   const handleApprove = (u) => {
     verifyUser(u._id, 'approve');
-    if (selectedUser?._id === u._id) {
-      setSelectedUser({ ...selectedUser, verificationStatus: 'approved' });
-    }
   };
 
   const handleOpenReject = (u) => {
-    setSelectedUser(u);
+    setSelectedId(u._id);
     setRejectReason('');
     setRejectError('');
     setRejectModalOpen(true);
@@ -44,12 +43,9 @@ export default function AdminVerificationsPage() {
       return;
     }
 
-    verifyUser(selectedUser._id, 'reject', rejectReason);
-    setSelectedUser({
-      ...selectedUser,
-      verificationStatus: 'rejected',
-      rejectionReason: rejectReason,
-    });
+    if (selectedUser) {
+      verifyUser(selectedUser._id, 'reject', rejectReason);
+    }
     setRejectModalOpen(false);
   };
 
@@ -88,12 +84,34 @@ export default function AdminVerificationsPage() {
             </div>
 
             <div className="space-y-3">
-              {users.map((u) => {
+              {isLoading && (
+                <p className="font-meta text-xs text-ink-muted text-center py-10">Loading records…</p>
+              )}
+              {!isLoading && isError && (
+                <div className="text-center py-10 space-y-3">
+                  <p className="font-meta text-xs text-stamp-rejected font-bold">
+                    Failed to load: {error?.message || 'Unknown error'}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={refetch}
+                    className="px-3 py-1 border-2 border-ink bg-paper font-meta text-xs font-bold hover:bg-manila"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+              {!isLoading && !isError && studentUsers.length === 0 && (
+                <p className="font-meta text-xs text-ink-muted text-center py-10">
+                  No records match the current filter.
+                </p>
+              )}
+              {!isLoading && !isError && studentUsers.map((u) => {
                 const isSelected = selectedUser?._id === u._id;
                 return (
                   <div
                     key={u._id}
-                    onClick={() => setSelectedUser(u)}
+                    onClick={() => setSelectedId(u._id)}
                     className={`p-3.5 border-2 border-ink cursor-pointer transition-all ${
                       isSelected
                         ? 'bg-manila hard-shadow-4 translate-x-1'

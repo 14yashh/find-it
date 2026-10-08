@@ -35,3 +35,12 @@ export async function markAllAsRead(userId) {
   await Notification.updateMany({ user: userId, isRead: false }, { isRead: true });
   return { success: true };
 }
+
+export async function deleteNotification(userId, notificationId) {
+  const notification = await Notification.findById(notificationId);
+  if (!notification) throw new ApiError(404, 'Notification not found', 'NOT_FOUND');
+  if (notification.user.toString() !== userId.toString()) throw new ApiError(403, 'Not authorized', 'FORBIDDEN');
+  await notification.deleteOne();
+  return { success: true };
+}
+

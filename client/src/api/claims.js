@@ -17,7 +17,7 @@ export async function getClaimsReceived() {
 }
 
 export async function cancelClaim(claimId) {
-  const data = await apiClient(`/api/claims/${claimId}`, { method: 'DELETE' });
+  const data = await apiClient(`/api/claims/${claimId}/cancel`, { method: 'PATCH' });
   return data;
 }
 
@@ -27,6 +27,13 @@ export async function decideClaim(claimId, decision, note = '') {
     body: { decision, note },
   });
   return data?.claim || data;
+}
+
+export async function confirmClaimHandover(claimId) {
+  const data = await apiClient(`/api/claims/${claimId}/handover`, {
+    method: 'PATCH',
+  });
+  return data;
 }
 
 // --- Admin claim endpoints ---

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import {
   PublicOnly,
@@ -64,10 +64,13 @@ export default function App() {
             <Route path="/browse" element={<BrowsePage />} />
             {/* Rule 1: Declare "/items/new" before "/items/:id" */}
             <Route path="/items/new" element={<ReportItemPage />} />
+            <Route path="/report" element={<Navigate to="/items/new" replace />} />
             <Route path="/items/:id" element={<ItemDetailPage />} />
+            <Route path="/items/:id/claims" element={<ClaimsPage />} />
             <Route path="/items/:id/edit" element={<ReportItemPage />} />
             <Route path="/my-items" element={<MyItemsPage />} />
             <Route path="/claims" element={<ClaimsPage />} />
+            <Route path="/claims/:id" element={<ClaimsPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>

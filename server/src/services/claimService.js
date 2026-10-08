@@ -42,6 +42,12 @@ export async function createClaim(userId, itemId, data, file) {
   if (item.status !== 'open') throw new ApiError(400, 'Item is not open', 'BAD_REQUEST');
   if (item.postedBy.toString() === userId.toString()) throw new ApiError(400, 'Cannot claim your own item', 'BAD_REQUEST');
 
+  // Enforce single active claim per item at once
+  const activeClaim = await Claim.findOne({ item: itemId, status: { $in: ['pending', 'approved'] } });
+  if (activeClaim) {
+    throw new ApiError(409, 'This item already has an active claim in progress. Only one claim is allowed at a time.', 'CLAIM_IN_PROGRESS');
+  }
+
   if (item.type === 'found') {
     if (!data.answer || data.answer.trim().length === 0) {
       throw new ApiError(400, 'Answer is required for found items', 'BAD_REQUEST');
@@ -199,3 +205,68 @@ export async function cancelClaim(userId, claimId) {
   emitter.emit('claim.cancelled', claim);
   return claim;
 }
+
+export async function confirmHandover(userId, claimId) {
+  const claim = await Claim.findById(claimId).populate('item');
+  if (!claim) throw new ApiError(404, 'Claim not found', 'NOT_FOUND');
+  if (!claim.item) throw new ApiError(404, 'Associated item not found', 'NOT_FOUND');
+  if (claim.status !== 'approved') throw new ApiError(400, 'Claim must be approved before handover can be confirmed', 'BAD_REQUEST');
+
+  const isItemFound = claim.item.type === 'found';
+  // Finder is who found/holds the item:
+  // If posted as found item -> item.postedBy is the founder.
+  // If posted as lost item -> claimant is who found the lost item.
+  const finderId = isItemFound ? claim.item.postedBy.toString() : claim.claimant.toString();
+  const receiverId = isItemFound ? claim.claimant.toString() : claim.item.postedBy.toString();
+
+  const isFinder = userId.toString() === finderId;
+  const isReceiver = userId.toString() === receiverId;
+
+  if (!isFinder && !isReceiver) {
+    throw new ApiError(403, 'Not authorized to confirm handover for this claim', 'FORBIDDEN');
+  }
+
+  if (isFinder) {
+    claim.founderHandoverConfirmed = true;
+    claim.founderHandoverAt = new Date();
+
+    // If receiver already confirmed or upon dual confirmation, mark item returned
+    if (claim.receiverHandoverConfirmed) {
+      claim.item.status = 'returned';
+      await claim.item.save();
+      emitter.emit('item.returned', claim.item);
+    }
+    await claim.save();
+
+    return {
+      claim,
+      role: 'finder',
+      complete: !!claim.receiverHandoverConfirmed,
+      message: claim.receiverHandoverConfirmed
+        ? 'Handover completed successfully. Item marked as returned.'
+        : 'Handover confirmed. Awaiting recipient confirmation of receipt.',
+    };
+  }
+
+  if (isReceiver) {
+    if (!claim.founderHandoverConfirmed) {
+      throw new ApiError(400, 'The person who found the item must confirm handover first before you can approve receipt.', 'BAD_REQUEST');
+    }
+
+    claim.receiverHandoverConfirmed = true;
+    claim.receiverHandoverAt = new Date();
+    claim.item.status = 'returned';
+    await claim.item.save();
+    emitter.emit('item.returned', claim.item);
+
+    await claim.save();
+
+    return {
+      claim,
+      role: 'receiver',
+      complete: true,
+      message: 'Handover approved and verified. Item marked as returned.',
+    };
+  }
+}
+
