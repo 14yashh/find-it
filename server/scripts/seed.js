@@ -39,8 +39,6 @@ async function seed() {
     name:               'Admin',
     email:              adminEmail,
     passwordHash,
-    department:         'Administration',
-    year:               'N/A',
     role:               'admin',
     verificationStatus: 'approved',
     isSuspended:        false,

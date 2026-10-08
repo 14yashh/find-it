@@ -11,18 +11,18 @@ services:
     volumes:
       - findit-mongo:/data/db
 
-    mongo-express:
-      image: mongo-express:1.0.2
-      container_name: findit-mongo-express
-      restart: unless-stopped
-      depends_on:
-        - mongo
-      ports:
-        - "127.0.0.1:8081:8081"
-      environment:
-        ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongo:27017/?authSource=admin
-        ME_CONFIG_BASICAUTH_USERNAME: ${ME_USER:?Set ME_USER in the root .env}
-        ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD:?Set ME_PASSWORD in the root .env}
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: findit-mongo-express
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongo:27017/?authSource=admin
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_USER:?Set ME_USER in the root .env}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD:?Set ME_PASSWORD in the root .env}
 
 volumes:
   findit-mongo:

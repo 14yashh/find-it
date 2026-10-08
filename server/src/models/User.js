@@ -43,7 +43,7 @@ const userSchema = new Schema(
 
     department: {
       type:     String,
-      required: [true, 'Department is required'],
+      required: function() { return this.role === 'student'; },
       enum:     {
         values: DEPARTMENTS,
         message: 'Invalid department',
@@ -62,7 +62,7 @@ const userSchema = new Schema(
 
     year: {
       type:     String,
-      required: [true, 'Year is required'],
+      required: function() { return this.role === 'student'; },
       trim:     true,
     },
 
