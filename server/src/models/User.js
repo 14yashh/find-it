@@ -13,6 +13,7 @@
  *    suspenders guard for any document fetched with those fields selected
  */
 import mongoose from 'mongoose';
+import { DEPARTMENTS } from '../constants/departments.js';
 
 const { Schema } = mongoose;
 
@@ -43,8 +44,20 @@ const userSchema = new Schema(
     department: {
       type:     String,
       required: [true, 'Department is required'],
+      enum:     {
+        values: DEPARTMENTS,
+        message: 'Invalid department',
+      },
       trim:     true,
-      maxlength: [100, 'Department must be 100 characters or fewer'],
+    },
+
+    rollNumber: {
+      type: String,
+      trim: true,
+      required: function() {
+        return this.role === 'student';
+      },
+      match: [/^\d{7}$/, 'Roll number must be exactly 7 digits'],
     },
 
     year: {
@@ -104,6 +117,12 @@ const userSchema = new Schema(
 // email uniqueness index is created automatically by unique:true above.
 // Add an index on verificationStatus for admin listing queries.
 userSchema.index({ verificationStatus: 1 });
+
+// Enforce uniqueness for rollNumber only for non-admin, non-null values
+userSchema.index(
+  { rollNumber: 1 },
+  { unique: true, partialFilterExpression: { role: 'student', rollNumber: { $type: 'string' } } }
+);
 
 // ── toJSON transform ─────────────────────────────────────────────────────────
 // Belt-and-suspenders: strips sensitive fields even if a query accidentally

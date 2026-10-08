@@ -81,6 +81,7 @@ The `images` array in item responses already contains full URL paths. Do not con
 | `email` | string | Yes | Must be a valid email |
 | `password` | string | Yes | Min 8 chars |
 | `department` | string | Yes | |
+| `rollNumber` | string | Yes | 7 digits |
 | `year` | string | Yes | |
 | `phone` | string | No | |
 
@@ -425,6 +426,7 @@ Returned inside `{ success: true, data: { user: { ... } } }`.
   "name": "Jane Doe",
   "email": "jane.doe@college.edu",
   "department": "Computer Science",
+  "rollNumber": "1234567",
   "year": "3rd Year",
   "phone": "+1-555-0199",
   "role": "student",
@@ -442,6 +444,7 @@ Returned inside `{ success: true, data: { user: { ... } } }`.
 - `name` (string): Full name.
 - `email` (string): User email address.
 - `department` (string): Academic department.
+- `rollNumber` (string, conditional): 7-digit roll number, present for students.
 - `year` (string): Academic year.
 - `phone` (string, optional): Phone number; omitted if not provided at signup.
 - `role` (enum: `"student" | "admin"`): User role.
@@ -463,6 +466,7 @@ Returned inside `{ success: true, data: { items: [...], page, limit, total, tota
   "name": "John Smith",
   "email": "john.smith@college.edu",
   "department": "Mechanical Engineering",
+  "rollNumber": "7654321",
   "year": "2nd Year",
   "role": "student",
   "verificationStatus": "pending",

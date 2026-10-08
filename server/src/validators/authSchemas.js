@@ -4,6 +4,7 @@
  * Imported by the validate() middleware factory.
  */
 import { z } from 'zod';
+import { DEPARTMENTS } from '../constants/departments.js';
 
 export const signupSchema = z.object({
   name: z
@@ -25,8 +26,14 @@ export const signupSchema = z.object({
   department: z
     .string({ required_error: 'Department is required' })
     .trim()
-    .min(1, 'Department is required')
-    .max(100, 'Department must be 100 characters or fewer'),
+    .refine((val) => DEPARTMENTS.includes(val), {
+      message: 'Invalid department',
+    }),
+
+  rollNumber: z
+    .string({ required_error: 'Roll number is required' })
+    .trim()
+    .regex(/^\d{7}$/, 'Roll number must be exactly 7 digits'),
 
   year: z
     .string({ required_error: 'Year is required' })
