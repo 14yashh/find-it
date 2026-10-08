@@ -1,46 +1,61 @@
-import { useState, useMemo } from 'react';
-import { mockItems } from '../mocks/data.js';
-import { useDevSimulation } from './useDevStateHelper.js';
+import { useState, useEffect, useCallback } from 'react';
+import { getAdminItems, adminDeleteItem as apiDeleteItem, adminUpdateItemStatus as apiUpdateStatus } from '../api/admin.js';
 
 export function useAdminItems(initialFilters = {}) {
-  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
-  const [items, setItems] = useState(mockItems);
+  const [filters, setFilters] = useState({ page: 1, limit: 20, ...initialFilters });
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
 
-  const deleteItem = (id) => {
-    setItems((prev) => prev.filter((item) => item._id !== id));
-  };
+  const fetch = useCallback(async (params) => {
+    setIsLoading(true);
+    setIsError(false);
+    setError(null);
+    try {
+      const result = await getAdminItems(params);
+      setData(result);
+    } catch (err) {
+      setIsError(true);
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-  const updateItemStatus = (id, newStatus) => {
-    setItems((prev) =>
-      prev.map((item) => (item._id === id ? { ...item, status: newStatus } : item))
+  useEffect(() => { fetch(filters); }, [filters, fetch]);
+
+  const deleteItem = useCallback(async (id) => {
+    await apiDeleteItem(id);
+    setData((prev) =>
+      prev ? { ...prev, items: prev.items.filter((it) => it._id !== id) } : prev
     );
-  };
+  }, []);
 
-  const activeItems = simEmpty ? [] : items;
-  const total = activeItems.length;
-  const page = 1;
-  const limit = 20;
-  const totalPages = Math.ceil(total / limit) || 1;
-
-  const data = simError
-    ? null
-    : {
-        items: activeItems,
-        total,
-        page,
-        limit,
-        totalPages,
-      };
+  const updateItemStatus = useCallback(async (id, status) => {
+    await apiUpdateStatus(id, status);
+    setData((prev) =>
+      prev
+        ? {
+            ...prev,
+            items: prev.items.map((it) => (it._id === id ? { ...it, status } : it)),
+          }
+        : prev
+    );
+  }, []);
 
   return {
     data,
-    items: simLoading || simError ? [] : activeItems,
-    allItems: simLoading || simError ? [] : items,
-    total,
+    items: data?.items || [],
+    allItems: data?.items || [],
+    total: data?.total || 0,
+    filters,
+    setFilters,
     deleteItem,
     updateItemStatus,
-    isLoading: simLoading,
-    isError: simError,
-    error: simError ? { message: 'Failed to access master items ledger.' } : null,
+    isLoading,
+    isError,
+    error,
+    refetch: () => fetch(filters),
   };
 }

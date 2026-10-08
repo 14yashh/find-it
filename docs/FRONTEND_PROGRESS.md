@@ -85,3 +85,45 @@
    - Linked from Navbar, Footer, Landing Page ("Read the full guide"), and `/dev` index.
 
 
+
+---
+
+## Wiring
+
+- **Authentication & Session (`/api/auth`)**:
+  - `AuthContext` bootstraps on mount via `GET /api/auth/me` with `credentials: 'include'` cookie transport.
+  - `RouteGuards` (`PublicOnly`, `RequireAuth`, `RequireApproved`, `RequireAdmin`) render `<AuthLoader />` while `authLoading` is in-flight, preventing flash of redirects.
+  - `login` calls `POST /api/auth/login`, sets cookie, and updates context user.
+  - `signup` submits `FormData` (including student ID document file) to `POST /api/auth/signup`.
+  - `logout` calls `POST /api/auth/logout` and resets state.
+  - `resubmitDocument` sends `FormData` to `POST /api/auth/resubmit-document` and refreshes current user.
+
+- **Items & Feed (`/api/items`)**:
+  - `useItems` fetches from `GET /api/items` with sanitized query filters (strips `'all'`, omits default status, guards relevance sort to queries with `q`).
+  - `useItem` fetches item details and matched items (`GET /api/items/:id` and `GET /api/items/:id/matches`) in parallel.
+  - `useMyItems` fetches `GET /api/items/mine`.
+  - `ReportItemPage` submits `FormData` with image attachments (up to 4 files under `images`) to `POST /api/items` or `PATCH /api/items/:id`.
+  - `ItemDetailPage` handles claim submission (`POST /api/items/:id/claims`) with testimony message, verification answer for found items, and optional image file under `proof`.
+  - Owner "Mark as Returned" calls `PATCH /api/items/:id/status`.
+
+- **Claims Management (`/api/claims`)**:
+  - `useClaimsMade` calls `GET /api/claims/made`; `cancelClaim` calls `PATCH /api/claims/:id/cancel` with optimistic updates.
+  - `useClaimsReceived` calls `GET /api/claims/received`; `decideClaim` calls `PATCH /api/claims/:id/decision` (`approve` or `reject` with optional note).
+  - Claims page reveals claimant and owner contact details upon approval per privacy contract.
+
+- **Notifications (`/api/notifications`)**:
+  - `useNotifications` calls `GET /api/notifications`.
+  - Individual read calls `PATCH /api/notifications/:id/read`; mark all read calls `PATCH /api/notifications/read-all`.
+
+- **Admin Suite (`/api/admin`)**:
+  - `useAdminStats` calls `GET /api/admin/stats` for core ledger metrics.
+  - `useAdminUsers` calls `GET /api/admin/users`, `verifyUser` calls `PATCH /api/admin/users/:id/verify` (`approve` or `reject` with min 5 char reason), and `toggleSuspend` calls `PATCH /api/admin/users/:id/suspend` with `{ suspend: boolean }`.
+  - Admin inspection docket directly links to private document stream `GET /api/admin/users/:id/document`.
+  - `useAdminItems` calls `GET /api/admin/items`, `deleteItem` calls `DELETE /api/admin/items/:id`, and `updateItemStatus` calls status patch.
+  - `useAdminClaims` calls `GET /api/admin/claims`; `handoverClaim` calls `PATCH /api/admin/claims/:id/handover` to mark handed-over property returned.
+
+- **Backend issues & notes**:
+  - `POST /api/items/:id/claims` accepts proof file under field name `proof` (not `proofImage`).
+  - `GET /api/items` query schema validates `status` against a single enum value (`open`, `claim_pending`, `returned`, `expired`); passing comma-delimited strings causes `422 VALIDATION_ERROR`. The client omits `status` to let the backend apply its default `{ $in: ['open', 'claim_pending'] }`.
+  - `PATCH /api/admin/users/:id/suspend` requires `{ suspend: boolean }` payload.
+  - Handover route for admin claims is `PATCH /api/admin/claims/:id/handover`.

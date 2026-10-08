@@ -9,6 +9,9 @@ import FileDrop from '../components/ui/FileDrop.jsx';
 import Tape from '../components/ui/Tape.jsx';
 import TagCard from '../components/ui/TagCard.jsx';
 import { useItem } from '../hooks/useItem.js';
+import { useAuth } from '../context/AuthContext.jsx';
+import { createClaim, markItemReturned } from '../api/items.js';
+import { getErrorMessage } from '../api/errors.js';
 import {
   ArrowLeft,
   MapPin,
@@ -25,24 +28,28 @@ import {
 
 export default function ItemDetailPage({
   user,
-  variantOverride, // 'found' | 'lost' | 'owner' | 'closed'
+  variantOverride,
 }) {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { item, matches, setItemStatus } = useItem(id);
+  const { currentUser } = useAuth();
+  const { item, matches, setItemStatus, refetch } = useItem(id);
 
   const [claimModalOpen, setClaimModalOpen] = useState(false);
   const [claimMessage, setClaimMessage] = useState('');
   const [claimAnswer, setClaimAnswer] = useState('');
   const [claimProofFiles, setClaimProofFiles] = useState([]);
   const [claimSubmitted, setClaimSubmitted] = useState(false);
+  const [claimLoading, setClaimLoading] = useState(false);
+  const [claimError, setClaimError] = useState('');
 
   if (!item) return null;
 
-  // Check if current user is owner
+  // Derive owner: use real currentUser, fall back to prop
+  const effectiveUser = currentUser || user;
   const isOwner =
     variantOverride === 'owner' ||
-    (user && item.postedBy && String(user._id) === String(item.postedBy._id));
+    (effectiveUser && item?.postedBy && String(effectiveUser._id) === String(item.postedBy._id));
 
   // Check if item is open
   const isOpen = variantOverride === 'closed' ? false : item.status === 'open';
@@ -63,21 +70,43 @@ export default function ItemDetailPage({
 
   const tagNumber = item.tagNumber || `TAG-${(item._id || '').slice(-6).toUpperCase()}`;
 
-  const handleClaimSubmit = (e) => {
+  const handleClaimSubmit = async (e) => {
     e.preventDefault();
     if (!claimMessage) return;
     if (item.type === 'found' && !claimAnswer) return;
 
-    setClaimSubmitted(true);
-    setTimeout(() => {
-      setClaimSubmitted(false);
-      setClaimModalOpen(false);
-      navigate('/claims');
-    }, 1200);
+    setClaimLoading(true);
+    setClaimError('');
+    try {
+      const fd = new FormData();
+      fd.append('message', claimMessage);
+      if (item.type === 'found') fd.append('answer', claimAnswer);
+      claimProofFiles.forEach((file) => {
+        if (file instanceof File) fd.append('proof', file);
+      });
+      await createClaim(id, fd);
+      setClaimSubmitted(true);
+      setTimeout(() => {
+        setClaimSubmitted(false);
+        setClaimModalOpen(false);
+        navigate('/claims');
+      }, 1200);
+    } catch (err) {
+      setClaimError(getErrorMessage(err));
+    } finally {
+      setClaimLoading(false);
+    }
   };
 
-  const handleMarkReturned = () => {
-    setItemStatus('returned');
+  const handleMarkReturned = async () => {
+    try {
+      await markItemReturned(id);
+      setItemStatus('returned');
+      if (refetch) refetch();
+    } catch (err) {
+      // Silently fail — item status may already have changed
+      console.warn('Mark returned failed:', getErrorMessage(err));
+    }
   };
 
   return (
@@ -415,11 +444,18 @@ export default function ItemDetailPage({
               onRemove={() => setClaimProofFiles([])}
             />
 
+            {claimError && (
+              <div className="border border-stamp-rejected bg-stamp-rejected/10 p-2.5 font-meta text-xs text-stamp-rejected">
+                {claimError}
+              </div>
+            )}
+
             <div className="pt-2 flex justify-end gap-3">
               <Button
                 variant="secondary"
                 size="md"
                 onClick={() => setClaimModalOpen(false)}
+                disabled={claimLoading}
                 className="bg-paper"
               >
                 Cancel
@@ -428,9 +464,10 @@ export default function ItemDetailPage({
                 type="submit"
                 variant="primary"
                 size="md"
+                disabled={claimLoading}
                 className="flex items-center gap-1.5"
               >
-                <span>Submit Claim Slip</span>
+                <span>{claimLoading ? 'Submitting...' : 'Submit Claim Slip'}</span>
               </Button>
             </div>
           </form>

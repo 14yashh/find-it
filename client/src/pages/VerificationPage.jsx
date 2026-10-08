@@ -16,8 +16,10 @@ import {
   CheckCircle,
   FileText,
 } from 'lucide-react';
-
 import { useAuth } from '../context/AuthContext.jsx';
+import { resubmitDocument } from '../api/auth.js';
+import { getMe } from '../api/auth.js';
+import { getErrorMessage } from '../api/errors.js';
 
 export default function VerificationPage({
   user,
@@ -26,7 +28,7 @@ export default function VerificationPage({
 }) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { currentUser, logout, updateVerificationStatus } = useAuth();
+  const { currentUser, setCurrentUser, logout, updateVerificationStatus } = useAuth();
 
   const effectiveUser = user || currentUser || {
     name: 'Alex Chen',
@@ -47,22 +49,46 @@ export default function VerificationPage({
   const [resubmitFile, setResubmitFile] = useState([]);
   const [resubmitted, setResubmitted] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [resubmitLoading, setResubmitLoading] = useState(false);
+  const [resubmitError, setResubmitError] = useState('');
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setIsRefreshing(true);
-    setTimeout(() => {
+    try {
+      const user = await getMe();
+      if (user) {
+        setCurrentUser(user);
+        setCurrentStatus(user.verificationStatus || 'pending');
+        if (user.verificationStatus === 'approved') {
+          navigate('/browse');
+        }
+      }
+    } catch {
+      // ignore
+    } finally {
       setIsRefreshing(false);
-    }, 500);
+    }
   };
 
-  const handleResubmit = (e) => {
+  const handleResubmit = async (e) => {
     e.preventDefault();
     if (resubmitFile.length === 0) return;
 
-    setCurrentStatus('pending');
-    setResubmitted(true);
-    if (onStatusChange) {
-      onStatusChange('pending');
+    setResubmitLoading(true);
+    setResubmitError('');
+    try {
+      const fd = new FormData();
+      fd.append('document', resubmitFile[0]);
+      await resubmitDocument(fd);
+      setCurrentStatus('pending');
+      setResubmitted(true);
+      // Refresh user state in context
+      const user = await getMe();
+      if (user) setCurrentUser(user);
+    } catch (err) {
+      setResubmitError(getErrorMessage(err));
+    } finally {
+      setResubmitLoading(false);
     }
   };
 

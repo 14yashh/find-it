@@ -1,32 +1,17 @@
-import { useMemo } from 'react';
-import { mockItems } from '../mocks/data.js';
-import { useDevSimulation } from './useDevStateHelper.js';
+/**
+ * useMatches — matches are now fetched inside useItem directly.
+ * This hook is kept as a thin wrapper for backward compat.
+ */
+import { useItem } from './useItem.js';
 
 export function useMatches(itemId) {
-  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
-
-  const matches = useMemo(() => {
-    if (simEmpty || !itemId) return [];
-    const currentItem = mockItems.find((it) => it._id === itemId || it.tagNumber === itemId);
-    if (!currentItem) return [];
-
-    return mockItems
-      .filter((it) => it._id !== currentItem._id && it.category === currentItem.category)
-      .map((it) => ({
-        item: it,
-        score: 0.85,
-        reasons: ['Same category: ' + it.category, 'Matching location proximity'],
-      }));
-  }, [itemId, simEmpty]);
-
-  const total = matches.length;
-
+  const { matches, isLoading, isError, error } = useItem(itemId);
   return {
-    data: simError ? null : { matches, total },
-    matches: simLoading || simError ? [] : matches,
-    total,
-    isLoading: simLoading,
-    isError: simError,
-    error: simError ? { message: 'Failed to compute similarity matches.' } : null,
+    data: isError ? null : { matches, total: matches.length },
+    matches,
+    total: matches.length,
+    isLoading,
+    isError,
+    error,
   };
 }

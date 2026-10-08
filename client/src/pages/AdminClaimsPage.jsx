@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminClaimsPage({ onLogout }) {
-  const { claims: allClaims, isLoading, isError } = useAdminClaims();
+  const { claims: allClaims, handoverClaim, isLoading, isError } = useAdminClaims();
 
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -84,18 +84,11 @@ export default function AdminClaimsPage({ onLogout }) {
             title="No Claims Found in Audit Ledger"
             message="No claims match your query or filter parameters."
             icon={FileCheck2}
-            action={
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => {
-                  setSearch('');
-                  setStatusFilter('all');
-                }}
-              >
-                Clear Filters
-              </Button>
-            }
+            actionLabel="Clear Filters"
+            onAction={() => {
+              setSearch('');
+              setStatusFilter('all');
+            }}
           />
         ) : (
           <div className="bg-paper border-2 border-ink hard-shadow-6 overflow-hidden">
@@ -259,7 +252,22 @@ export default function AdminClaimsPage({ onLogout }) {
                 </TicketStub>
               )}
 
-              <div className="flex justify-end pt-2">
+              <div className="flex justify-end gap-3 pt-2">
+                {selectedClaim.status === 'approved' && selectedClaim.item?.status !== 'returned' && (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={async () => {
+                      await handoverClaim(selectedClaim._id);
+                      setSelectedClaim({
+                        ...selectedClaim,
+                        item: { ...selectedClaim.item, status: 'returned' },
+                      });
+                    }}
+                  >
+                    Confirm Property Handover
+                  </Button>
+                )}
                 <Button
                   variant="primary"
                   size="sm"

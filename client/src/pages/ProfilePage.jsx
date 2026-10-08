@@ -57,7 +57,7 @@ export default function ProfilePage({ user, onLogout }) {
           <Button
             variant="secondary"
             size="md"
-            onClick={onLogout}
+            onClick={handleLogout}
             className="flex items-center gap-2 self-start sm:self-auto bg-paper"
           >
             <LogOut className="w-4 h-4" />

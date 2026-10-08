@@ -1,66 +1,95 @@
-import { useState, useMemo } from 'react';
-import { mockAdminUsers } from '../mocks/data.js';
-import { useDevSimulation } from './useDevStateHelper.js';
+import { useState, useEffect, useCallback } from 'react';
+import { getAdminUsers, verifyUser as apiVerifyUser, suspendUser as apiSuspendUser } from '../api/admin.js';
 
-export function useAdminUsers() {
-  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
-  const [users, setUsers] = useState(mockAdminUsers);
-  const [filter, setFilter] = useState('all'); // 'all' | 'pending' | 'approved' | 'rejected'
+export function useAdminUsers(initialFilter = 'all') {
+  const [filter, setFilter] = useState(initialFilter);
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
 
-  const verifyUser = (userId, decision, reason = '') => {
-    setUsers((prev) =>
-      prev.map((u) =>
-        u._id === userId
-          ? {
-              ...u,
-              verificationStatus: decision === 'approve' ? 'approved' : 'rejected',
-              rejectionReason: decision === 'reject' ? reason : undefined,
-            }
-          : u
-      )
+  const fetch = useCallback(async (currentFilter) => {
+    setIsLoading(true);
+    setIsError(false);
+    setError(null);
+    try {
+      const params = {};
+      if (currentFilter && currentFilter !== 'all') params.verificationStatus = currentFilter;
+      const result = await getAdminUsers(params);
+      setData(result);
+    } catch (err) {
+      setIsError(true);
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetch(filter); }, [filter, fetch]);
+
+  const verifyUser = useCallback(async (userId, decision, reason = '') => {
+    await apiVerifyUser(userId, decision, reason);
+    // Optimistic update
+    setData((prev) =>
+      prev
+        ? {
+            ...prev,
+            users: prev.users.map((u) =>
+              u._id === userId
+                ? {
+                    ...u,
+                    verificationStatus: decision === 'approve' ? 'approved' : 'rejected',
+                    rejectionReason: decision === 'reject' ? reason : undefined,
+                  }
+                : u
+            ),
+          }
+        : prev
     );
-  };
+  }, []);
 
-  const toggleSuspend = (userId) => {
-    setUsers((prev) =>
-      prev.map((u) =>
-        u._id === userId ? { ...u, isSuspended: !u.isSuspended } : u
-      )
-    );
-  };
-
-  const activeUsers = simEmpty ? [] : users;
-  const filteredUsers = useMemo(() => {
-    return filter === 'all'
-      ? activeUsers
-      : activeUsers.filter((u) => u.verificationStatus === filter);
-  }, [activeUsers, filter]);
-
-  const total = filteredUsers.length;
-  const page = 1;
-  const limit = 10;
-  const totalPages = Math.ceil(total / limit) || 1;
-
-  const data = simError
-    ? null
-    : {
-        users: filteredUsers,
-        total,
-        page,
-        limit,
-        totalPages,
+  const toggleSuspend = useCallback(async (userId) => {
+    let newSuspended = true;
+    setData((prev) => {
+      if (!prev) return prev;
+      const target = prev.users.find((u) => u._id === userId);
+      newSuspended = target ? !target.isSuspended : true;
+      return {
+        ...prev,
+        users: prev.users.map((u) =>
+          u._id === userId ? { ...u, isSuspended: newSuspended } : u
+        ),
       };
+    });
+    try {
+      await apiSuspendUser(userId, newSuspended);
+    } catch (err) {
+      // Revert if API fails
+      setData((prev) =>
+        prev
+          ? {
+              ...prev,
+              users: prev.users.map((u) =>
+                u._id === userId ? { ...u, isSuspended: !newSuspended } : u
+              ),
+            }
+          : prev
+      );
+      throw err;
+    }
+  }, []);
 
   return {
     data,
-    users: simLoading || simError ? [] : filteredUsers,
-    allUsers: simLoading || simError ? [] : activeUsers,
+    users: data?.users || [],
+    allUsers: data?.users || [],
     filter,
     setFilter,
     verifyUser,
     toggleSuspend,
-    isLoading: simLoading,
-    isError: simError,
-    error: simError ? { message: 'Failed to access student user directory.' } : null,
+    isLoading,
+    isError,
+    error,
+    refetch: () => fetch(filter),
   };
 }

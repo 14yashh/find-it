@@ -189,11 +189,19 @@ export default function AdminVerificationsPage() {
                       Student ID Document Plate
                     </span>
                     <p className="font-meta text-[11px] text-ink-muted">
-                      Private Document Stream: `GET /api/admin/users/:id/document`
+                      Official document submitted during enrollment verification.
                     </p>
-                    <span className="inline-block bg-paper px-2 py-0.5 border border-ink font-meta text-[11px] font-bold">
-                      ✓ Verified Document Available on Disk
-                    </span>
+                    <div>
+                      <a
+                        href={`/api/admin/users/${selectedUser._id}/document`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 bg-paper px-3 py-1.5 border-2 border-ink hard-shadow-2 font-meta text-xs font-bold hover:bg-manila transition-colors text-ink"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>Inspect Verification Document</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
 

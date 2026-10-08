@@ -1,35 +1,52 @@
-import { useState, useMemo } from 'react';
-import { mockItems } from '../mocks/data.js';
-import { useDevSimulation } from './useDevStateHelper.js';
+import { useState, useEffect, useCallback } from 'react';
+import { getItem, getItemMatches } from '../api/items.js';
 
 export function useItem(id) {
-  const { isLoading: simLoading, isError: simError } = useDevSimulation();
-  const [items, setItems] = useState(mockItems);
+  const [item, setItem] = useState(null);
+  const [matches, setMatches] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
 
-  const foundItem = useMemo(() => {
-    return items.find((it) => it._id === id || it.tagNumber === id) || items[0];
-  }, [items, id]);
+  const fetchItem = useCallback(async () => {
+    if (!id) return;
+    setIsLoading(true);
+    setIsError(false);
+    setError(null);
+    try {
+      const result = await getItem(id);
+      setItem(result);
+      // Fetch matches in parallel — ignore failures
+      try {
+        const matchResult = await getItemMatches(id);
+        setMatches(matchResult || []);
+      } catch {
+        setMatches([]);
+      }
+    } catch (err) {
+      setIsError(true);
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id]);
 
-  const matches = useMemo(() => {
-    if (!foundItem) return [];
-    return items
-      .filter((it) => it._id !== foundItem._id && it.category === foundItem.category)
-      .slice(0, 3);
-  }, [items, foundItem]);
+  useEffect(() => {
+    fetchItem();
+  }, [fetchItem]);
 
   const setItemStatus = (newStatus) => {
-    setItems((prev) =>
-      prev.map((it) => (it._id === foundItem?._id ? { ...it, status: newStatus } : it))
-    );
+    setItem((prev) => (prev ? { ...prev, status: newStatus } : prev));
   };
 
   return {
-    data: simError ? null : foundItem,
-    item: simLoading || simError ? null : foundItem,
-    matches: simLoading || simError ? [] : matches,
+    data: item,
+    item,
+    matches,
     setItemStatus,
-    isLoading: simLoading,
-    isError: simError,
-    error: simError ? { message: 'Item record not found in archive registry.' } : null,
+    isLoading,
+    isError,
+    error,
+    refetch: fetchItem,
   };
 }

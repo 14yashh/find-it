@@ -4,12 +4,25 @@ services:
     container_name: findit-mongo
     restart: unless-stopped
     ports:
-      - "127.0.0.1:27017:27017"   # localhost-only; not exposed to the network
+      - "127.0.0.1:27017:27017" # localhost-only; not exposed to the network
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:?Set MONGO_USER in the root .env file}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:?Set MONGO_PASSWORD in the root .env file}
     volumes:
       - findit-mongo:/data/db
+
+    mongo-express:
+      image: mongo-express:1.0.2
+      container_name: findit-mongo-express
+      restart: unless-stopped
+      depends_on:
+        - mongo
+      ports:
+        - "127.0.0.1:8081:8081"
+      environment:
+        ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongo:27017/?authSource=admin
+        ME_CONFIG_BASICAUTH_USERNAME: ${ME_USER:?Set ME_USER in the root .env}
+        ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD:?Set ME_PASSWORD in the root .env}
 
 volumes:
   findit-mongo:

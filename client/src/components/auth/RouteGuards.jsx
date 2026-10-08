@@ -3,11 +3,27 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 /**
+ * Small full-page loader shown while the session is being bootstrapped
+ * (i.e. while GET /api/auth/me is in-flight on first load).
+ */
+function AuthLoader() {
+  return (
+    <div className="min-h-screen bg-paper flex items-center justify-center">
+      <div className="font-meta text-xs uppercase tracking-widest text-ink-muted animate-pulse">
+        Checking session…
+      </div>
+    </div>
+  );
+}
+
+/**
  * PublicOnly: Restricts access to unauthenticated visitors.
  * If user is logged in, routes them to their appropriate workspace.
  */
 export function PublicOnly({ children }) {
-  const { currentUser } = useAuth();
+  const { currentUser, authLoading } = useAuth();
+
+  if (authLoading) return <AuthLoader />;
 
   if (currentUser) {
     if (currentUser.role === 'admin') {
@@ -27,7 +43,9 @@ export function PublicOnly({ children }) {
  * (e.g. /verification requires authentication but allows pending/rejected users).
  */
 export function RequireAuth({ children }) {
-  const { currentUser } = useAuth();
+  const { currentUser, authLoading } = useAuth();
+
+  if (authLoading) return <AuthLoader />;
 
   if (!currentUser) {
     return <Navigate to="/login" replace />;
@@ -41,7 +59,9 @@ export function RequireAuth({ children }) {
  * Pending and rejected students are redirected to /verification.
  */
 export function RequireApproved({ children }) {
-  const { currentUser } = useAuth();
+  const { currentUser, authLoading } = useAuth();
+
+  if (authLoading) return <AuthLoader />;
 
   if (!currentUser) {
     return <Navigate to="/login" replace />;
@@ -59,7 +79,9 @@ export function RequireApproved({ children }) {
  * Non-admins are redirected to student browse.
  */
 export function RequireAdmin({ children }) {
-  const { currentUser } = useAuth();
+  const { currentUser, authLoading } = useAuth();
+
+  if (authLoading) return <AuthLoader />;
 
   if (!currentUser) {
     return <Navigate to="/login" replace />;

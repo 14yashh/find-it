@@ -7,7 +7,8 @@ import FileDrop from '../components/ui/FileDrop.jsx';
 import Button from '../components/ui/Button.jsx';
 import Tape from '../components/ui/Tape.jsx';
 import { useItem } from '../hooks/useItem.js';
-import { useItems } from '../hooks/useItems.js';
+import { createItem, updateItem as updateItemApi } from '../api/items.js';
+import { getErrorMessage } from '../api/errors.js';
 import { CATEGORIES, QUICK_LOCATIONS } from '../lib/constants.js';
 import {
   FileText,
@@ -23,7 +24,8 @@ export default function ReportItemPage({ user }) {
   const isEditing = Boolean(id);
 
   const { item: existingItem } = useItem(id);
-  const { addItem, updateItem } = useItems();
+  const [formLoading, setFormLoading] = useState(false);
+  const [formError, setFormError] = useState('');
 
   const [formData, setFormData] = useState({
     type: 'found', // 'lost' | 'found'
@@ -82,37 +84,39 @@ export default function ReportItemPage({ user }) {
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
-    if (isEditing) {
-      updateItem(id, {
-        ...formData,
-        images: imageFiles,
+    setFormLoading(true);
+    setFormError('');
+    try {
+      const fd = new FormData();
+      fd.append('type', formData.type);
+      fd.append('title', formData.title);
+      fd.append('description', formData.description);
+      fd.append('category', formData.category);
+      fd.append('location', formData.location);
+      fd.append('dateOccurred', formData.dateOccurred);
+      if (formData.type === 'found' && formData.verificationQuestion) {
+        fd.append('verificationQuestion', formData.verificationQuestion);
+      }
+      imageFiles.forEach((file) => {
+        if (file instanceof File) fd.append('images', file);
       });
-    } else {
-      const newItem = {
-        _id: `item-${Date.now()}`,
-        tagNumber: `TAG-${Math.floor(1000 + Math.random() * 9000)}`,
-        ...formData,
-        images: imageFiles,
-        status: 'open',
-        postedBy: {
-          _id: user?._id || 'user-current',
-          name: user?.name || 'Jordan Taylor',
-          department: user?.department || 'Computer Engineering',
-        },
-        createdAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
-      };
-      addItem(newItem);
-    }
 
-    setSubmitted(true);
-    setTimeout(() => {
-      navigate('/my-items');
-    }, 1000);
+      if (isEditing) {
+        await updateItemApi(id, fd);
+      } else {
+        await createItem(fd);
+      }
+      setSubmitted(true);
+      setTimeout(() => navigate('/my-items'), 900);
+    } catch (err) {
+      setFormError(getErrorMessage(err));
+    } finally {
+      setFormLoading(false);
+    }
   };
 
   return (
@@ -340,15 +344,28 @@ export default function ReportItemPage({ user }) {
                   hint="Detailed physical description for the official register."
                 />
 
+                {formError && (
+                  <div className="bg-stamp-rejected/10 border-2 border-stamp-rejected p-3 text-stamp-rejected font-meta text-xs">
+                    <strong>Submission Error:</strong> {formError}
+                  </div>
+                )}
+
                 <div className="pt-2">
                   <Button
                     type="submit"
                     variant="primary"
                     size="lg"
+                    disabled={formLoading}
                     className="w-full flex items-center justify-center gap-2"
                   >
                     <FileText className="w-5 h-5" />
-                    <span>{isEditing ? 'Update Central Ledger Record' : 'Post Item to Central Ledger'}</span>
+                    <span>
+                      {formLoading
+                        ? 'Submitting...'
+                        : isEditing
+                        ? 'Update Central Ledger Record'
+                        : 'Post Item to Central Ledger'}
+                    </span>
                     <ArrowRight className="w-4 h-4" />
                   </Button>
                 </div>

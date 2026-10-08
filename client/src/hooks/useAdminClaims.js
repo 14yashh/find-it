@@ -1,52 +1,59 @@
-import { useState, useMemo } from 'react';
-import { mockClaims } from '../mocks/data.js';
-import { useDevSimulation } from './useDevStateHelper.js';
+import { useState, useEffect, useCallback } from 'react';
+import { getAdminClaims, handoverClaim as apiHandoverClaim } from '../api/admin.js';
 
-export function useAdminClaims() {
-  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
-  const [allClaimsList, setAllClaimsList] = useState([
-    ...mockClaims.made,
-    ...mockClaims.received,
-  ]);
+export function useAdminClaims(initialFilters = {}) {
+  const [filters, setFilters] = useState({ page: 1, limit: 20, ...initialFilters });
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
 
-  const decideClaim = (claimId, decision, note = '') => {
-    setAllClaimsList((prev) =>
-      prev.map((c) =>
-        c._id === claimId
-          ? {
-              ...c,
-              status: decision === 'approve' ? 'approved' : 'rejected',
-              decisionNote: note,
-              decidedAt: new Date().toISOString(),
-            }
-          : c
-      )
+  const fetch = useCallback(async (params) => {
+    setIsLoading(true);
+    setIsError(false);
+    setError(null);
+    try {
+      const result = await getAdminClaims(params);
+      setData(result);
+    } catch (err) {
+      setIsError(true);
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetch(filters); }, [filters, fetch]);
+
+  const handoverClaim = useCallback(async (claimId) => {
+    await apiHandoverClaim(claimId);
+    setData((prev) =>
+      prev
+        ? {
+            ...prev,
+            claims: prev.claims.map((c) =>
+              c._id === claimId
+                ? {
+                    ...c,
+                    item: { ...c.item, status: 'returned' },
+                  }
+                : c
+            ),
+          }
+        : prev
     );
-  };
-
-  const activeClaims = simEmpty ? [] : allClaimsList;
-  const total = activeClaims.length;
-  const page = 1;
-  const limit = 20;
-  const totalPages = Math.ceil(total / limit) || 1;
-
-  const data = simError
-    ? null
-    : {
-        claims: activeClaims,
-        total,
-        page,
-        limit,
-        totalPages,
-      };
+  }, []);
 
   return {
     data,
-    claims: simLoading || simError ? [] : activeClaims,
-    total,
-    decideClaim,
-    isLoading: simLoading,
-    isError: simError,
-    error: simError ? { message: 'Failed to access claims audit ledger.' } : null,
+    claims: data?.claims || [],
+    total: data?.total || 0,
+    filters,
+    setFilters,
+    handoverClaim,
+    isLoading,
+    isError,
+    error,
+    refetch: () => fetch(filters),
   };
 }

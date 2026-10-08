@@ -10,6 +10,9 @@ import Stamp from '../components/ui/Stamp.jsx';
 import TicketStub from '../components/ui/TicketStub.jsx';
 import Tape from '../components/ui/Tape.jsx';
 import { DEPARTMENT_OPTIONS, YEARS } from '../lib/constants.js';
+import { signup } from '../api/auth.js';
+import { useAuth } from '../context/AuthContext.jsx';
+import { getErrorMessage } from '../api/errors.js';
 import {
   ArrowRight,
   ArrowLeft,
@@ -18,9 +21,12 @@ import {
   FileText,
 } from 'lucide-react';
 
-export default function SignupPage({ onSignupSuccess }) {
+export default function SignupPage() {
   const navigate = useNavigate();
+  const { setCurrentUser } = useAuth();
   const [step, setStep] = useState(1); // 1 | 2 | 3 (success)
+  const [apiLoading, setApiLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
 
   // Form State matching backend contract:
   // name, rollNumber, email, password, department, year, phone, document
@@ -75,27 +81,35 @@ export default function SignupPage({ onSignupSuccess }) {
     }
   };
 
-  const handleStep2Submit = (e) => {
+  const handleStep2Submit = async (e) => {
     e.preventDefault();
     if (documentFiles.length === 0) {
       setErrors({ document: 'Please attach your student ID or fee receipt document.' });
       return;
     }
 
-    // Static success state
-    setStep(3);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setApiLoading(true);
+    setApiError('');
+    try {
+      const fd = new FormData();
+      fd.append('name', formData.name);
+      fd.append('rollNumber', formData.rollNumber);
+      fd.append('email', formData.email);
+      fd.append('password', formData.password);
+      fd.append('department', formData.department);
+      fd.append('year', formData.year);
+      if (formData.phone) fd.append('phone', formData.phone);
+      fd.append('document', documentFiles[0]);
 
-    if (onSignupSuccess) {
-      onSignupSuccess({
-        name: formData.name,
-        rollNumber: formData.rollNumber,
-        email: formData.email,
-        department: formData.department,
-        year: formData.year,
-        role: 'student',
-        verificationStatus: 'pending',
-      });
+      const data = await signup(fd);
+      // signup returns { user } — update auth context so route guards work
+      if (data?.user) setCurrentUser(data.user);
+      setStep(3);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      setApiError(getErrorMessage(err));
+    } finally {
+      setApiLoading(false);
     }
   };
 
@@ -312,6 +326,11 @@ export default function SignupPage({ onSignupSuccess }) {
             </div>
 
             {/* Step 2 Form */}
+            {apiError && (
+              <div className="border-2 border-stamp-rejected bg-stamp-rejected/10 p-3 mb-4 font-meta text-xs text-stamp-rejected">
+                {apiError}
+              </div>
+            )}
             <form onSubmit={handleStep2Submit} className="space-y-6">
               <FileDrop
                 label="Student ID or Fee Receipt Document"
@@ -339,6 +358,7 @@ export default function SignupPage({ onSignupSuccess }) {
                   variant="secondary"
                   size="md"
                   onClick={() => setStep(1)}
+                  disabled={apiLoading}
                   className="flex items-center justify-center gap-2 sm:w-1/3"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -348,9 +368,10 @@ export default function SignupPage({ onSignupSuccess }) {
                   type="submit"
                   variant="primary"
                   size="lg"
+                  disabled={apiLoading}
                   className="flex-1 flex items-center justify-center gap-2"
                 >
-                  <span>Submit Registration Slip</span>
+                  <span>{apiLoading ? 'Submitting...' : 'Submit Registration Slip'}</span>
                   <ArrowRight className="w-4 h-4 font-bold" />
                 </Button>
               </div>

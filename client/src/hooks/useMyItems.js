@@ -1,41 +1,36 @@
-import { useMemo } from 'react';
-import { mockItems } from '../mocks/data.js';
-import { useAuth } from '../context/AuthContext.jsx';
-import { useDevSimulation } from './useDevStateHelper.js';
+import { useState, useEffect, useCallback } from 'react';
+import { getMyItems } from '../api/items.js';
 
 export function useMyItems() {
-  const { currentUser } = useAuth();
-  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
 
-  const myItems = useMemo(() => {
-    if (simEmpty) return [];
-    if (!currentUser) return mockItems.slice(0, 3);
-    return mockItems.filter(
-      (it) => it.postedBy && String(it.postedBy._id) === String(currentUser._id)
-    );
-  }, [currentUser, simEmpty]);
+  const fetch = useCallback(async () => {
+    setIsLoading(true);
+    setIsError(false);
+    setError(null);
+    try {
+      const items = await getMyItems();
+      setData({ items, total: items.length, page: 1, limit: 20, totalPages: Math.ceil(items.length / 20) || 1 });
+    } catch (err) {
+      setIsError(true);
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-  const total = myItems.length;
-  const page = 1;
-  const limit = 10;
-  const totalPages = Math.ceil(total / limit) || 1;
-
-  const data = simError
-    ? null
-    : {
-        items: myItems,
-        page,
-        limit,
-        total,
-        totalPages,
-      };
+  useEffect(() => { fetch(); }, [fetch]);
 
   return {
     data,
-    items: simLoading || simError ? [] : myItems,
-    total,
-    isLoading: simLoading,
-    isError: simError,
-    error: simError ? { message: 'Failed to retrieve personal item records.' } : null,
+    items: data?.items || [],
+    total: data?.total || 0,
+    isLoading,
+    isError,
+    error,
+    refetch: fetch,
   };
 }

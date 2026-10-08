@@ -1,49 +1,59 @@
-import { useState, useMemo } from 'react';
-import { mockClaims } from '../mocks/data.js';
-import { useDevSimulation } from './useDevStateHelper.js';
+import { useState, useEffect, useCallback } from 'react';
+import { getClaimsReceived } from '../api/claims.js';
+import { decideClaim as apiDecideClaim } from '../api/claims.js';
 
 export function useClaimsReceived() {
-  const { isLoading: simLoading, isError: simError, isEmpty: simEmpty } = useDevSimulation();
-  const [claims, setClaims] = useState(mockClaims.received);
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
 
-  const decideClaim = (claimId, decision, note = '') => {
-    setClaims((prev) =>
-      prev.map((c) =>
-        c._id === claimId
-          ? {
-              ...c,
-              status: decision === 'approve' ? 'approved' : 'rejected',
-              decisionNote: note,
-              decidedAt: new Date().toISOString(),
-            }
-          : c
-      )
+  const fetch = useCallback(async () => {
+    setIsLoading(true);
+    setIsError(false);
+    setError(null);
+    try {
+      const claims = await getClaimsReceived();
+      setData({ claims, total: claims.length, page: 1, limit: 20, totalPages: Math.ceil(claims.length / 20) || 1 });
+    } catch (err) {
+      setIsError(true);
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetch(); }, [fetch]);
+
+  const decideClaim = useCallback(async (claimId, decision, note = '') => {
+    await apiDecideClaim(claimId, decision, note);
+    setData((prev) =>
+      prev
+        ? {
+            ...prev,
+            claims: prev.claims.map((c) =>
+              c._id === claimId
+                ? {
+                    ...c,
+                    status: decision === 'approve' ? 'approved' : 'rejected',
+                    decisionNote: note,
+                    decidedAt: new Date().toISOString(),
+                  }
+                : c
+            ),
+          }
+        : prev
     );
-  };
-
-  const activeClaims = simEmpty ? [] : claims;
-  const total = activeClaims.length;
-  const page = 1;
-  const limit = 10;
-  const totalPages = Math.ceil(total / limit) || 1;
-
-  const data = simError
-    ? null
-    : {
-        claims: activeClaims,
-        page,
-        limit,
-        total,
-        totalPages,
-      };
+  }, []);
 
   return {
     data,
-    claims: simLoading || simError ? [] : activeClaims,
-    total,
+    claims: data?.claims || [],
+    total: data?.total || 0,
     decideClaim,
-    isLoading: simLoading,
-    isError: simError,
-    error: simError ? { message: 'Failed to retrieve received claims.' } : null,
+    isLoading,
+    isError,
+    error,
+    refetch: fetch,
   };
 }

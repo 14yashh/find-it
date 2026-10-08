@@ -7,16 +7,17 @@ import Button from '../components/ui/Button.jsx';
 import Tape from '../components/ui/Tape.jsx';
 import { ArrowRight, AlertTriangle, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
+import { getErrorMessage } from '../api/errors.js';
 
-export default function LoginPage({ onLoginSuccess }) {
+export default function LoginPage() {
   const navigate = useNavigate();
-  const { login: authLogin } = useAuth();
-  const [email, setEmail] = useState('student@gmail.com');
-  const [password, setPassword] = useState('password123');
+  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -31,21 +32,21 @@ export default function LoginPage({ onLoginSuccess }) {
     }
 
     setLoading(true);
-    // Static mock auth flow
-    setTimeout(() => {
-      setLoading(false);
-      authLogin(email);
-      if (email.includes('admin')) {
-        if (onLoginSuccess) onLoginSuccess({ role: 'admin', name: 'Admin Officer', verificationStatus: 'approved' });
+    try {
+      const user = await login({ email, password });
+      if (!user) throw new Error('Login failed');
+      if (user.role === 'admin') {
         navigate('/admin');
-      } else if (email.includes('pending') || email.includes('reject')) {
-        if (onLoginSuccess) onLoginSuccess({ role: 'student', name: 'Alex Chen', verificationStatus: 'pending' });
+      } else if (user.verificationStatus !== 'approved') {
         navigate('/verification');
       } else {
-        if (onLoginSuccess) onLoginSuccess({ role: 'student', name: 'Jordan Taylor', verificationStatus: 'approved' });
         navigate('/browse');
       }
-    }, 400);
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -119,39 +120,7 @@ export default function LoginPage({ onLoginSuccess }) {
                 hint="Minimum 8 characters."
               />
 
-              {/* Demo credentials hint for static review (Dev mode only - remove before real API) */}
-              {import.meta.env.DEV && (
-                <div className="bg-manila/50 border border-ink p-2.5 font-meta text-xs space-y-1">
-                  <span className="font-bold uppercase text-[10px] tracking-wider block text-ink">
-                    Terminal Review Presets (Dev Mode):
-                  </span>
-                  <div className="flex flex-wrap gap-2 text-[11px] text-ink">
-                    <button
-                      type="button"
-                      onClick={() => setEmail('student@gmail.com')}
-                      className="underline hover:bg-manila px-1"
-                    >
-                      approved student
-                    </button>
-                    <span>•</span>
-                    <button
-                      type="button"
-                      onClick={() => setEmail('pending@gmail.com')}
-                      className="underline hover:bg-manila px-1"
-                    >
-                      pending user
-                    </button>
-                    <span>•</span>
-                    <button
-                      type="button"
-                      onClick={() => setEmail('admin@gmail.com')}
-                      className="underline hover:bg-manila px-1"
-                    >
-                      admin
-                    </button>
-                  </div>
-                </div>
-              )}
+
 
               <div className="pt-2">
                 <Button
